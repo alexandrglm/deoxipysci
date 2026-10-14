@@ -112,6 +112,9 @@ rizandoElRizo = [f"{producto} ---> {ventasPorProducto}" for producto, ventasPorP
 print("\n\nVentas por producto (con zip, string interpolation): ", rizandoElRizo)
 
 
+rizandoElRizoDos = [f"{valor["producto"]} --> {valor["precio"] * valor["unidades"]}" for valor in ventas]
+print("\n\n Ventas por producto (sin zip, string-f directo): ", rizandoElRizoDos)
+
 # MODO PANDAS con df pero con operaciones básicas no pd
 print("\n\n-------MODO PANDAS 1, con operaciones legacy despues------------------\n\n")
 listaPrecios = []
