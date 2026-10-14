@@ -20,10 +20,14 @@ ventas = [
 
 # ACCESO A KEYS ESPECIFICAS
 
+print("\n\n-------MODO 1 List Comprehesion --------------------\n\n")
+
 # MODO 1, for in, COMPRENSION DE LISTAS
 listaPrecios = [valor["precio"] for valor in ventas]
 
 print("\nModo 1 for in\n\n", listaPrecios)
+
+print("\n\n------MODO 2 legacy, .append()---------------------\n\n")
 
 # MODO 2, usando append(), LEGACY PURO
 listaPrecios = []
@@ -34,7 +38,9 @@ for valor in ventas:
 print("Modo 2, append()\n\n", listaPrecios)
 
 
-# MODO 3 map() operator.itemgetter(), RENDIMIENTO PURO
+print("\n\n-------MODO 3, map(itemgetter(key), nested_dict)--------------------\n\n")
+
+# MODO 3 map() operator.itemgetter(), RENDIMIENTO
 from operator import itemgetter
 
 ventas = [
@@ -50,7 +56,11 @@ listaPrecios = map(itemgetter("precio"), ventas)
 print("Modo 3 itemgetter() map()\n\n", listaPrecios)
 
 
-# Modo 4, PANDAS, RENDIMIENTO + MULTIPLES POSIBILIDADES
+
+
+# Modo 4, PANDAS, RENDIMIENTO PURO + MULTIPLES POSIBILIDADES
+print("\n\n-------MODO 4, PANDAS-------------------\n\n")
+
 import pandas as pd
 
 ventas = [
@@ -70,10 +80,40 @@ listaPrecios = dataFrameVentas["precio"]
 print("\n\n   - Como se ve la extración de las keys de un DataFrame?\n\n" , listaPrecios, "\n\n    Se ve como una lista ordenada, donde nuevas key - values son creadas, key por orden de lista, y values la extraccion de los valores que le hemos pedido extraer")
 
 
+print("\n\n------EJERCICIO---------------------\n\n")
+
 # EJERCICIO ventasTotales, ventasPorProducto
 
-# MODO PANDAS con df pero con operaciones básicas no pd
+# MODO legacy methods
+print("\n\n-----Totales, list comprehesion----------------------\n\n")
 
+
+listaPrecios = [valor["precio"] for valor in ventas]
+
+sumaTotales = sum( valor["precio"] * valor["unidades"] for valor in ventas )
+
+print("\nFacturación Total (list comprehesion):", sumaTotales)
+
+print("\n\n-----Totales POR PRODUCTO, list comprehesion----------------------\n\n")
+
+# que es es la misma deconstruccion de sumaTotales pero ... efectivamente, sin sumarlos
+sumaTotalesPorProducto = [valor["precio"] * valor["unidades"] for valor in ventas]
+print("\n\nFacturación por Producto (list comprehesion): ", sumaTotalesPorProducto)
+
+productos = [producto["producto"] for producto in ventas]
+sumaTotalesPorProducto = list(zip(productos, [valor["precio"] * valor["unidades"] for valor in ventas]))
+print("\n\nFacturación por Producto (list comprehesion + list zip): ", sumaTotalesPorProducto)
+
+
+print("\n\n---rizando el rizo con string interpolation------------------\n\n")
+
+rizandoElRizo = [f"{producto} ---> {ventasPorProducto}" for producto, ventasPorProducto in zip(productos, sumaTotalesPorProducto)]
+
+print("\n\nVentas por producto (con zip, string interpolation): ", rizandoElRizo)
+
+
+# MODO PANDAS con df pero con operaciones básicas no pd
+print("\n\n-------MODO PANDAS 1, con operaciones legacy despues------------------\n\n")
 listaPrecios = []
 dfVentasTotales = pd.DataFrame(ventas)
 
@@ -87,17 +127,18 @@ factTotales = sum(precios * unidades)
 
 print("\n  Facturarion Total:  ", factTotales)
 
-print("\n\n---------------------------\n\n")
 
-# Creando una nueva list()
+
+# MODO PANDAS 2, Creando una nueva list()
+print("\n\n-------MODO PANDAS 2, creando nueva list------------------\n\n")
 factPorProducto = list(precios * unidades)
 
-print("\n  Facturacion por producto:\n\n", factPorProducto )
+print("\n  Facturacion por producto (pandas, list):\n\n", factPorProducto )
 # recibimos  [60, 105, 24, 40]
 
-print("\n\n---------------------------\n\n")
 
-# Creandola con list y Mostrando la data organizada con zip
+# MODO PANDAS 3, Creandola con list y Mostrando la data organizada con zip
+print("\n\n-------MODO PANDAS 3, creando nueva list y organizando resultado con zip() ------------------\n\n")
 factPorProducto = None
 
 factPorProducto = list(zip(productos, precios * unidades))
@@ -105,9 +146,10 @@ print("\n  Facturacion por producto:\n\n", factPorProducto )
 # [('A', 60), ('B', 105), ('C', 24), ('D', 40)]
 
 
-print("\n\n---------------------------\n\n")
 
-# CREANDO UNA NUEVA COLUMNA!!!!
+# MODO PANDAS 4, CREANDO UNA NUEVA COLUMNA!!!!
+print("\n\n-------MODO PANDAS 4, añadir al Dataframe (o crear uno) con UNA NUEVA COLUNMA----------\n\n")
+
 # recuperamos el dfVentasProductos inicial, para trbajar sobre el directamente
 
 dfVentasTotales["TotalVentasPorProducto"] = dfVentasTotales["precio"] * dfVentasTotales["unidades"]
