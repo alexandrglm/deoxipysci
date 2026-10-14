@@ -1,4 +1,4 @@
-# 01: Data Structures, list comprehesion, legacy methods, but Pandas
+# 01: Data Structures, list comprehension, legacy methods, but Pandas
 
 """
 - Facturación total y Facturación por producto para:
@@ -20,7 +20,7 @@ ventas = [
 
 # ACCESO A KEYS ESPECIFICAS
 
-print("\n\n-------MODO 1 List Comprehesion --------------------\n\n")
+print("\n\n-------MODO 1 List comprehension --------------------\n\n")
 
 # MODO 1, for in, COMPRENSION DE LISTAS
 listaPrecios = [valor["precio"] for valor in ventas]
@@ -85,24 +85,24 @@ print("\n\n------EJERCICIO---------------------\n\n")
 # EJERCICIO ventasTotales, ventasPorProducto
 
 # MODO legacy methods
-print("\n\n-----Totales, list comprehesion----------------------\n\n")
+print("\n\n-----Totales, list comprehension----------------------\n\n")
 
 
 listaPrecios = [valor["precio"] for valor in ventas]
 
 sumaTotales = sum( valor["precio"] * valor["unidades"] for valor in ventas )
 
-print("\nFacturación Total (list comprehesion):", sumaTotales)
+print("\nFacturación Total (list comprehension):", sumaTotales)
 
-print("\n\n-----Totales POR PRODUCTO, list comprehesion----------------------\n\n")
+print("\n\n-----Totales POR PRODUCTO, list comprehension----------------------\n\n")
 
 # que es es la misma deconstruccion de sumaTotales pero ... efectivamente, sin sumarlos
 sumaTotalesPorProducto = [valor["precio"] * valor["unidades"] for valor in ventas]
-print("\n\nFacturación por Producto (list comprehesion): ", sumaTotalesPorProducto)
+print("\n\nFacturación por Producto (list comprehension): ", sumaTotalesPorProducto)
 
 productos = [producto["producto"] for producto in ventas]
 sumaTotalesPorProducto = list(zip(productos, [valor["precio"] * valor["unidades"] for valor in ventas]))
-print("\n\nFacturación por Producto (list comprehesion + list zip): ", sumaTotalesPorProducto)
+print("\n\nFacturación por Producto (list comprehension + list zip): ", sumaTotalesPorProducto)
 
 
 print("\n\n---rizando el rizo con string interpolation------------------\n\n")
