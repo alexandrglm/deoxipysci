@@ -2,8 +2,7 @@
 """
 def estadisticas(valores) que reciba una lista numérica 
 y devuelva un diccionario con la media, el mínimo y el máximo,
-y salvaguardas rapidas para [].
-Después, ve a por la mediana, con distintas aproximaciones
+y salvaguardas rapidas para []
 """
 
 
@@ -94,8 +93,3 @@ def estadisticasDeconstruidas(valores):
 print(estadisticas(valores))
 print(estadisticas(valoresVacios))
 print(estadisticasDeconstruidas(valores))
-
-
-# ----
-# MEDIANA
-
