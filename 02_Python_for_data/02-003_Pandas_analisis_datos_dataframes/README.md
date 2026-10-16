@@ -20,9 +20,9 @@ El siguiente bloque será: **mini proyecto de análisis de ventas**, integrando 
 
 ## 3.1. ¿Qué es un `DataFrame`?
 
-Un `DataFrame` es una **tabla bidimensional con filas y columnas etiquetadas**. Puedes imaginarlo como una hoja de cálculo, pero manipulable mediante Python.
+Un `DataFrame` es una **tabla bidimensional con filas y columnas etiquetadas**. Puedes imaginarlo como una hoja de cálculo, pero manipulable mediante Python.  
 
-Vamos a reutilizar el ejemplo ventas:
+Vamos a reutilizar el ejemplo ventas:  
 
 ```python
 import pandas as pd
@@ -58,6 +58,7 @@ print(ventas.dtypes)
 print(ventas.info())
 print(ventas.describe())
 ```
+- 1. Tipo:  <class 'pandas.core.frame.DataFrame'>
 
 Debes conocer estas herramientas:
 
@@ -72,13 +73,13 @@ Debes conocer estas herramientas:
 | `tail()`           | Muestra las últimas filas.                       |
 
 > [!NOTE]
-> `info()` **imprime** un resumen y **devuelve `None`**; no es un método que debas usar esperando obtener un DataFrame.
+> `info()`  **SIN print(), imprime** un resumen y **usando PRINT, devuelve `None`**; no es un método que debas usar esperando obtener un DataFrame.
 
 ---
 
 ## 3.2. Seleccionar columnas
 
-Una sola columna:
+### Una sola columna:
 
 ```python
 precios = ventas["precio"]
@@ -87,9 +88,11 @@ print(precios)
 print(type(precios))
 ```
 
-El resultado es una **`Series`**, una estructura unidimensional de pandas.
+El resultado es una **`Series`**, una estructura **unidimensional** de pandas.
 
-Varias columnas:
+- 1. Tipo:  <class 'pandas.core.series.Series'>
+
+### Varias columnas
 
 ```python
 seleccion = ventas[["producto", "unidades"]]
@@ -98,15 +101,22 @@ print(seleccion)
 print(type(seleccion))
 ```
 
-Ahora el resultado es otro **`DataFrame`**.
+Ahora el resultado vuelve a ser otro **`DataFrame`**.
+- 1. Tipo:  <class 'pandas.core.frame.DataFrame'>
 
 > [!IMPORTANT]
-> Esta distinción importa:
+> Esta distinción importa:  
+>  
+> - `ventas["precio"]` devuelve una **`Series`**.  
+>       <class 'pandas.core.series.Series'>    
 >
-> - `ventas["precio"]` devuelve una **`Series`**.
-> - `ventas[["precio"]]` devuelve un **`DataFrame`** con una columna.
+> - `ventas[["precio"]]` devuelve un **`DataFrame`** con una columna.  
+>       <class 'pandas.core.frame.DataFrame'>  
 
-Para crear una nueva columna:
+
+### Crear columnas
+
+Para crear una nueva columna, por ejemplo, vectorizando operaciones:
 
 ```python
 ventas["importe"] = ventas["precio"] * ventas["unidades"]
@@ -128,12 +138,12 @@ Fíjate en que la operación es **vectorizada**: no necesitamos recorrer las fil
 
 ---
 
-## 3.3. Seleccionar filas con `loc` e `iloc`
+## 3.3. Seleccionar filas con `.loc[:]` e `.iloc[:]`
 
 Estos dos métodos son importantes:
 
-- **`loc`**: selecciona mediante **etiquetas** del índice y nombres de columnas.
-- **`iloc`**: selecciona mediante **posiciones enteras**.
+- **`loc`**: selecciona mediante **etiquetas** del índice y **nombres de columnas**.
+- **`iloc`**: selecciona mediante **posiciones enteras**, directamente con indices, rangos. Es muy muy personalizable.
 
 ```python
 # Fila cuyo índice es 1
@@ -146,7 +156,19 @@ print(ventas.iloc[1])
 print(ventas.iloc[0:2, 0:2])
 ```
 
-Si el índice es el habitual (`0`, `1`, `2`, `3`), algunos resultados parecen idénticos. Sin embargo, si cambias el índice, la diferencia se vuelve importante.
+### Ajustando los índices, `.set_index()`
+
+> [!IMPORTANT]
+> **`.set_index()`** coge una columna existente, **la saca de las columnas de datos** y la mueve al lateral izquierdo para convertirla en el **Índice oficial** (las etiquetas de las filas), reemplazando a los números automáticos (`0`, `1`, `2`, `3`...).
+
+> [!NOTE]  
+> **A efectos de ETL / Modelado de Datos:**  
+>  
+> Hacer un `.set_index()` equivale estrictamente a **definir una Clave Primaria (Primary Key)** o un identificador único en una tabla de base de datos o modelo analítico.  
+>  
+> Pasas de un modelo secuencial (donde los datos se localizan por su número de línea físico) a un modelo relacional o de búsqueda por clave de negocio (buscar por el ID o nombre del producto, como harías con un `VLOOKUP` o un `JOIN`).
+
+Si el índice es el habitual (`0`, `1`, `2`, `3`, ...), usar `.loc` y `.iloc` puede parecer que hace lo mismo. Sin embargo, al cambiar el índice por una columna de negocio, la diferencia se vuelve vital.
 
 Por ejemplo:
 
@@ -155,25 +177,41 @@ ventas_indizadas = ventas.set_index("producto")
 
 print(ventas_indizadas.loc["B"])
 print(ventas_indizadas.iloc[1])
+
 ```
 
-En el primer caso buscas la **etiqueta** `"B"`; en el segundo, la **segunda fila**.
+* En el primer caso (`.loc["B"]`) buscas la **etiqueta de texto** exacta (`"B"`), usando tu nueva clave primaria.
+* En el segundo caso (`.iloc[1]`) buscas estrictamente la **segunda posición** física de la fila en la tabla.
 
+Al coincidir que la `"B"` está en la segunda línea, ambos devuelven **mismos datos**, pero con lógicas de búsqueda totalmente diferentes.
+
+#### Crear un DataFrame con índices personalizados desde cero
+
+Si desde el principio quieres construir la tabla ya indizada (sin tener que crear una columna extra y aplicar `.set_index()` después), puedes pasarle el parámetro `index=` directamente a `pd.DataFrame()`:  
+
+```python
+ventas_indizadas = pd.DataFrame({
+    "precio": [20, 15, 12, 10, 14, 27, 30],
+    "unidades": [3, 7, 2, 4, 9, 5, 2],
+    "ventas": [60, 105, 24, 40, 126, 135, 60]
+}, index=["A", "B", "C", "D", "E", "F", "G"])
+```
+De esta forma, las letras (o lo que estimes) actúan como la clave primaria de la estructura desde el primer momento, dejando las columnas de datos limpias a la derecha.  
 ---
 
 ## 3.4. Filtrar filas
 
-Supongamos que queremos encontrar las ventas cuyo importe sea superior a 50 €:
+- Supongamos que queremos encontrar los precios cuyo importe sea superior a 15 €:
 
 ```python
-ventas_mayores_50 = ventas[ventas["importe"] > 50]
+ventas_mayores_15 = ventas[ventas["importe"] > 15]
 
-print(ventas_mayores_50)
+print(ventas_mayores_15)
 ```
 
-Resultado: los productos **A** y **B**.
+Resultado: los productos **A**, **F** y **G**.  
 
-Podemos combinar condiciones:
+- Podemos combinar condiciones:
 
 ```python
 filtro = (
@@ -191,19 +229,59 @@ Para combinar condiciones:
 - `~` **niega** una condición.
 
 > [!WARNING]
-> En pandas, **no utilices `and` u `or`** directamente para combinar comparaciones vectorizadas de Series. Emplea `&` y `|`, con **paréntesis alrededor de cada comparación**.
+> En pandas, **no utilices `and` u `or`** directamente para combinar comparaciones vectorizadas de Series. Emplea SIEMPRE su símbolos`&` y `|`, con **paréntesis alrededor de cada comparación**.  
+>  
+> Sintáxis:     
+>   filtrado = dataframe[ ( dataframe["COLUMNA"] CONDICION )   EVALUADOR   ( dataframe["COLUMNA"] CONDICION ) ]      
+
+
 
 ### Filtrar por valores de una columna
 
 ```python
-print(ventas[ventas["producto"].isin(["A", "C"])])
+print(ventas[ ventas["producto"].isin(["A", "C"])])
 print(ventas[ventas["precio"].between(12, 20)])
+
 ```
 
-- `isin()` comprueba si cada valor pertenece a una colección.
-- `between()` selecciona los valores que se encuentran dentro de un intervalo, **incluyendo ambos extremos por defecto**.
+#### 1. `.isin( [ "x", "y", ... ] )` - Pertenencia a un conjunto (Filtro por lista)
+
+Comprueba elemento a elemento si el valor de la celda se encuentra dentro de una **lista cerrada de opciones**.  
+
+Útil cuando quieres **filtrar por múltiples valores discretos exactos** (códigos de producto, categorías, IDs de cliente) **sin tener que encadenar una infinidad de condiciones** con `or` (`|`).  
+
+- **Equivalente en ETL / SQL -->** Equivale exactamente a la cláusula **`WHERE columna IN ('A', 'G', 'B')`**.
+
+
+```python
+# Selecciona las filas donde el producto sea exactamente "A", "G" o "B"
+print(ventas[ ventas["producto"].isin(["A", "G", "B"]) ])
+
+```
+
+
+#### 2. `.between(x, y)` - Filtrar por intervalos numéricos o temporales
+
+Seelecciona los valores que se encuentran **dentro de un rango continuo delimitado** por un límite inferior (`x`) y un límite superior (`y`).  
+
+* **Por defecto es nclusivo en ambos extremos** (`inclusive="both"`), es decir, coge tanto el `12` como el `20` si están en los límites. 
+    - (Nota mental: en versiones modernas de Pandas puedes ajustar esto con el parámetro `inclusive` si solo quieres que sea abierto por un lado).*
+    - Ideal para rangos de precios, franjas de edad, cantidades de stock o rangos de fechas.
+
+* **Equivalente en ETL / SQL --> ** Equivale a la cláusula **`WHERE precio BETWEEN 12 AND 20`**.
+
+
+```python
+# Selecciona los productos cuyo precio esté entre 12 y 20 (ambos inclusive)
+print(ventas[ ventas["precio"].between(12, 20) ])
+
+```
 
 ---
+
+> [!WARNING]
+> [PENDING desde aquí]  
+
 
 ## 3.5. Ordenar y agregar datos
 
