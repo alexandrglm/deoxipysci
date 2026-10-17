@@ -264,11 +264,11 @@ print(ventas[ ventas["producto"].isin(["A", "G", "B"]) ])
 
 Seelecciona los valores que se encuentran **dentro de un rango continuo delimitado** por un límite inferior (`x`) y un límite superior (`y`).  
 
-* **Por defecto es nclusivo en ambos extremos** (`inclusive="both"`), es decir, coge tanto el `12` como el `20` si están en los límites. 
+* **Por defecto es nclusivo en ambos extremos** (`inclusive="both"`), es decir, coge tanto el `12` como el `20` si están en los límites.   
     - (Nota mental: en versiones modernas de Pandas puedes ajustar esto con el parámetro `inclusive` si solo quieres que sea abierto por un lado).*
     - Ideal para rangos de precios, franjas de edad, cantidades de stock o rangos de fechas.
 
-* **Equivalente en ETL / SQL --> ** Equivale a la cláusula **`WHERE precio BETWEEN 12 AND 20`**.
+* **Equivalente en ETL / SQL --> ** Equivale a la cláusula **`WHERE precio BETWEEN 12 AND 20`**.  
 
 
 ```python
@@ -279,48 +279,108 @@ print(ventas[ ventas["precio"].between(12, 20) ])
 
 ---
 
-> [!WARNING]
-> [PENDING desde aquí]  
-
-
 ## 3.5. Ordenar y agregar datos
 
-Para ordenar por importe descendente:
+### .sort_values()
+
+Para ordenar por valores de COLUMNA, descendente, o ascendente (por defecto):  
 
 ```python
-ordenadas = ventas.sort_values(
-    by="importe",
+ventas_sort_values = ventas.sort_values(
+
+    by="producto",
     ascending=False
 )
 
-print(ordenadas)
+print(ventas_sort_values)
+```
+```text
+  producto  precio  unidades  ventas
+6        G      30         2      60
+5        F      27         5     135
+4        E      14         9     126
+3        D      10         4      40
+2        C      12         2      24
+1        B      15         7     105
+0        A      20         3      60
 ```
 
-Para calcular estadísticas de una columna:
+### .sort_index()
+
+Para ordenar por los índices, la forma más básica también es manejando el ascendente booleano:  
 
 ```python
-print(ventas["importe"].sum())   # 229
-print(ventas["importe"].mean())  # 57.25
-print(ventas["importe"].max())   # 105
-print(ventas["importe"].min())   # 24
+ventas_sort_index = ventas.sort_index(
+    ascending=False
+)
+
+print(ventas_descending)
+```
+```text
+  producto  precio  unidades  ventas
+6        G      30         2      60
+5        F      27         5     135
+4        E      14         9     126
+3        D      10         4      40
+2        C      12         2      24
+1        B      15         7     105
+0        A      20         3      60
 ```
 
-Y para obtener estadísticas de varias columnas:
+
+### Operaciones algebráicas para UNA columna
+
+
+Para calcular estadísticas de una columna:  
 
 ```python
-print(ventas[["precio", "unidades", "importe"]].mean())
+ventas_ventas_sum = ventas["ventas"].sum()
+ventas_ventas_mean = ventas["ventas"].mean()
+ventas_ventas_max = ventas["ventas"].max()
+ventas_ventas_min = ventas["ventas"].min()
+
+print("\n - sum() de ventas por producto:  ", ventas_ventas_sum,
+      "\n - mean() de ventas por producto: ", ventas_ventas_mean,
+      "\n - max() de ventas por producto:  ", ventas_ventas_max,
+      "\n - min() de ventas por producto:  ", ventas_ventas_min)
+```
+```
+ - sum() de ventas por producto:   550 
+ - mean() de ventas por producto:  78.57142857142857 
+ - max() de ventas por producto:   135 
+ - min() de ventas por producto:   24
 ```
 
-Esto calcula la media de cada columna numérica seleccionada.
+### Operaciones algebráicas sobre VARIAS columnas
+
+Con una operación algebráica sobre varias columnas, podemos obtener una Series con estadísticas.  
+
+Por ejemplo, la media de precios de producto, media de stock y de ventas por productos a la vez:  
+
+```python
+ventas_mean_por_columnas = ventas[  ["precio", "unidades", "ventas" ] ].mean()
+
+print(ventas_mean_por_columnas)
+```
+
+Esto calcula la media de cada columna numérica seleccionada.  
+
+```text
+precio      18.285714
+unidades     4.571429
+ventas      78.571429
+dtype: float64
+```
+
 
 ---
 
 ## 3.6. Agrupar datos con `groupby()`
 
 > [!IMPORTANT]
-> `groupby()` es **una de las herramientas más importantes de pandas**. Permite agrupar filas por una categoría y calcular estadísticas para cada grupo.
+> `groupby()` es **una de las herramientas más importantes de pandas**. Permite agrupar filas por una categoría y calcular estadísticas para cada grupo.  
 
-Imagina que tenemos más ventas, con productos repetidos:
+Imagina que tenemos más ventas, con productos repetidos:  
 
 ```python
 ventas = pd.DataFrame({
@@ -332,7 +392,10 @@ ventas = pd.DataFrame({
 ventas["importe"] = ventas["precio"] * ventas["unidades"]
 ```
 
-Agrupar por producto y sumar los importes:
+
+### Agrupar por valores iguales de una columna - `.groupby()`
+
+Agrupar por producto y sumar los importes:  
 
 ```python
 facturacion = ventas.groupby("producto")["importe"].sum()
@@ -340,37 +403,68 @@ facturacion = ventas.groupby("producto")["importe"].sum()
 print(facturacion)
 ```
 
-Resultado:
+Resultado:  
 
 ```text
 producto
 A    120
 B    165
 C     24
+
 ```
 
-¿Por qué?
+¿Por qué?  
 
-- **A**: $60+40+20=120$
-- **B**: $105+60=165$
-- **C**: $24$
+* **A**:    $60+40+20=120$
+* **B**:    $105+60=165$
+* **C**:    $24$
 
-Puedes calcular varias métricas a la vez:
+#### Agrupar por múltiples columnas y mantener la tabla plana (`as_index=False`)
+
+Si necesitas agrupar por más de una columna (por ejemplo, producto y precio) y quieres que el resultado **siga siendo un DataFrame plano** (sin que las columnas de agrupación se conviertan en índices multinivel), utilizas el parámetro **`as_index=False`**:
+
+```python
+ventas_consolidadas = ventas_productos_repetidos.groupby(
+    [ "producto", "precio" ],
+    as_index=False
+).sum()
+
+print(ventas_consolidadas)
+
+```
+
+> [!NOTE]
+> **A efectos de ETL / SQL:**
+> Esto equivale exactamente a un `GROUP BY columna1, columna2` en SQL. El parámetro `as_index=False` evita que las claves de agrupación suban al índice lateral, manteniendo la estructura de columnas limpia para seguir operando o exportando los datos.
+
+---
+
+### .agg() -  Varias metricas a la vez
+Puedes calcular varias métricas a la vez usando `.agg()`:
 
 ```python
 resumen = ventas.groupby("producto").agg(
-    unidades_totales=("unidades", "sum"),
-    facturacion=("importe", "sum"),
-    importe_medio=("importe", "mean"),
-    numero_ventas=("importe", "count")
+    unidades_totales = ("unidades", "sum"),
+    facturacion = ("ventas", "sum"),
+    precio_medio = ("precio", "mean"),
+    numero_ventas = ("unidades", "count")
 )
 
 print(resumen)
+
+```
+```text
+          unidades_totales  facturacion  precio_medio  numero_ventas
+producto                                                            
+A                        6          120          20.0              3
+B                       11          165          15.0              2
+C                        2           24          12.0              1
 ```
 
-Esto es especialmente útil para informes, análisis exploratorio de datos y preparación de conjuntos de datos para modelos de aprendizaje automático.
+Esto es especialmente útil para informes, análisis exploratorio de datos y preparación de conjuntos de datos para modelos de aprendizaje automático.  
 
 > [!NOTE]
-> Una diferencia que conviene tener clara: **`count`** cuenta valores **no nulos** en la columna seleccionada, mientras que **`size`** cuenta **filas** del grupo, aunque haya valores nulos.
+> Una diferencia que conviene tener clara: **`count`** cuenta valores **no nulos** en la columna seleccionada, mientras que **`size`** cuenta **filas** totales del grupo, aunque haya valores nulos.  
+
 
 ---
