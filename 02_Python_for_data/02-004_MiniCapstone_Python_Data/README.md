@@ -24,8 +24,8 @@ datos = {
 }
 ```
 
-> [!INFO] 
-> Conexión con ETL 
+> [!INFO]
+> Conexión con ETL:  
 >  
 > - Extract: en este ejercicio, los datos ya están disponibles en Python; no necesitamos leer un fichero.  
 > - Transform: inspeccionaremos, validaremos y calcularemos nuevas variables.  
@@ -56,10 +56,10 @@ Objetivo: crear variables derivadas sin recorrer las filas manualmente.
 4. Obtén la fila correspondiente a la operación con mayor importe.
 5. Ordena las operaciones por importe, de mayor a menor.
 
-> [!NOTE] 
-> Una distinción importante
->
-> El precio unitario medio no es lo mismo que el importe medio por operación. Tampoco es lo mismo que la facturación total. Debes seleccionar la columna y la operación estadística que correspondan a cada pregunta.
+> [!NOTE]
+> Una distinción importante:  
+>  
+> El precio unitario medio no es lo mismo que el importe medio por operación. Tampoco es lo mismo que la facturación total. Debes seleccionar la columna y la operación estadística que correspondan a cada pregunta.  
 
 ### Ejercicio 3 --> Filtrado y selección
 
@@ -71,10 +71,10 @@ Objetivo: seleccionar registros según criterios de negocio.
 4. Combina una condición de región con una condición numérica.
 5. Devuelve únicamente las columnas `id`, `categoria` e `importe` de las operaciones que cumplan una condición.
 
-> [!WARNING] 
-> Sintaxis de condiciones
->
-> Para combinar condiciones vectorizadas en pandas, utiliza `&` para AND y `|` para OR, poniendo cada comparación entre paréntesis. No utilices `and` u `or` directamente entre Series.
+> [!WARNING]
+> Sintaxis de condiciones:  
+>  
+> Para combinar condiciones vectorizadas en pandas, utiliza `&` para AND y `|` para OR, poniendo cada comparación entre paréntesis. No utilices `and` u `or` directamente entre Series.  
 
 ---
 
@@ -92,12 +92,12 @@ Objetivo: obtener indicadores por categoría y región.
 4. Repite el análisis agrupando por `region` y `categoria`.
 5. Presenta al menos uno de los resultados como un DataFrame con las columnas de agrupación visibles, en lugar de utilizarlas como índice.
 
-> [!INFO] 
-> Relación con Power BI y SQL
->
-> Estas operaciones se relacionan con las agregaciones de una tabla visual o una matriz de Power BI y con `GROUP BY` en SQL. La elección de las dimensiones y las métricas determina qué resumen obtienes.
->
-> Puedes resolver el tercer apartado con `.agg()`. Antes de elegir una función, piensa en qué métrica necesitas y qué columna debe utilizarse para calcularla.
+> [!INFO]
+> Relación con Power BI y SQL:  
+>  
+> Estas operaciones se relacionan con las agregaciones de una tabla visual o una matriz de Power BI y con `GROUP BY` en SQL. La elección de las dimensiones y las métricas determina qué resumen obtienes.  
+>  
+> Puedes resolver el tercer apartado con `.agg()`. Antes de elegir una función, piensa en qué métrica necesitas y qué columna debe utilizarse para calcularla.  
 
 ---
 
@@ -111,9 +111,10 @@ Objetivo: aplicar NumPy a los datos numéricos extraídos del DataFrame.
 4. Calcula qué porcentaje del importe total representa cada operación.
 5. Comprueba si los resultados de suma y media coinciden con los obtenidos mediante pandas, teniendo en cuenta las convenciones utilizadas para calcular la desviación estándar.
 
-> [!NOTE] Comparación entre bibliotecas
->
-> NumPy y pandas ofrecen operaciones similares, pero sus estructuras y algunas convenciones difieren. En particular, revisa el parámetro `ddof` de la desviación estándar: el valor predeterminado de NumPy no coincide con el de pandas.
+> [!NOTE]
+> Comparación entre bibliotecas:  
+>  
+> NumPy y pandas ofrecen operaciones similares, pero sus estructuras y algunas convenciones difieren. En particular, revisa el parámetro `ddof` de la desviación estándar: el valor predeterminado de NumPy no coincide con el de pandas.  
 
 ---
 
