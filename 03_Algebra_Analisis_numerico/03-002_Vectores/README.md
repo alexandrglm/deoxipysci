@@ -191,20 +191,22 @@ np.array([2, 4]) + np.array([1, 3])
 
 ## 2.4. Norma o longitud de un vector
 
-La **norma** de un vector es una medida de su **magnitud**.  
+La **norma** de un vector es una medida de su **magnitud**.
 
 - En el caso más habitual que utilizaremos aquí, la **norma euclídea, o L2**, representa la **longitud geométrica** del vector.
 
-Consideremos:  
+Consideremos:
 
-\\[ \mathbf{v}=(3,4) \\]
+$$
+\mathbf{v} = (3, 4)
+$$
 
-Podemos interpretar este vector como:  
+Podemos interpretar este vector como:
 
 - Un desplazamiento de **3 unidades** en un eje.
 - Otro desplazamiento de **4 unidades** en el otro eje.
 
-Su longitud se calcula aplicando el **teorema de Pitágoras**.
+Su longitud se calcula aplicando el **teorema de Pitágoras**.  
 
 ![Vector 2D y su norma como hipotenusa](./03-002_002_math-2d-vectors.png)
 
@@ -221,25 +223,36 @@ Su longitud se calcula aplicando el **teorema de Pitágoras**.
 
 ### Fórmula
 
-Para un vector bidimensional:
+Para un vector bidimensional:  
 
-\\[ \\|\mathbf{v}\\|\_2=\sqrt{v_1^2+v_2^2} \\]
+$$
+\|\mathbf{v}\|_2 = \sqrt{v_1^2 + v_2^2}
+$$
 
-Por tanto, si un eje era \\{3}\\ y otro eje era \\{4}\\:
+Por tanto, si un eje era $3$ y otro eje era $4$:  
 
-\\[ \begin{aligned} \\|\mathbf{v}\\|\_2 &=\sqrt{3^2+4^2}\\\ &=\sqrt{9+16}\\\ &=\sqrt{25}\\\ &=\boxed{5} \end{aligned} \\]
+$$
+\begin{aligned}
+\|\mathbf{v}\|_2 &= \sqrt{3^2 + 4^2} \\
+&= \sqrt{9 + 16} \\
+&= \sqrt{25} \\
+&= \boxed{5}
+\end{aligned}
+$$
 
-Para un vector con \\(n\\) componentes, la fórmula se generaliza:
+Para un vector con $n$ componentes, la fórmula se generaliza:  
 
-\\[ \\|\mathbf{v}\\|\_2=\sqrt{\sum\_{i=1}^{n}v_i^2} \\]
+$$
+\|\mathbf{v}\|_2 = \sqrt{\sum_{i=1}^{n} v_i^2}
+$$
 
-Es decir: **elevamos** cada componente al cuadrado, **sumamos** los resultados y **calculamos la raíz cuadrada**.
+- Es decir: **elevamos** cada componente al cuadrado, **sumamos** los resultados y **calculamos la raíz cuadrada**.  
 
 ***
 
 ### Calcular la norma con NumPy
 
-La forma habitual es utilizar `numpy.linalg.norm(VECTOR)`.  
+La forma habitual es utilizar `numpy.linalg.norm(VECTOR)`.
 
 ```python
 vector = np.array([3, 4])
@@ -255,13 +268,13 @@ print(norma)  # 5.0
 
 ### Otras normas que conviene conocer
 
-Consideremos el vector \\(\mathbf{v}=(3,-4)\\).
+Consideremos el vector $\mathbf{v} = (3, -4)$.
 
-| Norma             | Fórmula                           | Resultado | ¿Cuándo se usa?                                          |
-| ----------------- | --------------------------------- | --------- | -------------------------------------------------------- |
-| **L1**            | Suma de los valores absolutos     | \\(7\\)   | Distancia por cuadrícula; modelos que buscan ceros (Lasso) |
-| **L2 o euclídea** | Raíz de la suma de cuadrados      | \\(5\\)   | Distancia en línea recta; la opción por defecto (KNN, Ridge) |
-| **L∞**            | Máximo valor absoluto             | \\(4\\)   | Peor caso; tolerancias ("ninguna componente supera X")   |
+| Norma             | Fórmula                       | Resultado | ¿Cuándo se usa?                                              |
+| ----------------- | ----------------------------- | --------- | ------------------------------------------------------------ |
+| **L1**            | Suma de los valores absolutos | $7$       | Distancia por cuadrícula; modelos que buscan ceros (Lasso)   |
+| **L2 o euclídea** | Raíz de la suma de cuadrados  | $5$       | Distancia en línea recta; la opción por defecto (KNN, Ridge) |
+| **L∞**            | Máximo valor absoluto         | $4$       | Peor caso; tolerancias ("ninguna componente supera X")       |
 
 > [!NOTE]
 > Aquí solo las presentamos. Más adelante las trabajaremos a fondo, con sus aplicaciones.
@@ -298,8 +311,7 @@ print(np.linalg.norm(vector, ord=np.inf))  # 4.0
 > [!NOTE]
 > En aprendizaje automático, estas normas aparecen en la medición de distancias, la normalización de datos y la regularización de modelos. Por ahora, lo importante es **entender qué calcula cada una**, no memorizar todas sus aplicaciones.
 
-
 ---
 
->[!WARNING]
-> Pendiente desde aquí, siguiente punto deberíua ser 2.5 RODUCTOS ESCALARES
+> [!WARNING]
+> Pendiente desde aquí: el siguiente punto debería ser **2.5. PRODUCTOS ESCALARES**.
