@@ -67,3 +67,24 @@ Con los vectores del ejercicio 2,
 -  ¿qué devuelve `u * v`?
 -  ¿Por qué ese resultado no es todavía el producto escalar?
 
+---
+
+# 11. Interpretación
+
+Calcula el producto escalar de `u = np.array([1, 2])` y `v = np.array([2, 1])`. ¿Es positivo, negativo o cero? ¿Qué te indica sobre el ángulo?
+
+---
+
+# 12. Perpendicularidad
+
+Comprueba mediante NumPy si `u = np.array([3, 0])` y `v = np.array([0, 4])` son perpendiculares. Justifica la respuesta a partir del producto escalar.
+
+---
+
+# 13. Relación con las normas
+
+Para `u = np.array([3, 4])` y `v = np.array([4, 3])`, calcula:
+
+- El producto escalar.
+- La norma euclídea de cada vector con `np.linalg.norm()`.
+- Si el producto escalar es positivo, negativo o cero.
