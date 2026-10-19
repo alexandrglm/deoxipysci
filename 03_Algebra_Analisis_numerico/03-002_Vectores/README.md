@@ -551,7 +551,7 @@ Como los módulos siempre son positivos, el signo del producto escalar lo decide
 - Generación visual de tipos de ángulos:
     - [Script](./03-002-006_02_Angulos_visualmente.py)
 
-![](./03-002-007_Angulos_visualmente_generado.png)
+
 
 
 
@@ -595,10 +595,13 @@ El producto escalar es **negativo**, así que el ángulo es **obtuso** (mayor de
 ![Ejemplos de ángulos entre vectores: perpendiculares, obtuso, agudo y opuestos](./03-002-004_vectores_angulos.png)
 
 - **Par 1:** perpendiculares, $90^\circ$.
-- **Par 2:** el ejemplo anterior, obtuso, $96.9^\circ$.
-- **Par 4:** agudo, $26.6^\circ$.
+- **Par 2:** agudo, $26.6^\circ$.
+- **Par 4:** el ejemplo anterior, obtuso, $96.9^\circ$.
 - **Par 5:** direcciones opuestas, $180^\circ$.
 
+***
+
+![](./03-002-007_Angulos_visualmente_generado.png)
 > [!NOTE]
 > Los pares 3 y 6 de la imagen no se dibujan a propósito: el primero tiene una componente nula (`None`) y el segundo un vector cero, que no tiene dirección.
 
