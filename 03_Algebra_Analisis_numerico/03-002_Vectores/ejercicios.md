@@ -39,3 +39,31 @@ Calcula la norma L1 de \\(\mathbf{v}=(-2,5,-3)\\).
 # 7. NumPy II
 
 Escribe el código para calcular la norma euclídea del vector `[1, 2, 2]` y señala el resultado esperado.
+
+---
+
+
+# 8. Cálculo manual
+
+Dados los vectores \\(\mathbf{u}=(3,4)\\) y \\(\mathbf{v}=(2,5)\\) :
+
+ - Calcula su producto escalar
+ - Explica brevemente las operaciones.
+
+---
+
+# 9. NumPy III
+
+Dados `u = np.array([1, 2, 3])` y `v = np.array([4, 5, 6])`
+ - Calcula su producto escalar usando `np.dot()` y `@`
+ - ¿Obtienes el mismo resultado?
+
+
+---
+
+# 10. Comprender `u * v`
+
+Con los vectores del ejercicio 2,
+-  ¿qué devuelve `u * v`?
+-  ¿Por qué ese resultado no es todavía el producto escalar?
+
