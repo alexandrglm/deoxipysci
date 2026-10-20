@@ -31,6 +31,7 @@ euclidea_v = np.linalg.norm(v, ord=2)
 
 
 # Normal, manuales, para recordarlos
+print("\n-----------\n")
 print("(KIT-KAT - Normas, manualmente, ara recordarlo)")
 cuadrado_u_0 = u[0] ** 2
 cuadrado_u_1 = u[1] ** 2
@@ -41,8 +42,6 @@ cuadrado_v_1 = v[1] ** 2
 suma_cuadrados_u = np.sum(cuadrado_u_0 + cuadrado_u_1)
 suma_cuadrados_v = cuadrado_v_0 + cuadrado_v_1
 
-
-print("\n-----------\n")
 print(suma_cuadrados_u)
 print(type(suma_cuadrados_u))
 print(suma_cuadrados_v)

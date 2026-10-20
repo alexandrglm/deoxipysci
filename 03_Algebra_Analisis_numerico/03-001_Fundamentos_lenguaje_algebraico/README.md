@@ -1,4 +1,4 @@
-# 03-001: Fundamentos del lenguaje algebraico
+# 03-001:   Fundamentos del lenguaje algebraico
 
 Empezamos por el lenguaje que utilizaremos en todo el bloque, aunque sea muy, muy obvio.  
 
@@ -10,7 +10,7 @@ Antes de trabajar con vectores, matrices o funciones, necesitamos distinguir **q
 
 ***
 
-### Número
+### 1.1.1   Número
 
 Un **número** es un valor matemático. Según el conjunto al que pertenezca, puede representar cantidades enteras, fraccionarias, reales, etc.  
 
@@ -27,7 +27,7 @@ Estos conjuntos se relacionan entre sí: **todo entero es racional, y todo racio
 
 ***
 
-### Magnitud
+### 1.1.2.  Magnitud
 
 Una **magnitud** es una propiedad que se puede medir o cuantificar: longitud, masa, tiempo, temperatura, precio o distancia.  
 
@@ -43,7 +43,7 @@ Conviene distinguir la magnitud de su valor numérico y de su unidad:
 
 ***
 
-### Escalar
+### 1.1.3.  Escalar
 
 Un **escalar** es una cantidad representada por **un único valor**, en contraposición a un vector o una matriz, que contienen varias componentes.  
 
@@ -100,7 +100,7 @@ La expresión establece una **relación** entre $x$ e $y$.
 
 ***
 
-### Relación con Python
+### 1.2.1.  Relación con Python
 
 ```python
 x = 4
@@ -256,7 +256,7 @@ $$
 > [!NOTE]
 > Un término constante, como $-7$, no contiene variables. Si un término no muestra su coeficiente, este se sobreentiende: $x = 1x$ y $-x = -1x$.
 
-### Otro ejemplo
+### 1.6.1.  Otro ejemplo
 
 En la expresión:  
 
@@ -276,7 +276,7 @@ $$
 4 \cdot a \cdot b \cdot b \cdot b
 $$
 
-### Aplicación en Python
+### 1.6.2.  Aplicación en Python
 
 ```python
 a = 2
@@ -294,7 +294,7 @@ En Python, `**` representa la potenciación. La expresión reproduce directament
 
 Vamos a cerrar los fundamentos algebraicos con dos operaciones que utilizarás constantemente: **simplificar expresiones** y **sustituir variables por valores**.  
 
-### A. Simplificación de expresiones
+### 1.7.1.  A. Simplificación de expresiones
 
 **Simplificar** consiste en expresar una fórmula de manera más sencilla **sin cambiar su valor**.  
 
@@ -338,7 +338,7 @@ $$
 >
 > En la suma se combinan coeficientes; en la multiplicación de potencias con la misma base se **suman exponentes**.
 
-### B. Sustitución de variables
+### 1.7.2.  B. Sustitución de variables
 
 **Sustituir** significa reemplazar una variable por un valor y calcular la expresión resultante.  
 
@@ -373,7 +373,7 @@ $$
 g(4, 5) = 3 \cdot 4 + 2 \cdot 5 = 22
 $$
 
-### C. Relación con Python y el análisis de datos
+### 1.7.3.  C. Relación con Python y el análisis de datos
 
 ```python
 x = 2

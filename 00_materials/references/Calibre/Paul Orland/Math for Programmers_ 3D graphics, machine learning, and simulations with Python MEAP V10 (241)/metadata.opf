@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<package xmlns="http://www.idpf.org/2007/opf" unique-identifier="uuid_id" version="2.0">
+    <metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
+        <dc:identifier opf:scheme="calibre" id="calibre_id">241</dc:identifier>
+        <dc:identifier opf:scheme="uuid" id="uuid_id">d281879c-87c0-49f0-a1ce-f42d147d8f5a</dc:identifier>
+        <dc:title>Math for Programmers: 3D graphics, machine learning, and simulations with Python MEAP V10</dc:title>
+        <dc:creator opf:file-as="Orland, Paul" opf:role="aut">Paul Orland</dc:creator>
+        <dc:contributor opf:file-as="calibre" opf:role="bkp">calibre (8.5.0) [https://calibre-ebook.com]</dc:contributor>
+        <dc:date>2020-04-05T22:00:00+00:00</dc:date>
+        <dc:publisher>Manning Publications Co.</dc:publisher>
+        <dc:language>eng</dc:language>
+        <meta name="calibre:timestamp" content="2026-10-19T14:14:45.286285+00:00"/>
+        <meta name="calibre:title_sort" content="Math for Programmers: 3D graphics, machine learning, and simulations with Python MEAP V10"/>
+    </metadata>
+    <guide>
+        <reference type="cover" title="Cover" href="cover.jpg"/>
+    </guide>
+</package>

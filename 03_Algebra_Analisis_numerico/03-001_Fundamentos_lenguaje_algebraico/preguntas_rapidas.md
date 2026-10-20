@@ -1,5 +1,3 @@
-Ejercicios de la sección 1
-Intenta resolverlos antes de mirar las soluciones.
 1. Clasificación
 Clasifica cada elemento como escalar, variable, expresión o ecuación: \(7\), \(x\), \(4x+2\), \(4x+2=10\).
 
@@ -15,12 +13,11 @@ Calcula \(6+2\cdot5\) y \((6+2)\cdot5\).
 \(6+2\cdot5\) -> 16
 \((6+2)\cdot5\) -> 40
 
-Ya me se el PEMDAS eh....
-
-
 
 3. Resolver una ecuación
 Resuelve \(4x-8=12\). Explica brevemente los pasos.
+
+
 Pasos tipicos basicos:
 
 4x= 12 +8 ... pasamos el termino constante al otro lado, convirtiéndose en positivo
@@ -38,7 +35,7 @@ x&=5
 \end{aligned}
 \]
 
-Una precisión terminológica: al trasladar el \(-8\) al otro miembro, lo que hacemos matemáticamente es sumar 8 a ambos miembros. La regla práctica de «pasa al otro lado cambiando de signo» funciona, pero deriva de esa operación.
+##Una precisión terminológica: al trasladar el \(-8\) al otro miembro, lo que hacemos matemáticamente es sumar 8 a ambos miembros. La regla práctica de «pasa al otro lado cambiando de signo» funciona, pero deriva de esa operación.
 Del mismo modo, dividir entre 4 ambos miembros permite aislar \(x\).
 
 ---

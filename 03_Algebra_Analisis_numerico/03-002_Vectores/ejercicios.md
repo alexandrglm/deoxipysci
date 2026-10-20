@@ -88,3 +88,23 @@ Para `u = np.array([3, 4])` y `v = np.array([4, 3])`, calcula:
 - El producto escalar.
 - La norma euclídea de cada vector con `np.linalg.norm()`.
 - Si el producto escalar es positivo, negativo o cero.
+
+
+---
+
+
+## Ejercicio 14. Misma dirección
+
+Calcula la similitud del coseno entre `u = np.array([1, 2])` y `v = np.array([2, 4])`. ¿Por qué no es necesario que ambos vectores tengan la misma magnitud para que su similitud sea 1?
+
+---
+
+## Ejercicio 15. Direcciones opuestas
+
+Calcula la similitud del coseno entre `u = np.array([1, 0])` y `v = np.array([-3, 0])`. Interpreta el resultado.
+
+---
+
+## Ejercicio 16. Caso límite
+
+¿Qué sucede al calcular la similitud del coseno entre `u = np.array([0, 0])` y `v = np.array([1, 2])` con la fórmula anterior? Explica por qué.
