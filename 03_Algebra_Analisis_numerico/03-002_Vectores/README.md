@@ -660,7 +660,7 @@ Como el producto escalar es cero y ambos vectores son no nulos, son **perpendicu
 
 ## 2.7. Similitud del coseno (cosine similarity)
 
-Este concepto es una **aplicación directa** de lo que acabas de aprender. 
+Este concepto es una **aplicación directa** de lo que acabas de aprender.  
 
 - Se utiliza en aprendizaje automático para **comparar vectores**, por ejemplo, representaciones numéricas de textos, documentos o productos.
 
@@ -670,17 +670,16 @@ Este concepto es una **aplicación directa** de lo que acabas de aprender.
 
 La **similitud del coseno** se define como:  
 
+
 $$
-\boxed{
-\operatorname{sim}(\mathbf{u}, \mathbf{v}) = \frac{\mathbf{u} \cdot \mathbf{v}}{\|\mathbf{u}\|_2 \, \|\mathbf{v}\|_2}
+\boxed{ 
+\text{sim}(\mathbf{u}, \mathbf{v}) = \frac{\mathbf{u} \cdot \mathbf{v}}{\Vert{}\mathbf{u}\Vert{}_2 \, \Vert{}\mathbf{v}\Vert{}_2} 
 }
 $$
 
 Observa que es **exactamente la expresión** que ya has calculado para obtener `coseno_theta` anteriormente. Por tanto:  
 
-$$
-\operatorname{sim}(\mathbf{u}, \mathbf{v}) = \cos(\theta)
-$$
+$$\text{sim}(\mathbf{u}, \mathbf{v}) = \cos(\theta)$$
 
 > [!IMPORTANT]
 > La similitud del coseno mide la **orientación relativa** entre dos vectores, **SIN TENER EN CUENTA SUS MAGNITUDES**:  
@@ -691,7 +690,7 @@ $$
 
 ### 2.7.2. Interpretación
 
-Para vectores no nulos, el resultado está entre $-1$ y $1$:
+Para vectores no nulos, el resultado está entre $-1$ y $1$:  
 
 | Similitud | Ángulo $\theta$ | Interpretación geométrica |
 | --------- | --------------- | ------------------------- |
@@ -718,7 +717,7 @@ OPUESTOS            PERPENDICULARES          MISMA DIRECCION
 
 ### 2.7.3.  Implementación en NumPy
 
-Puedes calcularla reutilizando los conceptos anteriores:
+Puedes calcularla reutilizando los conceptos anteriores:  
 
 ```python
 u = np.array([1, 2])
@@ -732,7 +731,7 @@ coseno_theta_es_similitud_del_coseno = (
 print(coseno_theta_es_similitud_del_coseno)  # 0.9999999999999998  (≈ 1.0)
 ```
 
-No existe aquí una nueva operación matemática: estás combinando el **producto escalar** con las **normas euclídeas**.
+No existe aquí una nueva operación matemática: estás combinando el **producto escalar** con las **normas euclídeas**.  
 
 > [!WARNING]
 > El resultado es `0.9999999999999998` y no exactamente `1.0` por errores de redondeo de los `float`. No compares con `==`: usa `np.isclose(similitud, 1)`.
@@ -750,14 +749,11 @@ No existe aquí una nueva operación matemática: estás combinando el **product
 > [!NOTE]
 > `np.clip`, usado aquí, evita que el redondeo produzca valores fuera de $[-1, 1]$, que romperían una posterior medición del ángulo con `np.arccos`.
 
-
-
-
 ---
 
 ### 2.7.4. Aplicación: comparar documentos
 
-Cada documento se convierte en un vector contando cuántas veces aparece cada palabra del vocabulario:
+Cada documento se convierte en un vector contando cuántas veces aparece cada palabra del vocabulario:  
 
 | Documento | Texto               | `gato` | `perro` | `python` | `código` |
 | --------- | ------------------- | ------ | ------- | -------- | -------- |
@@ -788,4 +784,4 @@ D = np.array([1, 1, 1, 0])
 > Como los recuentos de palabras son **no negativos**, en este tipo de datos la similitud siempre queda entre $0$ y $1$.  
 >  
 > Se habla también de **distancia del coseno**: 
->    - $1 - \operatorname{sim}(\mathbf{u}, \mathbf{v})$.
+>    - $1 - \text{sim}(\mathbf{u}, \mathbf{v})$.

@@ -12,17 +12,16 @@ Este concepto es una **aplicación directa** de lo que acabas de aprender.
 
 La **similitud del coseno** se define como:  
 
+
 $$
-\boxed{
-\operatorname{sim}(\mathbf{u}, \mathbf{v}) = \frac{\mathbf{u} \cdot \mathbf{v}}{\|\mathbf{u}\|_2 \, \|\mathbf{v}\|_2}
+\boxed{ 
+\text{sim}(\mathbf{u}, \mathbf{v}) = \frac{\mathbf{u} \cdot \mathbf{v}}{\Vert{}\mathbf{u}\Vert{}_2 \, \Vert{}\mathbf{v}\Vert{}_2} 
 }
 $$
 
 Observa que es **exactamente la expresión** que ya has calculado para obtener `coseno_theta` anteriormente. Por tanto:  
 
-$$
-\operatorname{sim}(\mathbf{u}, \mathbf{v}) = \cos(\theta)
-$$
+$$\text{sim}(\mathbf{u}, \mathbf{v}) = \cos(\theta)$$
 
 > [!IMPORTANT]
 > La similitud del coseno mide la **orientación relativa** entre dos vectores, **SIN TENER EN CUENTA SUS MAGNITUDES**:  
@@ -127,4 +126,4 @@ D = np.array([1, 1, 1, 0])
 > Como los recuentos de palabras son **no negativos**, en este tipo de datos la similitud siempre queda entre $0$ y $1$.  
 >  
 > Se habla también de **distancia del coseno**: 
->    - $1 - \operatorname{sim}(\mathbf{u}, \mathbf{v})$.
+>    - $1 - \text{sim}(\mathbf{u}, \mathbf{v})$.
