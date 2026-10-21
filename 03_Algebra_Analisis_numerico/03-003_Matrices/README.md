@@ -26,6 +26,14 @@ Cada elemento se identifica con dos índices, $a_{ij}$: la fila $i$ y la columna
 
 ### 3.1.1. Estructura y atributos en NumPy
 
+> [!WARNING]
+> Para la generación de una matriz en NumPy, seguimos usando:
+>    
+>   - `np.array([ [], []..... [] ])
+>   -  Tenemos el método `np.asarray()` para crear varias series que generen una matriz directamente
+>   -  También, el método `np.asmatrix()` puede servir, pero está deprecado, dejará de existir en algún momento y se recomienda usar cualquiera de los anteriores
+
+
 ```python
 A = np.array(
     [
@@ -42,9 +50,9 @@ print(A.ndim)   # 2
 
 print(A.size)   # 6
 print(A.count_nonzero(A))   # 6
-
-
 ```
+
+
 | Atributo | Qué indica                                      | Valor en `A`            |
 | -------- | ----------------------------------------------- | ----------------------- |
 | `type()` | Tipo del **objeto** completo (sigue siendo un Array)| `numpy.ndarray`         |
@@ -62,7 +70,7 @@ print(A.count_nonzero(A))   # 6
 >   - El eje `1` recorre las **columnas**
 
 
-#### Objeto, array y elemento: tres niveles distintos
+#### 3.1.1.2.   Objeto, array y elemento: tres niveles distintos
 
 No es lo mismo el tipo del contenedor que el de lo que contiene:
 
@@ -75,7 +83,7 @@ print(type(A[0][1]))  # <class 'numpy.int64'>     -> un elemento (escalar de Num
 - `A` y cada una de sus filas son **arrays** (`ndarray`).
 - Un elemento suelto es un **escalar de NumPy**, no un `int` de Python.
 
-#### 3.1.1.1.   ¿Qué pasa si mezclamos tipos?
+#### 3.1.1.2.   ¿Qué pasa si mezclamos tipos?
 
 Un array de NumPy guarda **un único `dtype` para todos sus elementos**. Si mezclas tipos, NumPy tiene que elegir uno que sirva para todos:  
 
@@ -211,9 +219,9 @@ $$
 
 ## 3.2. Operaciones básicas con matrices
 
-Con NumPy, muchas operaciones entre matrices se realizan **elemento a elemento**, siempre que sus **formas** (`shape`) sean compatibles.  
+Con NumPy, muchas operaciones entre matrices se realizan **elemento a elemento**, siempre que sus **formas** (`shape`) sean compatibles.    
 
-Usaremos estas dos matrices:
+Usaremos estas dos matrices:  
 
 $$
 A =
@@ -268,7 +276,7 @@ print(A * B)
 > `A * B` multiplica las posiciones correspondientes. **No es multiplicación matricial.**
 
   
-Matemáticamente, `A * B` es el **producto elemento a elemento** (también llamado producto de Hadamard):    
+Matemáticamente, `A * B` es el **producto elemento a elemento**, también llamado producto de Hadamard:
 
 $$
 A \odot B =
@@ -283,9 +291,18 @@ A \odot B =
 \end{pmatrix}
 $$
 
+> [!TIP]
+> Las aplicaciones habituales del producto de Hadamard son:  
+>  
+>   - **Estadística y Machine Learning** 
+>       * Regresión ponderada, métodos del núcleo (kernel) y en la aplicación de restricciones por elementos a estructuras de co-varianza
+>  
+>   - -**Procesamiento de datos** 
+>       * Funciona como una multiplicación directa y sencilla para enmascarar o escalar matrices de manera individual
+
 ***
 
-### 3.2.2.  Multiplicar una matriz por un escalar
+### 3.2.2.  Multiplicación Escalar, multiplicar una matriz por un escalar
 
 Un escalar multiplica **cada elemento**:  
 
@@ -308,47 +325,53 @@ $$
 \end{pmatrix}
 $$
 
-***
+---
+
 
 ### 3.2.3.  Multiplicación matricial
 
-Para multiplicar matrices **matemáticamente**, usamos el operador `@`:  
+Merece una unidad aparte, no una mención rápida ...
 
-```python
-print(A @ B)
-# [[ 70 100]
-#  [150 220]]
-```
 
-> [!IMPORTANT]
-> `A * B` y `A @ B` son operaciones **distintas** y dan resultados distintos. La multiplicación matricial es `@`.
+> [!WARNING]
+> Al igual que en la multiplicación matricial con vectores unidimensionales, es necesaria cierta condición de forma en el caso de las matrices:
+>  - **MISMO NUMERO DE COLUMNAS EN UNA MATRIZ, QUE DE FILAS EN OTRA**
 
-Cada elemento del resultado se calcula con una **fila** de $A$ y una **columna** de $B$, multiplicando y sumando (como un **producto escalar**):  
+Ya hemos usado `@` con matrices pequeñas. Ahora vemos **cómo funciona por dentro** para el caso general.  
 
-$$
-(AB)_{ij} = \sum_{k} a_{ik} \, b_{kj}
-$$
+> [!NOTE]
+> En este apartado, $A$ y $B$ son **matrices nuevas**, distintas de las del apartado anterior.
 
-Para nuestro ejemplo:  
+***
 
-$$
-AB =
-\begin{pmatrix}
-1 \cdot 10 + 2 \cdot 30 & 1 \cdot 20 + 2 \cdot 40 \\
-3 \cdot 10 + 4 \cdot 30 & 3 \cdot 20 + 4 \cdot 40
-\end{pmatrix}
-=
-\begin{pmatrix}
-70 & 100 \\
-150 & 220
-\end{pmatrix}
-$$
+#### 3.2.3.1. La idea: una tabla de productos escalares
 
-#### 3.2.3.1.   Condición de compatibilidad
+La multiplicación matricial **no es una operación nueva**:   es una **tabla de productos escalares**.  
 
-Para que `A @ B` sea posible, el número de **columnas de $A$** debe coincidir con el número de **filas de $B$**.  
 
-Si $A$ tiene forma $(m, n)$ y $B$ forma $(n, p)$, el resultado tendrá forma $(m, p)$:  
+> Cada celda del resultado es el **producto escalar** entre una **fila** de $A$ y una **columna** de $B$.
+
+- Antes: `a @ b` entre dos vectores era **un** producto escalar y daba **un** número.
+- Ahora: `A @ B` hace **muchos** productos escalares y los organiza en una **rejilla**.
+
+
+***
+
+
+#### 3.2.3.2. Condición de forma
+
+Un producto escalar solo existe entre vectores de la **misma longitud**:  
+    
+    - Una fila de $A$ tiene tantos elementos como **columnas** tiene $A$
+    - Una columna de $B$ tiene tantos elementos como **filas** tiene $B$
+    
+Para que cada pareja fila-columna se pueda multiplicar, **esos dos números deben coincidir**.  
+
+> [!WARNING]
+> **Condición de forma:** el número de **columnas de $A$** debe ser igual al número de **filas de $B$**.
+
+
+Si $A$ tiene forma $(m, n)$ y $B$ tiene forma $(n, p)$, el resultado $C$ tiene forma $(m, p)$:  
 
 ```text
   (m, n)  @  (n, p)  =  (m, p)
@@ -356,19 +379,268 @@ Si $A$ tiene forma $(m, n)$ y $B$ forma $(n, p)$, el resultado tendrá forma $(m
    deben coincidir
 ```
 
+
+#### 3.2.3.3. La fórmula
+
+$$
+C = AB
+\qquad
+c_{ij} = \sum_{k=1}^{n} a_{ik} \, b_{kj}
+= a_{i1} b_{1j} + a_{i2} b_{2j} + \cdots + a_{in} b_{nj}
+$$
+
+Es decir, $c_{ij}$ es el producto escalar de la **fila $i$** de $A$ con la **columna $j$** de $B$. En NumPy:  
+
+Entonces, **la regla para cualquier celda** es:   
+
+$$
+C_{ij} = A[i, 0] 
+\cdot 
+B[0, j] + A[i, 1] 
+\cdot 
+B[1, j]
+$$
+
+- Los dos productos de una celda comparten la misma i (fila de A) y la misma j (columna de B)
+
+- Lo único que cambia entre ellos es el índice del medio, 0 y 1
+
+
+> [!WARNING]
+> Los índices matemáticos ($i$, $j$) empiezan en $1$, y los de Python en $0$. Aquí usamos **índices de Python** en los ejemplos.
+
 ```python
-C = np.array([
-    [1, 2, 3],
-    [4, 5, 6]
+C[i, j] = A[i, :] @ B[:, j]
+```
+
+***
+
+#### 3.2.3.4. El esquema de Falk: ver qué se multiplica con qué
+
+La fórmula es correcta, pero cuesta visualizar mentalmente **qué fila se junta con qué columna**.  
+
+> [!IMPORTANT]
+> El **Esquema de Falk** resuelve eso:  
+>   
+>  - Es una forma de **colocar las matrices en el papel** para que cada celda del resultado quede a la vista de sus dos vectores.
+
+
+
+##### 3.2.3.4.1.    Ejemplo mínimo: $2 \times 2$ por $2 \times 2$
+
+Empezamos con el caso más pequeño, con números **todos distintos** para no confundir qué viene de dónde:  
+
+$$
+A =
+\begin{pmatrix}
+1 & 2 \\
+3 & 4
+\end{pmatrix}
+\qquad
+B =
+\begin{pmatrix}
+5 & 6 \\
+7 & 8
+\end{pmatrix}
+$$
+
+##### 3.2.3.4.2.    Cómo se construye, paso a paso
+
+1. **$B$ arriba a la derecha**
+2. **$A$ abajo a la izquierda**
+3. **$C$ en el cruce**: debajo de $B$ y a la derecha de $A$. Su forma se lee del dibujo: las **filas de $A$** por las **columnas de $B$**
+4. **Cada celda de $C$** se calcula con **su fila de $A$** (hacia la izquierda) y **su columna de $B$** (hacia arriba)
+
+![Esquema de Falk construido en cuatro pasos para C[0, 1] = 1*6 + 2*8 = 22](./img/03-003_falk_construccion.png)
+
+- **ROJO:** la fila de $A$ que interviene y su fila en $C$
+- **NARANJA:** la columna de $B$ que interviene y su columna en $C$
+- **VERDE:** la celda de $C$, en el **cruce** de ambas
+
+El mismo resultado, en consola:  
+
+```text
+A (2×2)          B (2×2)
+                  col 0  col 1
+                    5   [  6  ]
+                    7   [  8  ]
+───────────────┼───────────────
+[  1  ][  2  ] │   19   « 22  »  ← fila 0
+   3      4    │   43     50     ← fila 1
+                 C (2×2)
+
+[ ] fila 0 de A y columna 1 de B   « » celda C[0, 1]
+```
+
+> [!TIP]
+> Para saber qué calcula una celda de $C$, **sigue su fila hacia la izquierda** (hasta $A$) y **su columna hacia arriba** (hasta $B$). Esos dos vectores son los que se multiplican.
+
+
+
+##### 3.2.3.4.3.    Las cuatro celdas
+
+$$
+(1, 2) \cdot (6, 8) = 1 \cdot 6 + 2 \cdot 8 = \boxed{22}
+\qquad \text{(celda } C[0, 1] \text{, la del dibujo)}
+$$
+
+| Celda     | Fila de $A$ | Columna de $B$ | Cálculo                   | Resultado |
+| --------- | ----------- | -------------- | ------------------------- | --------- |
+| `C[0, 0]` | `[1, 2]`    | `[5, 7]`       | $1 \cdot 5 + 2 \cdot 7$   | $19$      |
+| `C[0, 1]` | `[1, 2]`    | `[6, 8]`       | $1 \cdot 6 + 2 \cdot 8$   | $22$      |
+| `C[1, 0]` | `[3, 4]`    | `[5, 7]`       | $3 \cdot 5 + 4 \cdot 7$   | $43$      |
+| `C[1, 1]` | `[3, 4]`    | `[6, 8]`       | $3 \cdot 6 + 4 \cdot 8$   | $50$      |
+
+$$
+C = AB =
+\begin{pmatrix}
+19 & 22 \\
+43 & 50
+\end{pmatrix}
+$$
+
+> [!IMPORTANT]
+> Cada celda es **un producto escalar de dos vectores**. El esquema de Falk no calcula nada nuevo:   
+>  
+>   - Solo **coloca las matrices para que se vea cuáles son esos dos vectores**
+
+
+***
+
+
+#### 3.2.3.5. Ejemplo ampliado: $3 \times 2$ por $2 \times 3$
+
+Ahora, el mismo método con formas **distintas**, donde se ve que $C$ no tiene por qué parecerse a $A$ ni a $B$:  
+
+$$
+A =
+\begin{pmatrix}
+1 & 2 \\
+3 & 4 \\
+5 & 6
+\end{pmatrix}
+\qquad
+B =
+\begin{pmatrix}
+10 & 20 & 30 \\
+40 & 50 & 60
+\end{pmatrix}
+$$
+
+- $A$ es $3 \times 2$ y $B$ es $2 \times 3$: las columnas de $A$ ($2$) coinciden con las filas de $B$ ($2$)
+- $C$ será $3 \times 3$: **9 celdas**
+- Cada celda es un producto escalar de **2 elementos** (porque $n = 2$)
+
+
+Una celda en detalle, `C[1, 2]`: la **fila 1 de $A$** con la **columna 2 de $B$**:  
+
+$$
+\underbrace{(3, \; 4)}_{\text{fila 1 de } A}
+\cdot
+\underbrace{(30, \; 60)}_{\text{columna 2 de } B}
+= 3 \cdot 30 + 4 \cdot 60 = 90 + 240 = \boxed{330}
+$$
+
+![Esquema de Falk para C[1, 2] = 3*30 + 4*60 = 330](./img/03-003_multiplicacion.png)
+
+```text
+A (3×2)          B (2×3)
+                  col 0  col 1  col 2
+                   10     20   [ 30  ]
+                   40     50   [ 60  ]
+───────────────┼──────────────────────
+   1      2    │   90     120    150    ← fila 0
+[  3  ][  4  ] │   190    260  « 330 »  ← fila 1
+   5      6    │   290    400    510    ← fila 2
+                 C (3×3)
+
+[ ] fila 1 de A y columna 2 de B   « » celda C[1, 2]
+```
+
+##### 3.2.3.5.1 Las nueve celdas
+
+| Celda     | Fila de $A$ | Columna de $B$ | Cálculo                   | Resultado |
+| --------- | ----------- | -------------- | ------------------------- | --------- |
+| `C[0, 0]` | `[1, 2]`    | `[10, 40]`     | $1 \cdot 10 + 2 \cdot 40$ | $90$      |
+| `C[0, 1]` | `[1, 2]`    | `[20, 50]`     | $1 \cdot 20 + 2 \cdot 50$ | $120$     |
+| `C[0, 2]` | `[1, 2]`    | `[30, 60]`     | $1 \cdot 30 + 2 \cdot 60$ | $150$     |
+| `C[1, 0]` | `[3, 4]`    | `[10, 40]`     | $3 \cdot 10 + 4 \cdot 40$ | $190$     |
+| `C[1, 1]` | `[3, 4]`    | `[20, 50]`     | $3 \cdot 20 + 4 \cdot 50$ | $260$     |
+| `C[1, 2]` | `[3, 4]`    | `[30, 60]`     | $3 \cdot 30 + 4 \cdot 60$ | $330$     |
+| `C[2, 0]` | `[5, 6]`    | `[10, 40]`     | $5 \cdot 10 + 6 \cdot 40$ | $290$     |
+| `C[2, 1]` | `[5, 6]`    | `[20, 50]`     | $5 \cdot 20 + 6 \cdot 50$ | $400$     |
+| `C[2, 2]` | `[5, 6]`    | `[30, 60]`     | $5 \cdot 30 + 6 \cdot 60$ | $510$     |
+
+$$
+C = AB =
+\begin{pmatrix}
+90 & 120 & 150 \\
+190 & 260 & 330 \\
+290 & 400 & 510
+\end{pmatrix}
+$$
+
+***
+
+#### 3.2.3.6. Comprobación con NumPy
+
+```python
+A = np.array([
+    [1, 2],
+    [3, 4],
+    [5, 6]
 ])
 
-print(A.shape, C.shape)   # (2, 2) (2, 3)
-print((A @ C).shape)      # (2, 3)   -> (2, 2) @ (2, 3): los 2 centrales coinciden
-# C @ A                   # ValueError -> (2, 3) @ (2, 2): 3 y 2 no coinciden
+B = np.array([
+    [10, 20, 30],
+    [40, 50, 60]
+])
+
+C = A @ B
+
+print(C)
+# [[ 90 120 150]
+#  [190 260 330]
+#  [290 400 510]]
+
+print(C.shape)            # (3, 3)
+print(C[1, 2])            # 330
+print(A[1, :] @ B[:, 2])  # 330: la misma celda, como producto escalar
+```
+
+> [!IMPORTANT]
+> `C[1, 2]` y `A[1, :] @ B[:, 2]` dan lo mismo. **Esa es toda la multiplicación matricial:**  
+>   
+>   - **Una tabla de productos escalares!**
+
+***
+
+#### 3.2.3.7. Errores de forma y orden
+
+Si las formas no son compatibles, NumPy lanza un `ValueError`:
+
+```python
+print(B.shape, B.shape)  # (2, 3) (2, 3)
+# B @ B                  # ValueError: las columnas de B (3) no coinciden con sus filas (2)
 ```
 
 > [!WARNING]
-> En general, la multiplicación matricial **no es conmutativa**: `A @ B` y `B @ A` pueden dar resultados distintos. En este ejemplo coinciden solo porque $B = 10A$.
+> **El orden importa.** Con las mismas matrices, `B @ A` sí es posible, pero es **otra operación** y da una matriz de **forma distinta**:
+>
+> ```python
+> print((A @ B).shape)  # (3, 3)
+> print((B @ A).shape)  # (2, 2)
+> print(B @ A)
+> # [[220 280]
+> #  [490 640]]
+> ```
+>
+> En general, la multiplicación matricial **no es conmutativa**: `A @ B` y `B @ A` pueden dar resultados distintos, o incluso uno de ellos no existir.
 
 > [!TIP]
 > Comprueba siempre las formas con `.shape` antes de multiplicar. Es la forma más rápida de encontrar un error de compatibilidad.
+
+
+---
+
+
