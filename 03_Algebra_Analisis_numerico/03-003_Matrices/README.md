@@ -29,7 +29,7 @@ Cada elemento se identifica con dos índices, $a_{ij}$: la fila $i$ y la columna
 > [!WARNING]
 > Para la generación de una matriz en NumPy, seguimos usando:
 >    
->   - `np.array([ [], []..... [] ])
+>   - `np.array([ [], []..... [] ])`
 >   -  Tenemos el método `np.asarray()` para crear varias series que generen una matriz directamente
 >   -  También, el método `np.asmatrix()` puede servir, pero está deprecado, dejará de existir en algún momento y se recomienda usar cualquiera de los anteriores
 
@@ -50,6 +50,8 @@ print(A.ndim)   # 2
 
 print(A.size)   # 6
 print(A.count_nonzero(A))   # 6
+
+print(np.array_equal([A], [ [10, 20, 30], [40, 50, 60] ]))
 ```
 
 
@@ -61,7 +63,7 @@ print(A.count_nonzero(A))   # 6
 | `.ndim`   | Número de **ejes** del array                    | `2`                     |
 | `.size`   | Número total de elementos                       | `6`                     |
 | `np.count_nonzero()` | Número total de elementos reales, no nulos ni vacíos | `6`                     |
-
+| `np.array_equal(MATRIZ, [ [], []....[] ] )` | Método para comparar una matriz contra otra, o la construcción de sus series | *(no procede)* |
 
 > [!NOTE]
 > Recuerda la advertencia de los vectores: NumPy usa "dimensión" para hablar de los **ejes** del array.   
@@ -276,16 +278,13 @@ print(A * B)
 > `A * B` multiplica las posiciones correspondientes. **No es multiplicación matricial.**
 
   
-Matemáticamente, `A * B` es el **producto elemento a elemento**, también llamado producto de Hadamard:
+Matemáticamente, `A * B` es el **producto elemento a elemento**, también llamado **producto de Hadamard**:  
 
 $$
-A \odot B =
-\begin{pmatrix}
+A \odot B = \begin{pmatrix}
 1 \cdot 10 & 2 \cdot 20 \\
 3 \cdot 30 & 4 \cdot 40
-\end{pmatrix}
-=
-\begin{pmatrix}
+\end{pmatrix} = \begin{pmatrix}
 10 & 40 \\
 90 & 160
 \end{pmatrix}
@@ -313,13 +312,10 @@ print(A * 3)
 ```
 
 $$
-3A =
-\begin{pmatrix}
+3A = \begin{pmatrix}
 3 \cdot 1 & 3 \cdot 2 \\
 3 \cdot 3 & 3 \cdot 4
-\end{pmatrix}
-=
-\begin{pmatrix}
+\end{pmatrix} = \begin{pmatrix}
 3 & 6 \\
 9 & 12
 \end{pmatrix}
@@ -375,7 +371,7 @@ Si $A$ tiene forma $(m, n)$ y $B$ tiene forma $(n, p)$, el resultado $C$ tiene f
 
 ```text
   (m, n)  @  (n, p)  =  (m, p)
-      └──────┘
+      └───────┘
    deben coincidir
 ```
 
