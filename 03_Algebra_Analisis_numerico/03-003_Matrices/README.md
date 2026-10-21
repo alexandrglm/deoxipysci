@@ -274,9 +274,10 @@ print(A * B)
 > [!NOTE]
 > Para `A + B` y `A - B`, ambas matrices deben tener la **misma forma**. Más adelante veremos que NumPy también admite algunas combinaciones de formas distintas (*broadcasting*).
 
+#### 3.2.1.2    Multiplicación elemento a elemento (A * B), Producto de Hadamard
+
 > [!WARNING]
 > `A * B` multiplica las posiciones correspondientes. **No es multiplicación matricial.**
-
   
 Matemáticamente, `A * B` es el **producto elemento a elemento**, también llamado **producto de Hadamard**:  
 

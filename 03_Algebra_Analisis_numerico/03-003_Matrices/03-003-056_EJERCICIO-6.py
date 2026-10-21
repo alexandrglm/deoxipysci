@@ -1,3 +1,4 @@
+# EJERCICIO 6
 import numpy as np
 
 print(""" 
