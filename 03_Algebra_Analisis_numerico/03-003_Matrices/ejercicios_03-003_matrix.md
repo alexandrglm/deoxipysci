@@ -32,3 +32,21 @@ Calcula `A * 3`. Explica qué ocurre con cada elemento.
 # Ejercicio 6. Multiplicación matricial
 
 Calcula `A @ B`. Comprueba el resultado manualmente para la primera fila y explica por qué el resultado tiene forma `(2, 2)`.
+
+---
+
+# Ejercicio 7. Transpuestas I
+
+Crea una matriz de forma `(2, 3)` con los valores `[[1, 2, 3], [4, 5, 6]]`. Calcula su transpuesta e indica su `shape`.
+
+---
+
+# Ejercicio 8. Transpuesta II
+
+Crea una matriz cuadrada de `3 × 3`, calcula su transpuesta y comprueba qué ocurre con los elementos de la diagonal principal.
+
+---
+
+# Ejercicio 9.  Transpuesta III
+
+Explica brevemente la diferencia entre `A.T` y `A * A`, utilizando una matriz NumPy de ejemplo.
