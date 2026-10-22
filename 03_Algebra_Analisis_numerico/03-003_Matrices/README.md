@@ -1072,10 +1072,6 @@ Las formas encajan porque `A.T` tiene `3` filas, igual que las `3` columnas de `
 
 ---
 
-# 03-003: Matrices
-
-***
-
 ## 3.4.     Determinante de una matriz
 
 EL **determinante de una matriz es un valor escalar**, (un único número), calculado **a partir de una matriz cuadrada**.  
@@ -1357,7 +1353,10 @@ $$
 Cada $M_{0j}$ es un determinante $2 \times 2$. Con la matriz del ejemplo:  
 
 $$
-A = \begin{bmatrix} 2 & 0 & 1 \\ 1 & 3 & 2 \\ 1 & 1 & 4 \end{bmatrix}
+A = \begin{bmatrix} 
+2 & 0 & 1 \\  
+1 & 3 & 2 \\  
+1 & 1 & 4 \end{bmatrix}
 $$
 
 
@@ -1420,7 +1419,9 @@ M_02    =       [1 3]
 Sustituyendo en la fórmula (con los signos $+,-,+$ de la fila 0):  
 
 $$
-\det(A) = 2\cdot(10) - 0\cdot(2) + 1\cdot(-2) = 20 - 0 - 2 = \boxed{18}
+\det(A) = 2\cdot(10) - 0\cdot(2) + 1\cdot(-2) \\
+= 20 - 0 - 2 \\ 
+= \boxed{18}
 $$
 
 > [!TIP]
@@ -1554,7 +1555,11 @@ $$
 \end{aligned}
 $$
 
-$\det(A) = \boxed{-26}$
+$$
+\begin{aligned}
+\det(A) = \boxed{-26}
+\end{aligned}
+$$
 
 
 > [!NOTE]
@@ -2315,6 +2320,7 @@ print(np.linalg.matrix_rank(U))   # 3  3 = 2    3 filas independientes, invertib
 - $P$ es $3 \times 3$ y su rango es $3 = n$: invertible (de hecho, $\det(P) = 18$).
 - $S$ es $3 \times 3$ y su rango es $2 < 3$: **singular**, coherente con $\det(S) = 0$.
 - $U$ es triangular principsl superior con diagonal no nula; su rango es $3 = n$: invertible.
+
 
 
 ---

@@ -283,7 +283,10 @@ $$
 Cada $M_{0j}$ es un determinante $2 \times 2$. Con la matriz del ejemplo:  
 
 $$
-A = \begin{bmatrix} 2 & 0 & 1 \\ 1 & 3 & 2 \\ 1 & 1 & 4 \end{bmatrix}
+A = \begin{bmatrix} 
+2 & 0 & 1 \\  
+1 & 3 & 2 \\  
+1 & 1 & 4 \end{bmatrix}
 $$
 
 
@@ -346,7 +349,9 @@ M_02    =       [1 3]
 Sustituyendo en la fórmula (con los signos $+,-,+$ de la fila 0):  
 
 $$
-\det(A) = 2\cdot(10) - 0\cdot(2) + 1\cdot(-2) = 20 - 0 - 2 = \boxed{18}
+\det(A) = 2\cdot(10) - 0\cdot(2) + 1\cdot(-2) \\
+= 20 - 0 - 2 \\ 
+= \boxed{18}
 $$
 
 > [!TIP]
@@ -480,7 +485,11 @@ $$
 \end{aligned}
 $$
 
-$\det(A) = \boxed{-26}$
+$$
+\begin{aligned}
+\det(A) = \boxed{-26}
+\end{aligned}
+$$
 
 
 > [!NOTE]
