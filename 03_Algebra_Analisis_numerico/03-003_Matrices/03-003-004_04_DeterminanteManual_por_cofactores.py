@@ -10,9 +10,11 @@ U = np.array([ [2, 1, 3], [0, 4, 1], [0, 0, 5] ])
 
 
 M = np.array([[10, 2, 3], [4, 5, 6]])
+M_original = M.copy()
 
 print(M)
 M = np.vstack( ( M, np.ones(3, dtype=int) ) )
+M_vstack_bien = M.copy()
 print(M)
 M = np.vstack( ( M, np.zeros(3, dtype=int) ) )
 print(M)
@@ -51,8 +53,8 @@ class DeterminanteManual:
 
             if n == 2:    
 
-                return matriz[1, 1] * matriz[0, 1] - matriz[1, 0] * matriz[1, 0]
-                # ab cd ad cb
+                return matriz[0, 0] * matriz[1, 1] - matriz[0, 1] * matriz[1, 0]
+                # ab cd ad cb - ad -bc
             
 
             total = 0
@@ -71,4 +73,5 @@ print(DeterminanteManual.calcular(A))
 print(DeterminanteManual.calcular(P))
 print(DeterminanteManual.calcular(S))
 print(DeterminanteManual.calcular(U))
-print(DeterminanteManual.calcular(M))
+print(DeterminanteManual.calcular(M_vstack_bien))
+print(DeterminanteManual.calcular(M_original))

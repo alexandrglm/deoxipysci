@@ -215,10 +215,10 @@ print(columna_preservada.ndim)   # 2
 Matemáticamente, son objetos distintos:  
 
 $$
-\begin{pmatrix} 20 & 50 \end{pmatrix}
-\ \text{o simplemente}\ (20, 50)
-\qquad \text{frente a} \qquad
-\begin{pmatrix} 20 \\ 50 \end{pmatrix}
+\underbrace{\begin{pmatrix} 20 & 50 \end{pmatrix}}_{\text{vector fila}}
+\ \equiv\ (20, 50)
+\qquad\text{frente a}\qquad
+\underbrace{\begin{pmatrix} 20 \\ 50 \end{pmatrix}}_{\text{vector columna}}
 $$
 
 - El primero es un vector de dos componentes (`shape` `(2,)`)  
@@ -249,7 +249,6 @@ $$
 
 
 ---
-
 
 
 
@@ -308,6 +307,7 @@ print(A * B)
 > [!NOTE]
 > Para `A + B` y `A - B`, ambas matrices deben tener la **misma forma**.  
 > Más adelante veremos que NumPy también admite algunas combinaciones de formas distintas (*broadcasting*).
+
 
 
 
@@ -428,10 +428,11 @@ Si $A$ tiene forma $(m, n)$ y $B$ tiene forma $(n, p)$, el resultado $C$ tiene f
 #### 3.2.3.3.   La fórmula
 
 $$
-C = AB
-\qquad
-c_{ij} = \sum_{k=1}^{n} a_{ik} \, b_{kj}
-= a_{i1} b_{1j} + a_{i2} b_{2j} + \cdots + a_{in} b_{nj}
+\begin{aligned}
+C &= AB \\[4pt]
+c_{ij} &= \sum_{k=1}^{n} a_{ik} \, b_{kj} \\[4pt]
+&= a_{i1} b_{1j} + a_{i2} b_{2j} + \cdots + a_{in} b_{nj}
+\end{aligned}
 $$
 
 Es decir, $c_{ij}$ es el producto escalar de la **fila $i$** de $A$ con la **columna $j$** de $B$.  
@@ -451,14 +452,21 @@ C_ij = sum( A[i, k] * B[k, j] for k in range(A.shape[1]) )
 
 ##### 3.2.3.3.1.    Caso $n = 2$ (índices de Python)
 
-Cuando $A$ tiene 2 columnas y $B$ tiene 2 filas, cada celda tiene **dos productos**:  
+Cuando $A$ tiene 2 columnas y $B$ tiene 2 filas, la fórmula general se particulariza a **dos producto** (dos productos por celda):  
 
 $$
-C[i, j] = A[i, 0] \cdot B[0, j] + A[i, 1] \cdot B[1, j]
+\begin{aligned}
+c_{ij} &= \sum_{k=1}^{n} a_{ik} \, b_{kj} \\
+C[i, j] &= A[i, 0] \cdot B[0, j] + A[i, 1] \cdot B[1, j]
+\end{aligned}
 $$
 
-- Los dos productos de una celda comparten la **misma $i$** (fila de $A$) y la **misma $j$** (columna de $B$).  
-- Lo único que cambia entre ellos es el **índice del medio**, `0` y `1`.  
+- Los dos productos de una celda comparten la **misma $i$** (fila de $A$) y la **misma $j$** (columna de $B$).
+- Lo único que cambia entre ellos es el **índice del medio**, `0` y `1` (que en la fórmula general es $k$).
+
+> [!TIP]
+> En notación de índices de Python, $C[i, j] = c_{ij}$, con índices desde $0$. Es la misma fórmula de arriba, escrita con corchetes en vez de subíndices.
+
 
 ***
 
@@ -503,24 +511,6 @@ $$
 - **ROJO:** la fila de $A$ que interviene y su fila en $C$
 - **NARANJA:** la columna de $B$ que interviene y su columna en $C$
 - **VERDE:** la celda de $C$, en el **cruce** de ambas
-
-El mismo resultado, en consola:  
-
-```text
-A (2×2)          B (2×2)
-                  col 0  col 1
-                    5   [  6  ]
-                    7   [  8  ]
-───────────────┼───────────────
-[  1  ][  2  ] │   19   « 22  »  ← fila 0
-   3      4    │   43     50     ← fila 1
-                 C (2×2)
-
-[ ] fila 0 de A y columna 1 de B   « » celda C[0, 1]
-```
-
-> [!TIP]
-> Para saber qué calcula una celda de $C$, **sigue su fila hacia la izquierda** (hasta $A$) y **su columna hacia arriba** (hasta $B$). Esos dos vectores son los que se multiplican.
 
 
 
@@ -582,6 +572,12 @@ $$
 
 - Cada celda es un producto escalar de **2 elementos** (porque $n = 2$)
 
+$$
+(m, \underbrace{n}_{2}) \ @ \ (\underbrace{n}_{2}, p) \ = \ (m, p)
+\qquad\Longrightarrow\qquad
+(3, \underbrace{2}) \ @ \ (\underbrace{2}, 3) \ = \ (3, 3)
+$$
+
 ```text
   (3, 2)  @  (2, 3)  =  (3, 3)
       └───────┘
@@ -602,29 +598,27 @@ $$
 Una celda en detalle, `C[1, 2]`: la **fila 1 de $A$** con la **columna 2 de $B$**:  
 
 $$
-\underbrace{(3, \; 4)}_{\text{fila 1 de } A}
+C[1, 2] =
+\underbrace{(3, 4)}_{\text{fila 1 de } A}
 \cdot
-\underbrace{(30, \; 60)}_{\text{columna 2 de } B}
+\underbrace{(30, 60)}_{\text{columna 2 de } B}
 = 3 \cdot 30 + 4 \cdot 60 = 90 + 240 = \boxed{330}
 $$
 
 ![Esquema de Falk para C[1, 2] = 3*30 + 4*60 = 330](./img/03-003_multiplicacion.png)
 
-```text
-A (3×2)          B (2×3)
-                  col 0  col 1  col 2
-                   10     20   [ 30  ]
-                   40     50   [ 60  ]
-───────────────┼──────────────────────
-   1      2    │   90     120    150    ← fila 0
-[  3  ][  4  ] │   190    260  « 330 »  ← fila 1
-   5      6    │   290    400    510    ← fila 2
-                 C (3×3)
-
-[ ] fila 1 de A y columna 2 de B   « » celda C[1, 2]
-```
 
 ##### 3.2.3.5.1  Las nueve celdas
+
+$$
+C = AB =
+\begin{pmatrix}
+90 & 120 & 150 \\
+190 & 260 & 330 \\
+290 & 400 & 510
+\end{pmatrix}
+$$
+
 
 | Celda     | Fila de $A$ | Columna de $B$ | Cálculo                   | Resultado |
 | --------- | ----------- | -------------- | ------------------------- | --------- |
@@ -638,14 +632,7 @@ A (3×2)          B (2×3)
 | `C[2, 1]` | `[5, 6]`    | `[20, 50]`     | $5 \cdot 20 + 6 \cdot 50$ | $400$     |
 | `C[2, 2]` | `[5, 6]`    | `[30, 60]`     | $5 \cdot 30 + 6 \cdot 60$ | $510$     |
 
-$$
-C = AB =
-\begin{pmatrix}
-90 & 120 & 150 \\
-190 & 260 & 330 \\
-290 & 400 & 510
-\end{pmatrix}
-$$
+
 
 ***
 
@@ -696,18 +683,23 @@ print(B.shape, B.shape)  # (2, 3) (2, 3)
 ```
 
 > [!WARNING]
-> **El orden importa.** Con las mismas matrices, `B @ A` sí es posible, pero es **otra operación** y da una matriz de **forma distinta**:
->
-> ```python
-> print((A @ B).shape)  # (3, 3)
-> print((B @ A).shape)  # (2, 2)
-> print(B @ A)
-> # [[220 280]
-> #  [490 640]]
-> ```
->
-> En general, la multiplicación matricial **no es conmutativa**: 
->   - `A @ B` y `B @ A` pueden dar resultados distintos, o incluso uno de ellos no existir.
+> **El orden importa.**  
+> Con las mismas matrices, `B @ A` sí es posible, pero es **otra operación** y da una matriz de **forma distinta**:
+
+```python
+print((A @ B).shape)  # (3, 3)
+print((B @ A).shape)  # (2, 2)
+
+print(B @ A)
+
+"""
+[[220 280]
+ [490 640]]
+"""
+```
+
+- En general, la multiplicación matricial **no es conmutativa**: 
+    * `A @ B` y `B @ A` pueden dar resultados distintos, o incluso uno de ellos no existir.
 
 > [!TIP]
 > Comprueba siempre las formas con `.shape` antes de multiplicar. Es la forma más rápida de encontrar un error de compatibilidad.
@@ -716,11 +708,8 @@ print(B.shape, B.shape)  # (2, 3) (2, 3)
 ---
 
 
-# 03-003:   Matrices
 
-***
-
-## 3.3.   Transpuesta de una matriz (Transposición de series)
+## 3.3.   Traspuesta de una matriz (Trasposición de series)
 
 La **traspuesta** de una matriz **intercambia sus filas por columnas**.  
 
@@ -732,31 +721,33 @@ Por ejemplo, si tenemos una matriz de 2 filas y 3 columnas:
 $$
 A =
 \begin{pmatrix}
-1 & 2 & 3 \\
-4 & 5 & 6
+\boxed{1} & \boxed{2} & \boxed{3} \\
+\mathbf{4} & \mathbf{5} & \mathbf{6}
 \end{pmatrix}
 $$
 
-Su traspuesta seŕa:  
+Su traspuesta será:  
 
 $$
 A^T =
 \begin{pmatrix}
-1 & 4 \\
-2 & 5 \\
-3 & 6
+\boxed{1} & \mathbf{4} \\
+\boxed{2} & \mathbf{5} \\
+\boxed{3} & \mathbf{6}
 \end{pmatrix}
 $$
 
-```text
-A (2×3)                 Aᵀ (3×2)
 
-[1  2  3]  ← fila 0     [1  4]
-[4  5  6]  ← fila 1     [2  5]
-                        [3  6]
-                         ↑   ↑
-                    col 0   col 1
+```text
+A (2×3)                    Aᵀ (3×2)
+
+[1  2  3]  ← fila 0        [1  4]
+[4  5  6]  ← fila 1   ──▶  [2  5]
+                           [3  6]
+                            ↑   ↑
+                       col 0   col 1
 ```
+
 
 - La **fila 0** de $A$ `[1, 2, 3]` pasa a ser la **columna 0** de $A^T$  
 - La **fila 1** de $A$ `[4, 5, 6]` pasa a ser la **columna 1** de $A^T$  
@@ -765,9 +756,29 @@ Elemento a elemento, componente a componente, **los dos índices se intercambian
 
 $$
 (A^T)_{ij} = a_{ji}
+\qquad
+\begin{cases}
+i = \text{fila} \\
+j = \text{columna}
+\end{cases}
 $$
 
 Por ejemplo, el elemento de la fila 0 y columna 2 de $A$ (un `3`) acaba en la fila 2 y columna 0 de $A^T$.
+
+$$
+A =
+\begin{pmatrix}
+\boxed{1} & \boxed{2} & \boxed{3} \\
+4 & 5 & 6
+\end{pmatrix}
+\qquad\Longrightarrow\qquad
+A^T =
+\begin{pmatrix}
+\boxed{1} & 4 \\
+\boxed{2} & 5 \\
+\boxed{3} & 6
+\end{pmatrix}
+$$
 
 > [!NOTE]
 > Si $A$ tiene forma $(m, n)$, entonces $A^T$ tiene forma $(n, m)$:  
@@ -819,6 +830,11 @@ Las matemáticas y las formas de las matrices no permiten otra combinación. Vam
             - **Las dimensiones internas no coinciden** (y Python lanzará un `ValueError`)  
 
 ```python
+A = np.array([
+    [1, 2, 3],
+    [4, 5, 6]
+])
+
 B = np.array([
     [1, 2],
     [3, 4],
@@ -838,9 +854,14 @@ La diagonal principal de una matriz, se considera:
 En la traspuesta de matrices, **una propiedad impresionante** radica en que **la diagonal principal nunca se modificará**.  
 
 > [!IMPORTANT]
-> Aunque, contraintuitivamente, parece que la propiedad de diagonal principal no vaya a cumplirse en matrices que NO son simétricas, en realidad:    
->   1. **siempre va a existir una diagonal principal en cualquier tipo de matriz** sean o no simétricas  
+> Aunque, contraintuitivamente, parece que la propiedad de diagonal principal no vaya a cumplirse en matrices que NO son ~~simétricas~~ cuadradas, en realidad:    
+>   1. **Siempre va a existir una diagonal principal en cualquier tipo de matriz** sean o no ~~simétricas~~  
 >   2. En consecencia, **siempre va a poder comprobarse la diagonal en la traspuesta frente a su original**  
+
+> [!TIP]
+> Para no confundir términos, una matriz cuadrada y una matriz simétrica **no son lo mismo**:  
+>   - Una matriz cuadrada es aquella de tipo $(n , n)$, mismo número componentes en filas que columnas, independienteme del valor de estas  
+>   - Una matriz simétrica es aquella que es idéntica a su traspuesta, $(A = A^T)$ y que, por ende, es cuadrada  
 
 
 Consideremos la siguiente matriz:  
@@ -874,16 +895,18 @@ $$
 - DIAGONAL PRINCIPAL de la traspuesta SIGUE SIENDO:   $1$, $5$, $9$  
 
 > [!IMPORTANT]
-> La regla es:    $(A^T)\_{ij}=A\_{ji}$  
->   - Los elementos de la diagonal principal no se desplazan, **mantienen sus posiciones y valores**
->   - Los elementos que están fuera de la diagonal intercambian sus posiciones de manera simétricas:
->       * Por ejemplo, el $6$ que estaba en `A[1,0]` pasa a `A.T[0,1]`
->   - 
+> La regla es: $(A^T)_{ij} = A_{ji}$  
+>  
+>   - Los elementos de la diagonal principal **no se desplazan**: mantienen sus posiciones y valores
+>   - Los elementos fuera de la diagonal **intercambian sus posiciones de forma simétrica**:
+>       * Por ejemplo, el $4$ que estaba en `A[1, 0]` pasa a `A.T[0, 1]`
+>       * Y el $2$ que estaba en `A[0, 1]` pasa a `A.T[1, 0]`
 
 ---
 
 
-### 3.3.2    Transpuesta en NumPy
+
+### 3.3.2    Traspuesta en NumPy
 
 En NumPy utilizamos `matriz.T` (atributo, como atajo) o `np.transpose(matriz)` (como método), siendo y haciendo exáctamewnte lo mismo:  
 
@@ -908,7 +931,7 @@ print(A.T[2, 0])  # 3: los índices se intercambian
 > [!IMPORTANT]
 > Una vez más, la traspuesta **no invierte los valores ni los ordena al revés**:  
 >  
->   - Unicamente **intercambia los ejes** de filas y columnas
+>   - Únicamente **intercambia los ejes** de filas y columnas
 
 #### 3.3.2.1    Comprobación de la Diagonal Principal, `np.diag()`
 
@@ -933,14 +956,14 @@ print(np.diag(A_traspuesta))
 #### 3.3.2.2      Vista de la traspuesta VS Copia de la traspuesta
 
 > [!WARNING]
-> `matriz.T` / `np.transpose(matriz) **NO crean una copia en memoria**:  
->   - Solo hace una **vista preliminar** de los mismos datos con los ejes intercambiados  
+> `matriz.T` / `np.transpose(matriz)` **NO crean una copia en memoria**:  
+>   - Solo hace una **vista "preliminar"** de los mismos datos con los ejes intercambiados  
 >   - No duplican los datos. Solo devuelven una **vista (*view*)**  
->   - Es decir, el mismo bloque de datos original pero "visto desde otro ángulo" con los ejes intercambiados ( lo que, en modelos de datos gigantes ahorra muchísima memoria)  
+>   - Es decir, el mismo bloque de datos original pero "visto desde otro ángulo" con los ejes intercambiados ( lo que, en mgrandes modelos de datos, ahorra muchísima memoria)  
 >   
 >  Como comparten memoria, **si modificas un valor en `matriz.T`, se modifica automáticamente en la matriz inicial.**   
 > 
->  **Para romper esa conexión, obtener una copia independiente en nueva variable, se utiliza el legacy .copy():  
+>  **Para romper esa conexión, obtener una copia independiente en nueva variable, se utiliza el método .copy()**:  
 >   - `matriz.T.copy()`  
 >   - `np.transpose(matriz).copy()` 
 
@@ -951,7 +974,7 @@ print(np.diag(A_traspuesta))
 > En un **array de un solo eje** (un vector 1D como `[1, 2, 3]`), `.T` **no hará nada**:  
 >   * Porque un array 1D **solo tiene una dimensión (un eje)**.  
 
-No hay "filas" ni "columnas", solo una secuencia plana de números. Transponer una línea recta la deja exactamente igual. Su forma sigue siendo `(3,)`.  
+No hay "filas" ni "columnas", solo una secuencia plana de números. Trasponer una línea recta la deja exactamente igual. Su forma sigue siendo `(3,)`.  
 
 Para convertir un vector plano en una matriz real (de columna o de fila), necesitamos **obligatoriamente añadirle un segundo eje** usando `.reshape(x, y)`.  
 
@@ -972,7 +995,7 @@ print(v.reshape(1, 3).shape)     # (1, 3)  <- 1 fila, 3 columnas
 #### 3.3.2.4    `.reshape(x, y)` - `.copy()` - `np.shares_memory(A, B)`
 
 > [!IMPORTANT]
-> `.reshape()`, como '.T',  también funciona en modo Vista ... **siempre que no haya otra opción que crear un nuevo objeto!**:_  
+> `.reshape()`, como `.T`,  también funciona en modo Vista ... **siempre que no haya otra opción que crear un nuevo objeto!**:  
 
 > [!TIP]
 > La regla para entender como funcionará un `.reshape()`:  
@@ -984,13 +1007,13 @@ print(v.reshape(1, 3).shape)     # (1, 3)  <- 1 fila, 3 columnas
     - Si el array está ordenado de forma contigua en la memoria (como un array recién creado), `.reshape()` **no duplica los datos**. Te devuelve una **vista** con otra forma, lo que significa que **comparte memoria** y modificar un valor puede afectar al original.  
 
 * 2. **La trampa (A veces se convierte en una COPIA):**   
-    - Si el array original no es contiguo en memoria (por ejemplo, porque viene de hacerle un corte o una trasposición previa no contigua), NumPy **necesita copiar los datos a un nuevo espacio de memoria** para poder darle la nueva form y ... en ese caso, `.reshape()` devuelve una **copia independiente**.  
+    - Si el array original no es contiguo en memoria (por ejemplo, porque viene de hacerle un corte o una trasposición previa no contigua), NumPy **necesita copiar los datos a un nuevo espacio de memoria** para poder darle la nueva forma y ... en ese caso, `.reshape()` devuelve una **copia independiente**.  
 
 * 3. **Ante la duda, `np.shares_memory()`:**  
     - NumPy tiene una función propia llamada **`np.shares_memory()`** para salir de dudas al instante.
 
 * 4. **... y ante la necesidad, `.copy()`:**  
-    - Si es necesario hacer que el `.reshape()` sea n objeto totalmente independiente en memoria y no vaya a alterar el original bajo ninguna circunstancia, volvemos a usar el conocido legacy `.copy()`.
+    - Si es necesario hacer que el `.reshape()` sea un objeto totalmente independiente en memoria y no vaya a alterar el original bajo ninguna circunstancia, volvemos a usar el conocido legacy `.copy()`.
 
 ```python
 a = np.array([1, 2, 3, 4, 5, 6])
@@ -1012,6 +1035,7 @@ print(a)
 
 # COPY ANTE LA DUDA
 A_reshape_independiente = a.reshape(3, 2).copy()
+print(np.shares_memory(a, A_reshape_independiente)) # False -> Nuevo objeto copiado
 ```
 
 
@@ -1040,14 +1064,14 @@ print(v.reshape(-1, 1).T.shape)  # (1, 3) ... Si a la columna reshapeada le apli
 
 ```
 
-##### 3.3.2.4.2.    ¿Por qué necesito comprender y usar `.reshape()?
+##### 3.3.2.4.2.    ¿Por qué necesito comprender y trasponer matrices?
 
-* 1.    **Cambiar la orientación de los datos:** 
+1.  **Cambiar la orientación de los datos:** 
     - Pasar de datos organizados por filas a organizados por columnas, y al revés.
 
-* 2.    **Hacer compatibles las formas** en una multiplicación matricial
+2.  **Hacer compatibles las formas** en una multiplicación matricial
 
-* 3.    **En álgebra lineal y ML:** 
+3.  **En álgebra lineal y ML:** 
     - Transformar representaciones matriciales
 
     
@@ -1070,7 +1094,11 @@ print((A @ A.T).shape)     # (2, 2)
 
 Las formas encajan porque `A.T` tiene `3` filas, igual que las `3` columnas de `A`: $(2, 3) @ (3, 2) = (2, 2)$.
 
+
+
 ---
+
+
 
 ## 3.4.     Determinante de una matriz
 
@@ -1092,7 +1120,7 @@ El determinante condensa en un solo número información muy importante sobre la
 
 ***
 
-### 3.4.1.1 ¿Por qué necesito comprender, resolver y usar la determinante de una matriz?  
+### 3.4.1.1 ¿Por qué necesito comprender, resolver y usar el determinante de una matriz?  
 
 * 1. **Saber si una matriz tiene inversa**
     - $A$ es invertible $\iff \det(A) \neq 0$ (ver 3.4.6)
@@ -1419,9 +1447,11 @@ M_02    =       [1 3]
 Sustituyendo en la fórmula (con los signos $+,-,+$ de la fila 0):  
 
 $$
-\det(A) = 2\cdot(10) - 0\cdot(2) + 1\cdot(-2) \\
-= 20 - 0 - 2 \\ 
-= \boxed{18}
+\begin{aligned}
+\det(A) &= 2\cdot(10) - 0\cdot(2) + 1\cdot(-2) \\
+&= 20 - 0 - 2 \\
+&= \boxed{18}
+\end{aligned}
 $$
 
 > [!TIP]
@@ -1710,14 +1740,14 @@ $$
     - Con signo $(-1)^{\lfloor 3/2 \rfloor} = (-1)^1 = -1$  
         * $$\det(U_s) = -60$$
 
-3. Para $L_s$:  
+2. Para $L_s$:  
     - La diagonal secundaria es $(3, 5, 6)$
     - Producto $3 \cdot 5 \cdot 6 = 90$
     - Con el mismo signo
         * $$\det(L_s) = -90$$
 
 > [!NOTE]
-> **¿Por qué el signo depende solo de la permutación de $n$?** 
+> **¿Por qué el signo depende solo del tamaño de $n$?** 
 >   
 >   - Una vez más... porque, para llevar una triangular secundaria a triangular principal, hay que invertir el orden de las filas (o de las columnas)  
 >   - Invertir $n$ elementos requiere $\lfloor n/2 \rfloor$ intercambios, y cada intercambio multiplica el determinante por $-1$. De ahí $(-1)^{\lfloor n/2 \rfloor}$  
@@ -1747,7 +1777,7 @@ Determinante = Producto diagonal Principal      Determinante =  Producto Diagona
 
 ***
 
-### 3.4.5. Propiedades básicas de la determinante de una matriz
+### 3.4.5. Propiedades básicas del determinante de una matriz
 
 | Propiedad                                   | Fórmula                                    |
 | ------------------------------------------- | ------------------------------------------ |
@@ -1781,7 +1811,7 @@ Determinante = Producto diagonal Principal      Determinante =  Producto Diagona
 Un determinante cero indica que **las filas (o columnas) son dependientes**:  
 
 -   Alguna se puede obtener combinando las demás  
--   Geométricamente, el paralelogramo (o el volumen en $3 \times 3$) **se aplasta/colapsa**. y su área se vuelve cero
+-   Geométricamente, el paralelogramo (o el volumen en $3 \times 3$) **se aplasta/colapsa**, y su área se vuelve cero
 -   **NO tiene inversa**
 
 | $\det(A)$            | La matriz es ..                    | Consecuencia                                      |
@@ -1803,8 +1833,8 @@ S =
 $$
 
 La tercera fila se obtiene a partir de las otras dos:  
-    - $2 \cdot (4, 5, 6) - (1, 2, 3) = (7, 8, 9)$
-    - Por tanto, $\det(S) = 0$ ... la matriz es **singular**
+    - $2 \cdot (4, 5, 6) - (1, 2, 3) = (7, 8, 9)$  
+    - Por tanto, $\det(S) = 0$  (la matriz SI es **singular**)  
 
 > [!IMPORTANT]
 > Para una matriz cuadrada $A$, un sistema $A\mathbf{x} = \mathbf{b}$ tiene **solución única** si y solo si $\det(A) \neq 0$.
@@ -1824,7 +1854,7 @@ La tercera fila se obtiene a partir de las otras dos:
 >       * Con una **matriz 2D**, **extrae** su diagonal principal como vector 1D  
 >       * Con un **vector 1D**, **construye** una matriz diagonal a partir de él  
 >   
-> - `np.isclose(a, b)`: *compara dos números de manera fiable (no como con `==`)**  
+> - `np.isclose(a, b)`: *compara dos números de manera fiable (no como con `==`)*  
 >       * Devuelve `True` si están "suficientemente cerca"  
 >       * Necesario porque los cálculos floats (casi) nunca dan el valor exacto  
 
@@ -1879,13 +1909,13 @@ print(np.isclose(d, 0))  # True
 ```
 
 > [!TIP]
-> Existen varios enfoques para portar los valores en notación ciéntifica (que ocurrirá siempre con las matrizes singulares, determinantes cero) a valores visualmente asimilados:  
+> Existen varios enfoques para portar los valores en notación ciéntifica (que ocurrirá siempre con las matrices singulares, determinantes cero) a valores visualmente asimilados:  
 >   1. El primero, adaptarse a usar notación científica. Un `6.66133814775094e-16` ya te está hablando de la tolerancia, diciendo que tiene muuuuchos ceros por delante en los decimales (`0.00000000000000000066133814...`, $10^{-16}$ ), viendo que **APARENTEMENTE es una singular, determinante cero** (aparentemente ...).  
 >   2. Redondear con `round(determinante, decimales)`
->   3. Configurar NumPy nada más importarlo para que muestre los componentes de arrays tal y como tú le indiques, `np.set_printoptions(suppress=True, precision=4)` ... y, después, mostrando la determinante dentro de un array, `np.array( np.linalg(matriz) )`
+>   3. Configurar NumPy nada más importarlo para que muestre los componentes de arrays tal y como tú le indiques, `np.set_printoptions(suppress=True, precision=4)` ... y, después, mostrando el determinante dentro de un array, `np.array( np.linalg.det(matriz) )`
 >   4. Interpolar string siempre que NO necesites usar el valor numérico después,  `f"{determinante:.xf}"` (usando x como decimales deseados)
 >  
-> **Lo más adecuado es adaptarse a la notación científica; a efectos de la determinante de una matriz no es primordial extraer el valor exacto si sabes que es singular - cero - cerana a cero** (o sí, como veremos más adelante, usamos otros métodos para determinar la singularidad, o no, de una matriz).  
+> **Lo más adecuado es adaptarse a la notación científica; a efectos de el determinante de una matriz no es primordial extraer el valor exacto si sabes que es singular - cero - cerana a cero** (o sí, como veremos más adelante, usamos otros métodos para determinar la singularidad, o no, de una matriz).  
 
 
 > [!WARNING]
@@ -1932,11 +1962,11 @@ g, h, i = P[2]
 positivos = a * e * i + b * f * g + c * d * h  # 25
 negativos = c * e * g + a * f * h + b * d * i  # 7
 
-det_sarrus = positivos - negativos
+determinante_sarrus = positivos - negativos
 
-print(det_sarrus)                # 18
+print(determinante_sarrus)                # 18
 print(np.linalg.det(P))          # 17.999999999999996
-print(np.isclose(det_sarrus, np.linalg.det(P)))  # True
+print(np.isclose(determinante_sarrus, np.linalg.det(P)))  # True
 
 # Para visualizar en Python la fórmula matemática exacta real, aunque sea dar un paso más
 aei = a * e * i
@@ -2167,7 +2197,7 @@ class DeterminanteManual:
             return matriz[0, 0]
         
         if n == 2:
-            return ( matriz[0, 0] * matriz[1, 1] ) - ( matriz[0, 1] * matriz[1, 0] )
+            return matriz[0, 0] * matriz[1, 1] - matriz[0, 1] * matriz[1, 0]
 
         total = 0
 
@@ -2190,6 +2220,8 @@ U = np.array([ [2, 1, 3], [0, 4, 1], [0, 0, 5] ])
 
 
 M = np.array([[10, 2, 3], [4, 5, 6]])
+M_original = M.copy()
+
 
 print(M)
 M = np.vstack( ( M, np.ones(3, dtype=int) ) )
@@ -2204,11 +2236,12 @@ print(M)
 
 
 
-print(DeterminanteManual.calcular(A))  # -1
-print(DeterminanteManual.calcular(P))  # 16
-print(DeterminanteManual.calcular(S))  # -47  (exactamente, sin error de redondeo)
-print(DeterminanteManual.calcular(U))  # 5
-print(DeterminanteManual.calcular(M))  # La salvaguarda explítica de matriz cuadrada salta "No es viable, la matriz NO es cuadrada!"
+print(DeterminanteManual.calcular(A))  # -2
+print(DeterminanteManual.calcular(P))  # 18
+print(DeterminanteManual.calcular(S))  # 0  (exactamente, sin error de redondeo)
+print(DeterminanteManual.calcular(U))  # 40
+print(DeterminanteManual.calcular(M))  # -9
+print(DeterminanteManual.calcular(M_original))  # La salvaguarda explítica de matriz cuadrada salta "No es viable, la matriz NO es cuadrada!"
 ```
 
 > [!IMPORTANT]
@@ -2284,7 +2317,7 @@ print(np.linalg.matrix_rank(matriz_componentes_tolerancia))  # 3  , Por lo que e
     - **Es una comparación engañosa**
 
 - `atol=1e-15` (o inferior) **lo arregla**: 
-    - En este caso con $1 \times 10^{-15}$... **al ser igual o estar aún más por debajo que el determinante, nos hace la comparación más correcta**  
+    - En este caso con $1 \times 10^{-15}$... **al estar en el mismo orden de magnitud (o aún más por debajo) que el determinante, nos hace la comparación más correcta**  
     - Es decir, ajustar la tolerancia absoluta por encima $10^{+t}$ (o debajo para $10^{-t}$) afina para que la comparación no sea engañosa
     
 - `rtol=1e-5`, aunque no estamos usando la tolerancia relativa, recordamos que este ajuste, que se basa en B, permite aumentar la afinación cuando la tolerancia absoluta es demasiado "rígida".
@@ -2313,13 +2346,16 @@ U = np.array([[2, 1, 3], [0, 4, 1], [0, 0, 5]])
 print(np.linalg.matrix_rank(A))   # 2  2 = 2,   2 filas independientes, invertible
 print(np.linalg.matrix_rank(P))   # 3  3 = 3,   3 filas independientes, invertible
 print(np.linalg.matrix_rank(S))   # 2  2 < 3    Es singular! (la 3ª fila es combinación de las otras)
-print(np.linalg.matrix_rank(U))   # 3  3 = 2    3 filas independientes, invertible
+print(np.linalg.matrix_rank(U))   # 3  3 = 3    3 filas independientes, invertible
 ```
 
 - $A$ es $2 \times 2$ y su rango es $2 = n$: invertible.
 - $P$ es $3 \times 3$ y su rango es $3 = n$: invertible (de hecho, $\det(P) = 18$).
 - $S$ es $3 \times 3$ y su rango es $2 < 3$: **singular**, coherente con $\det(S) = 0$.
 - $U$ es triangular principsl superior con diagonal no nula; su rango es $3 = n$: invertible.
+
+
+***
 
 
 

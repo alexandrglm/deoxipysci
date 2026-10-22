@@ -178,10 +178,11 @@ Si $A$ tiene forma $(m, n)$ y $B$ tiene forma $(n, p)$, el resultado $C$ tiene f
 #### 3.2.3.3.   La fórmula
 
 $$
-C = AB
-\qquad
-c_{ij} = \sum_{k=1}^{n} a_{ik} \, b_{kj}
-= a_{i1} b_{1j} + a_{i2} b_{2j} + \cdots + a_{in} b_{nj}
+\begin{aligned}
+C &= AB \\[4pt]
+c_{ij} &= \sum_{k=1}^{n} a_{ik} \, b_{kj} \\[4pt]
+&= a_{i1} b_{1j} + a_{i2} b_{2j} + \cdots + a_{in} b_{nj}
+\end{aligned}
 $$
 
 Es decir, $c_{ij}$ es el producto escalar de la **fila $i$** de $A$ con la **columna $j$** de $B$.  
@@ -201,14 +202,21 @@ C_ij = sum( A[i, k] * B[k, j] for k in range(A.shape[1]) )
 
 ##### 3.2.3.3.1.    Caso $n = 2$ (índices de Python)
 
-Cuando $A$ tiene 2 columnas y $B$ tiene 2 filas, cada celda tiene **dos productos**:  
+Cuando $A$ tiene 2 columnas y $B$ tiene 2 filas, la fórmula general se particulariza a **dos producto** (dos productos por celda):  
 
 $$
-C[i, j] = A[i, 0] \cdot B[0, j] + A[i, 1] \cdot B[1, j]
+\begin{aligned}
+c_{ij} &= \sum_{k=1}^{n} a_{ik} \, b_{kj} \\
+C[i, j] &= A[i, 0] \cdot B[0, j] + A[i, 1] \cdot B[1, j]
+\end{aligned}
 $$
 
-- Los dos productos de una celda comparten la **misma $i$** (fila de $A$) y la **misma $j$** (columna de $B$).  
-- Lo único que cambia entre ellos es el **índice del medio**, `0` y `1`.  
+- Los dos productos de una celda comparten la **misma $i$** (fila de $A$) y la **misma $j$** (columna de $B$).
+- Lo único que cambia entre ellos es el **índice del medio**, `0` y `1` (que en la fórmula general es $k$).
+
+> [!TIP]
+> En notación de índices de Python, $C[i, j] = c_{ij}$, con índices desde $0$. Es la misma fórmula de arriba, escrita con corchetes en vez de subíndices.
+
 
 ***
 
@@ -253,24 +261,6 @@ $$
 - **ROJO:** la fila de $A$ que interviene y su fila en $C$
 - **NARANJA:** la columna de $B$ que interviene y su columna en $C$
 - **VERDE:** la celda de $C$, en el **cruce** de ambas
-
-El mismo resultado, en consola:  
-
-```text
-A (2×2)          B (2×2)
-                  col 0  col 1
-                    5   [  6  ]
-                    7   [  8  ]
-───────────────┼───────────────
-[  1  ][  2  ] │   19   « 22  »  ← fila 0
-   3      4    │   43     50     ← fila 1
-                 C (2×2)
-
-[ ] fila 0 de A y columna 1 de B   « » celda C[0, 1]
-```
-
-> [!TIP]
-> Para saber qué calcula una celda de $C$, **sigue su fila hacia la izquierda** (hasta $A$) y **su columna hacia arriba** (hasta $B$). Esos dos vectores son los que se multiplican.
 
 
 
@@ -332,6 +322,12 @@ $$
 
 - Cada celda es un producto escalar de **2 elementos** (porque $n = 2$)
 
+$$
+(m, \underbrace{n}_{2}) \ @ \ (\underbrace{n}_{2}, p) \ = \ (m, p)
+\qquad\Longrightarrow\qquad
+(3, \underbrace{2}) \ @ \ (\underbrace{2}, 3) \ = \ (3, 3)
+$$
+
 ```text
   (3, 2)  @  (2, 3)  =  (3, 3)
       └───────┘
@@ -352,29 +348,27 @@ $$
 Una celda en detalle, `C[1, 2]`: la **fila 1 de $A$** con la **columna 2 de $B$**:  
 
 $$
-\underbrace{(3, \; 4)}_{\text{fila 1 de } A}
+C[1, 2] =
+\underbrace{(3, 4)}_{\text{fila 1 de } A}
 \cdot
-\underbrace{(30, \; 60)}_{\text{columna 2 de } B}
+\underbrace{(30, 60)}_{\text{columna 2 de } B}
 = 3 \cdot 30 + 4 \cdot 60 = 90 + 240 = \boxed{330}
 $$
 
 ![Esquema de Falk para C[1, 2] = 3*30 + 4*60 = 330](./img/03-003_multiplicacion.png)
 
-```text
-A (3×2)          B (2×3)
-                  col 0  col 1  col 2
-                   10     20   [ 30  ]
-                   40     50   [ 60  ]
-───────────────┼──────────────────────
-   1      2    │   90     120    150    ← fila 0
-[  3  ][  4  ] │   190    260  « 330 »  ← fila 1
-   5      6    │   290    400    510    ← fila 2
-                 C (3×3)
-
-[ ] fila 1 de A y columna 2 de B   « » celda C[1, 2]
-```
 
 ##### 3.2.3.5.1  Las nueve celdas
+
+$$
+C = AB =
+\begin{pmatrix}
+90 & 120 & 150 \\
+190 & 260 & 330 \\
+290 & 400 & 510
+\end{pmatrix}
+$$
+
 
 | Celda     | Fila de $A$ | Columna de $B$ | Cálculo                   | Resultado |
 | --------- | ----------- | -------------- | ------------------------- | --------- |
@@ -388,14 +382,7 @@ A (3×2)          B (2×3)
 | `C[2, 1]` | `[5, 6]`    | `[20, 50]`     | $5 \cdot 20 + 6 \cdot 50$ | $400$     |
 | `C[2, 2]` | `[5, 6]`    | `[30, 60]`     | $5 \cdot 30 + 6 \cdot 60$ | $510$     |
 
-$$
-C = AB =
-\begin{pmatrix}
-90 & 120 & 150 \\
-190 & 260 & 330 \\
-290 & 400 & 510
-\end{pmatrix}
-$$
+
 
 ***
 
@@ -446,23 +433,23 @@ print(B.shape, B.shape)  # (2, 3) (2, 3)
 ```
 
 > [!WARNING]
-> **El orden importa.** Con las mismas matrices, `B @ A` sí es posible, pero es **otra operación** y da una matriz de **forma distinta**:
->
-> ```python
-> print((A @ B).shape)  # (3, 3)
-> print((B @ A).shape)  # (2, 2)
-> print(B @ A)
-> # [[220 280]
-> #  [490 640]]
-> ```
->
-> En general, la multiplicación matricial **no es conmutativa**: 
->   - `A @ B` y `B @ A` pueden dar resultados distintos, o incluso uno de ellos no existir.
+> **El orden importa.**  
+> Con las mismas matrices, `B @ A` sí es posible, pero es **otra operación** y da una matriz de **forma distinta**:
+
+```python
+print((A @ B).shape)  # (3, 3)
+print((B @ A).shape)  # (2, 2)
+
+print(B @ A)
+
+"""
+[[220 280]
+ [490 640]]
+"""
+```
+
+- En general, la multiplicación matricial **no es conmutativa**: 
+    * `A @ B` y `B @ A` pueden dar resultados distintos, o incluso uno de ellos no existir.
 
 > [!TIP]
 > Comprueba siempre las formas con `.shape` antes de multiplicar. Es la forma más rápida de encontrar un error de compatibilidad.
-
-
----
-
-

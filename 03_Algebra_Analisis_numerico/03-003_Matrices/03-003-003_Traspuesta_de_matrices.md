@@ -14,31 +14,33 @@ Por ejemplo, si tenemos una matriz de 2 filas y 3 columnas:
 $$
 A =
 \begin{pmatrix}
-1 & 2 & 3 \\
-4 & 5 & 6
+\boxed{1} & \boxed{2} & \boxed{3} \\
+\mathbf{4} & \mathbf{5} & \mathbf{6}
 \end{pmatrix}
 $$
 
-Su traspuesta seŕa:  
+Su traspuesta será:  
 
 $$
 A^T =
 \begin{pmatrix}
-1 & 4 \\
-2 & 5 \\
-3 & 6
+\boxed{1} & \mathbf{4} \\
+\boxed{2} & \mathbf{5} \\
+\boxed{3} & \mathbf{6}
 \end{pmatrix}
 $$
 
-```text
-A (2×3)                 Aᵀ (3×2)
 
-[1  2  3]  ← fila 0     [1  4]
-[4  5  6]  ← fila 1     [2  5]
-                        [3  6]
-                         ↑   ↑
-                    col 0   col 1
+```text
+A (2×3)                    Aᵀ (3×2)
+
+[1  2  3]  ← fila 0        [1  4]
+[4  5  6]  ← fila 1   ──▶  [2  5]
+                           [3  6]
+                            ↑   ↑
+                       col 0   col 1
 ```
+
 
 - La **fila 0** de $A$ `[1, 2, 3]` pasa a ser la **columna 0** de $A^T$  
 - La **fila 1** de $A$ `[4, 5, 6]` pasa a ser la **columna 1** de $A^T$  
@@ -47,9 +49,29 @@ Elemento a elemento, componente a componente, **los dos índices se intercambian
 
 $$
 (A^T)_{ij} = a_{ji}
+\qquad
+\begin{cases}
+i = \text{fila} \\
+j = \text{columna}
+\end{cases}
 $$
 
 Por ejemplo, el elemento de la fila 0 y columna 2 de $A$ (un `3`) acaba en la fila 2 y columna 0 de $A^T$.
+
+$$
+A =
+\begin{pmatrix}
+\boxed{1} & \boxed{2} & \boxed{3} \\
+4 & 5 & 6
+\end{pmatrix}
+\qquad\Longrightarrow\qquad
+A^T =
+\begin{pmatrix}
+\boxed{1} & 4 \\
+\boxed{2} & 5 \\
+\boxed{3} & 6
+\end{pmatrix}
+$$
 
 > [!NOTE]
 > Si $A$ tiene forma $(m, n)$, entonces $A^T$ tiene forma $(n, m)$:  
@@ -101,6 +123,11 @@ Las matemáticas y las formas de las matrices no permiten otra combinación. Vam
             - **Las dimensiones internas no coinciden** (y Python lanzará un `ValueError`)  
 
 ```python
+A = np.array([
+    [1, 2, 3],
+    [4, 5, 6]
+])
+
 B = np.array([
     [1, 2],
     [3, 4],
@@ -161,13 +188,15 @@ $$
 - DIAGONAL PRINCIPAL de la traspuesta SIGUE SIENDO:   $1$, $5$, $9$  
 
 > [!IMPORTANT]
-> La regla es:    $(A^T)\_{ij}=A\_{ji}$  
->   - Los elementos de la diagonal principal no se desplazan, **mantienen sus posiciones y valores**
->   - Los elementos que están fuera de la diagonal intercambian sus posiciones de manera simétricas:
->       * Por ejemplo, el $6$ que estaba en `A[1,0]` pasa a `A.T[0,1]`
->   - 
+> La regla es: $(A^T)_{ij} = A_{ji}$  
+>  
+>   - Los elementos de la diagonal principal **no se desplazan**: mantienen sus posiciones y valores
+>   - Los elementos fuera de la diagonal **intercambian sus posiciones de forma simétrica**:
+>       * Por ejemplo, el $4$ que estaba en `A[1, 0]` pasa a `A.T[0, 1]`
+>       * Y el $2$ que estaba en `A[0, 1]` pasa a `A.T[1, 0]`
 
 ---
+
 
 
 ### 3.3.2    Traspuesta en NumPy
@@ -195,7 +224,7 @@ print(A.T[2, 0])  # 3: los índices se intercambian
 > [!IMPORTANT]
 > Una vez más, la traspuesta **no invierte los valores ni los ordena al revés**:  
 >  
->   - Unicamente **intercambia los ejes** de filas y columnas
+>   - Únicamente **intercambia los ejes** de filas y columnas
 
 #### 3.3.2.1    Comprobación de la Diagonal Principal, `np.diag()`
 
@@ -220,14 +249,14 @@ print(np.diag(A_traspuesta))
 #### 3.3.2.2      Vista de la traspuesta VS Copia de la traspuesta
 
 > [!WARNING]
-> `matriz.T` / `np.transpose(matriz) **NO crean una copia en memoria**:  
->   - Solo hace una **vista preliminar** de los mismos datos con los ejes intercambiados  
+> `matriz.T` / `np.transpose(matriz)` **NO crean una copia en memoria**:  
+>   - Solo hace una **vista "preliminar"** de los mismos datos con los ejes intercambiados  
 >   - No duplican los datos. Solo devuelven una **vista (*view*)**  
->   - Es decir, el mismo bloque de datos original pero "visto desde otro ángulo" con los ejes intercambiados ( lo que, en modelos de datos gigantes ahorra muchísima memoria)  
+>   - Es decir, el mismo bloque de datos original pero "visto desde otro ángulo" con los ejes intercambiados ( lo que, en mgrandes modelos de datos, ahorra muchísima memoria)  
 >   
 >  Como comparten memoria, **si modificas un valor en `matriz.T`, se modifica automáticamente en la matriz inicial.**   
 > 
->  **Para romper esa conexión, obtener una copia independiente en nueva variable, se utiliza el legacy .copy():  
+>  **Para romper esa conexión, obtener una copia independiente en nueva variable, se utiliza el método .copy()**:  
 >   - `matriz.T.copy()`  
 >   - `np.transpose(matriz).copy()` 
 
@@ -259,7 +288,7 @@ print(v.reshape(1, 3).shape)     # (1, 3)  <- 1 fila, 3 columnas
 #### 3.3.2.4    `.reshape(x, y)` - `.copy()` - `np.shares_memory(A, B)`
 
 > [!IMPORTANT]
-> `.reshape()`, como '.T',  también funciona en modo Vista ... **siempre que no haya otra opción que crear un nuevo objeto!**:_  
+> `.reshape()`, como `.T`,  también funciona en modo Vista ... **siempre que no haya otra opción que crear un nuevo objeto!**:  
 
 > [!TIP]
 > La regla para entender como funcionará un `.reshape()`:  
@@ -271,13 +300,13 @@ print(v.reshape(1, 3).shape)     # (1, 3)  <- 1 fila, 3 columnas
     - Si el array está ordenado de forma contigua en la memoria (como un array recién creado), `.reshape()` **no duplica los datos**. Te devuelve una **vista** con otra forma, lo que significa que **comparte memoria** y modificar un valor puede afectar al original.  
 
 * 2. **La trampa (A veces se convierte en una COPIA):**   
-    - Si el array original no es contiguo en memoria (por ejemplo, porque viene de hacerle un corte o una trasposición previa no contigua), NumPy **necesita copiar los datos a un nuevo espacio de memoria** para poder darle la nueva form y ... en ese caso, `.reshape()` devuelve una **copia independiente**.  
+    - Si el array original no es contiguo en memoria (por ejemplo, porque viene de hacerle un corte o una trasposición previa no contigua), NumPy **necesita copiar los datos a un nuevo espacio de memoria** para poder darle la nueva forma y ... en ese caso, `.reshape()` devuelve una **copia independiente**.  
 
 * 3. **Ante la duda, `np.shares_memory()`:**  
     - NumPy tiene una función propia llamada **`np.shares_memory()`** para salir de dudas al instante.
 
 * 4. **... y ante la necesidad, `.copy()`:**  
-    - Si es necesario hacer que el `.reshape()` sea n objeto totalmente independiente en memoria y no vaya a alterar el original bajo ninguna circunstancia, volvemos a usar el conocido legacy `.copy()`.
+    - Si es necesario hacer que el `.reshape()` sea un objeto totalmente independiente en memoria y no vaya a alterar el original bajo ninguna circunstancia, volvemos a usar el conocido legacy `.copy()`.
 
 ```python
 a = np.array([1, 2, 3, 4, 5, 6])
@@ -299,6 +328,7 @@ print(a)
 
 # COPY ANTE LA DUDA
 A_reshape_independiente = a.reshape(3, 2).copy()
+print(np.shares_memory(a, A_reshape_independiente)) # False -> Nuevo objeto copiado
 ```
 
 
@@ -329,12 +359,12 @@ print(v.reshape(-1, 1).T.shape)  # (1, 3) ... Si a la columna reshapeada le apli
 
 ##### 3.3.2.4.2.    ¿Por qué necesito comprender y usar `.reshape()?
 
-* 1.    **Cambiar la orientación de los datos:** 
+1.  **Cambiar la orientación de los datos:** 
     - Pasar de datos organizados por filas a organizados por columnas, y al revés.
 
-* 2.    **Hacer compatibles las formas** en una multiplicación matricial
+2.  **Hacer compatibles las formas** en una multiplicación matricial
 
-* 3.    **En álgebra lineal y ML:** 
+3.  **En álgebra lineal y ML:** 
     - Transformar representaciones matriciales
 
     

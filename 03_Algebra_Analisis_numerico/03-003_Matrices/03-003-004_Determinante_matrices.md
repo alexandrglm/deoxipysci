@@ -22,7 +22,7 @@ El determinante condensa en un solo número información muy importante sobre la
 
 ***
 
-### 3.4.1.1 ¿Por qué necesito comprender, resolver y usar la determinante de una matriz?  
+### 3.4.1.1 ¿Por qué necesito comprender, resolver y usar el determinante de una matriz?  
 
 * 1. **Saber si una matriz tiene inversa**
     - $A$ es invertible $\iff \det(A) \neq 0$ (ver 3.4.6)
@@ -349,9 +349,11 @@ M_02    =       [1 3]
 Sustituyendo en la fórmula (con los signos $+,-,+$ de la fila 0):  
 
 $$
-\det(A) = 2\cdot(10) - 0\cdot(2) + 1\cdot(-2) \\
-= 20 - 0 - 2 \\ 
-= \boxed{18}
+\begin{aligned}
+\det(A) &= 2\cdot(10) - 0\cdot(2) + 1\cdot(-2) \\
+&= 20 - 0 - 2 \\
+&= \boxed{18}
+\end{aligned}
 $$
 
 > [!TIP]
@@ -640,14 +642,14 @@ $$
     - Con signo $(-1)^{\lfloor 3/2 \rfloor} = (-1)^1 = -1$  
         * $$\det(U_s) = -60$$
 
-3. Para $L_s$:  
+2. Para $L_s$:  
     - La diagonal secundaria es $(3, 5, 6)$
     - Producto $3 \cdot 5 \cdot 6 = 90$
     - Con el mismo signo
         * $$\det(L_s) = -90$$
 
 > [!NOTE]
-> **¿Por qué el signo depende solo de la permutación de $n$?** 
+> **¿Por qué el signo depende solo del tamaño de $n$?** 
 >   
 >   - Una vez más... porque, para llevar una triangular secundaria a triangular principal, hay que invertir el orden de las filas (o de las columnas)  
 >   - Invertir $n$ elementos requiere $\lfloor n/2 \rfloor$ intercambios, y cada intercambio multiplica el determinante por $-1$. De ahí $(-1)^{\lfloor n/2 \rfloor}$  
@@ -677,7 +679,7 @@ Determinante = Producto diagonal Principal      Determinante =  Producto Diagona
 
 ***
 
-### 3.4.5. Propiedades básicas de la determinante de una matriz
+### 3.4.5. Propiedades básicas del determinante de una matriz
 
 | Propiedad                                   | Fórmula                                    |
 | ------------------------------------------- | ------------------------------------------ |
@@ -711,7 +713,7 @@ Determinante = Producto diagonal Principal      Determinante =  Producto Diagona
 Un determinante cero indica que **las filas (o columnas) son dependientes**:  
 
 -   Alguna se puede obtener combinando las demás  
--   Geométricamente, el paralelogramo (o el volumen en $3 \times 3$) **se aplasta/colapsa**. y su área se vuelve cero
+-   Geométricamente, el paralelogramo (o el volumen en $3 \times 3$) **se aplasta/colapsa**, y su área se vuelve cero
 -   **NO tiene inversa**
 
 | $\det(A)$            | La matriz es ..                    | Consecuencia                                      |
@@ -733,8 +735,8 @@ S =
 $$
 
 La tercera fila se obtiene a partir de las otras dos:  
-    - $2 \cdot (4, 5, 6) - (1, 2, 3) = (7, 8, 9)$
-    - Por tanto, $\det(S) = 0$ ... la matriz es **singular**
+    - $2 \cdot (4, 5, 6) - (1, 2, 3) = (7, 8, 9)$  
+    - Por tanto, $\det(S) = 0$  (la matriz SI es **singular**)  
 
 > [!IMPORTANT]
 > Para una matriz cuadrada $A$, un sistema $A\mathbf{x} = \mathbf{b}$ tiene **solución única** si y solo si $\det(A) \neq 0$.
@@ -754,7 +756,7 @@ La tercera fila se obtiene a partir de las otras dos:
 >       * Con una **matriz 2D**, **extrae** su diagonal principal como vector 1D  
 >       * Con un **vector 1D**, **construye** una matriz diagonal a partir de él  
 >   
-> - `np.isclose(a, b)`: *compara dos números de manera fiable (no como con `==`)**  
+> - `np.isclose(a, b)`: *compara dos números de manera fiable (no como con `==`)*  
 >       * Devuelve `True` si están "suficientemente cerca"  
 >       * Necesario porque los cálculos floats (casi) nunca dan el valor exacto  
 
@@ -809,13 +811,13 @@ print(np.isclose(d, 0))  # True
 ```
 
 > [!TIP]
-> Existen varios enfoques para portar los valores en notación ciéntifica (que ocurrirá siempre con las matrizes singulares, determinantes cero) a valores visualmente asimilados:  
+> Existen varios enfoques para portar los valores en notación ciéntifica (que ocurrirá siempre con las matrices singulares, determinantes cero) a valores visualmente asimilados:  
 >   1. El primero, adaptarse a usar notación científica. Un `6.66133814775094e-16` ya te está hablando de la tolerancia, diciendo que tiene muuuuchos ceros por delante en los decimales (`0.00000000000000000066133814...`, $10^{-16}$ ), viendo que **APARENTEMENTE es una singular, determinante cero** (aparentemente ...).  
 >   2. Redondear con `round(determinante, decimales)`
->   3. Configurar NumPy nada más importarlo para que muestre los componentes de arrays tal y como tú le indiques, `np.set_printoptions(suppress=True, precision=4)` ... y, después, mostrando la determinante dentro de un array, `np.array( np.linalg(matriz) )`
+>   3. Configurar NumPy nada más importarlo para que muestre los componentes de arrays tal y como tú le indiques, `np.set_printoptions(suppress=True, precision=4)` ... y, después, mostrando el determinante dentro de un array, `np.array( np.linalg.det(matriz) )`
 >   4. Interpolar string siempre que NO necesites usar el valor numérico después,  `f"{determinante:.xf}"` (usando x como decimales deseados)
 >  
-> **Lo más adecuado es adaptarse a la notación científica; a efectos de la determinante de una matriz no es primordial extraer el valor exacto si sabes que es singular - cero - cerana a cero** (o sí, como veremos más adelante, usamos otros métodos para determinar la singularidad, o no, de una matriz).  
+> **Lo más adecuado es adaptarse a la notación científica; a efectos de el determinante de una matriz no es primordial extraer el valor exacto si sabes que es singular - cero - cerana a cero** (o sí, como veremos más adelante, usamos otros métodos para determinar la singularidad, o no, de una matriz).  
 
 
 > [!WARNING]
@@ -862,11 +864,11 @@ g, h, i = P[2]
 positivos = a * e * i + b * f * g + c * d * h  # 25
 negativos = c * e * g + a * f * h + b * d * i  # 7
 
-det_sarrus = positivos - negativos
+determinante_sarrus = positivos - negativos
 
-print(det_sarrus)                # 18
+print(determinante_sarrus)                # 18
 print(np.linalg.det(P))          # 17.999999999999996
-print(np.isclose(det_sarrus, np.linalg.det(P)))  # True
+print(np.isclose(determinante_sarrus, np.linalg.det(P)))  # True
 
 # Para visualizar en Python la fórmula matemática exacta real, aunque sea dar un paso más
 aei = a * e * i
@@ -1097,7 +1099,7 @@ class DeterminanteManual:
             return matriz[0, 0]
         
         if n == 2:
-            return ( matriz[0, 0] * matriz[1, 1] ) - ( matriz[0, 1] * matriz[1, 0] )
+            return matriz[0, 0] * matriz[1, 1] - matriz[0, 1] * matriz[1, 0]
 
         total = 0
 
@@ -1120,6 +1122,8 @@ U = np.array([ [2, 1, 3], [0, 4, 1], [0, 0, 5] ])
 
 
 M = np.array([[10, 2, 3], [4, 5, 6]])
+M_original = M.copy()
+
 
 print(M)
 M = np.vstack( ( M, np.ones(3, dtype=int) ) )
@@ -1134,11 +1138,12 @@ print(M)
 
 
 
-print(DeterminanteManual.calcular(A))  # -1
-print(DeterminanteManual.calcular(P))  # 16
-print(DeterminanteManual.calcular(S))  # -47  (exactamente, sin error de redondeo)
-print(DeterminanteManual.calcular(U))  # 5
-print(DeterminanteManual.calcular(M))  # La salvaguarda explítica de matriz cuadrada salta "No es viable, la matriz NO es cuadrada!"
+print(DeterminanteManual.calcular(A))  # -2
+print(DeterminanteManual.calcular(P))  # 18
+print(DeterminanteManual.calcular(S))  # 0  (exactamente, sin error de redondeo)
+print(DeterminanteManual.calcular(U))  # 40
+print(DeterminanteManual.calcular(M))  # -9
+print(DeterminanteManual.calcular(M_original))  # La salvaguarda explítica de matriz cuadrada salta "No es viable, la matriz NO es cuadrada!"
 ```
 
 > [!IMPORTANT]
@@ -1214,7 +1219,7 @@ print(np.linalg.matrix_rank(matriz_componentes_tolerancia))  # 3  , Por lo que e
     - **Es una comparación engañosa**
 
 - `atol=1e-15` (o inferior) **lo arregla**: 
-    - En este caso con $1 \times 10^{-15}$... **al ser igual o estar aún más por debajo que el determinante, nos hace la comparación más correcta**  
+    - En este caso con $1 \times 10^{-15}$... **al estar en el mismo orden de magnitud (o aún más por debajo) que el determinante, nos hace la comparación más correcta**  
     - Es decir, ajustar la tolerancia absoluta por encima $10^{+t}$ (o debajo para $10^{-t}$) afina para que la comparación no sea engañosa
     
 - `rtol=1e-5`, aunque no estamos usando la tolerancia relativa, recordamos que este ajuste, que se basa en B, permite aumentar la afinación cuando la tolerancia absoluta es demasiado "rígida".
@@ -1243,7 +1248,7 @@ U = np.array([[2, 1, 3], [0, 4, 1], [0, 0, 5]])
 print(np.linalg.matrix_rank(A))   # 2  2 = 2,   2 filas independientes, invertible
 print(np.linalg.matrix_rank(P))   # 3  3 = 3,   3 filas independientes, invertible
 print(np.linalg.matrix_rank(S))   # 2  2 < 3    Es singular! (la 3ª fila es combinación de las otras)
-print(np.linalg.matrix_rank(U))   # 3  3 = 2    3 filas independientes, invertible
+print(np.linalg.matrix_rank(U))   # 3  3 = 3    3 filas independientes, invertible
 ```
 
 - $A$ es $2 \times 2$ y su rango es $2 = n$: invertible.
