@@ -393,10 +393,12 @@ $$
 
 
 1.  **CREAR CEROS EN LA PRIMERA COLUMNA**   
-- Usamos la fila 1 (que tiene un $1$ en la posición $(1,1)$) para anular el $2$ de la fila 3, y el $1$ de la fila 5:    
-
-    - $F_3 \leftarrow F_3 - 2F_1$ (anula el $2$ de $(3,1)$)  
-    - $F_5 \leftarrow F_5 - F_1$ (anula el $1$ de $(5,1)$)  
+- Decidimos usar las la fila 1:  
+    - Tiene un $1$ en la posición $(1,1)$)
+    - Anulamos los valores que no sean ceros:
+        - El $2$ de la fila 3, y el $1$ de la fila 5:    
+            - $F_3 \leftarrow F_3 - 2F_1$ (anula el $2$ de $(3,1)$)  
+            - $F_5 \leftarrow F_5 - F_1$ (anula el $1$ de $(5,1)$)  
 
 $$
 A' = \begin{pmatrix}
@@ -425,7 +427,7 @@ $$
 
 
 
-3.  **CREAR CEROS en la PRIMERA COLUMNA DEL $(n-1) \times (n-1)$ inmediatamente inferior**Ç
+3.  **CREAR CEROS en la PRIMERA COLUMNA DEL $(n-1) \times (n-1)$ inmediatamente inferior**  
 - En este caso, en columna del $4 \times 4$.
 - Usamos la fila 1 ($1$ en $(1,1)$) para anular el $-4$ y el $3$:
 
@@ -464,21 +466,21 @@ $$
 - Este $3 \times 3$ ya se resuelve directamente:
 
 $$
+\begin{aligned}
 \det\begin{pmatrix}
 17 & 5 & -6 \\
 -12 & 1 & 2 \\
 8 & 0 & -2
 \end{pmatrix}
-= 17\cdot1\cdot(-2) + 5\cdot2\cdot8 + (-6)\cdot(-12)\cdot0
-- (-6)\cdot1\cdot8 - 17\cdot2\cdot0 - 5\cdot(-12)\cdot(-2)
-$$
-
-$$
-= -34 + 80 + 0 - (-48) - 0 - 120 = -34 + 80 + 48 - 120 = \boxed{-26}
+&= 17\cdot1\cdot(-2) + 5\cdot2\cdot8 + (-6)\cdot(-12)\cdot0 \\
+&\quad - (-6)\cdot1\cdot8 - 17\cdot2\cdot0 - 5\cdot(-12)\cdot(-2) \\
+&= -34 + 80 + 0 - (-48) - 0 - 120 \\
+&= -34 + 80 + 48 - 120 \\
+&= \boxed{-26}
+\end{aligned}
 $$
 
 $\det(A) = \boxed{-26}$
-
 
 
 > [!NOTE]
@@ -488,7 +490,7 @@ $\det(A) = \boxed{-26}$
 >   1. Evaluar 5 menores $4 \times 4$ ...    
 >   2. Cada uno de estos, evaluar 4 menores $3 \times 3$ cada uno de estos ...  
 >   3. 3 menores $2 \times 2$...  
->   Y así sucesiva y recursivamente nada rentable.    
+>   Y así sucesiva y recursivamente, lo que no es nada rentable en términos de cálculo.    
 >   En total, **cientos de determinantes** frente a los **6 pasos** que acabamos de dar.  
 
 
@@ -515,9 +517,9 @@ El procedimiento habitual es:
 #### 3.4.4.3. El fascinante mundo de las MATRICES TRIANGULARES
 
 Una **matriz triangular** es aquella en la que todos los elementos a un lado de una de las diagonales son **cero**.  
-    - Los elementos no nulos forman un "triángulo" a un lado de la diagonal.
+    - Los elementos no nulos forman un "triángulo" al otro lado de la diagonal.
 
-Hay **dos familias**, según sobre qué diagonal se construye el triángulo:  
+Hay **dos familias**, según la diagonal sobre la que se construye el triángulo:  
 
 1. **Triangular Principal (o simplemente triangular)**  
     - El triángulo se construye sobre la **diagonal principal**
@@ -636,7 +638,7 @@ $$
         * $$\det(L_s) = -90$$
 
 > [!NOTE]
-> **¿Por qué el signo depende solo de la permutaciópn de $n$?** 
+> **¿Por qué el signo depende solo de la permutación de $n$?** 
 >   
 >   - Una vez más... porque, para llevar una triangular secundaria a triangular principal, hay que invertir el orden de las filas (o de las columnas)  
 >   - Invertir $n$ elementos requiere $\lfloor n/2 \rfloor$ intercambios, y cada intercambio multiplica el determinante por $-1$. De ahí $(-1)^{\lfloor n/2 \rfloor}$  
@@ -691,18 +693,6 @@ Determinante = Producto diagonal Principal      Determinante =  Producto Diagona
 >   - En general, $\det(A + B) \neq \det(A) + \det(B)$
 >   - El determinante **puede respetar el producto, pero NO LO SUMA**
 
-Ejemplo de matriz triangular:  
-
-$$
-U =
-\begin{pmatrix}
-2 & 1 & 3 \\
-0 & 4 & 1 \\
-0 & 0 & 5
-\end{pmatrix}
-\qquad
-\det(U) = 2 \cdot 4 \cdot 5 = 40
-$$
 
 ---
 
@@ -744,6 +734,22 @@ La tercera fila se obtiene a partir de las otras dos:
 
 ### 3.4.7. Determinantes en NumPy
 
+> [!IMPORTANT]
+> **Nuevos métodos que añadimos a nuestra colección!**  
+>   
+> - `np.linalg.det(M)`: *calcula el* ***determinante*** *de una matriz cuadrada `M`*  
+>       * Devuelve un `float`, aunque `M` sea de enteros (por eso el resultado es aproximado)  
+>       * Lanza `LinAlgError` si `M` no es cuadrada  
+>   
+> - `np.diag(M)`: *tiene* ***dos caras*** *según lo que reciba*  
+>       * Con una **matriz 2D**, **extrae** su diagonal principal como vector 1D  
+>       * Con un **vector 1D**, **construye** una matriz diagonal a partir de él  
+>   
+> - `np.isclose(a, b)`: *compara dos números de manera fiable (no como con `==`)**  
+>       * Devuelve `True` si están "suficientemente cerca"  
+>       * Necesario porque los cálculos floats (casi) nunca dan el valor exacto  
+
+
 
 #### 3.4.7.1. `np.linalg.det()`
 
@@ -762,13 +768,14 @@ print(type(determinante))  # <class 'numpy.float64'>
 ```
 
 > [!NOTE]
-> Aunque la matriz sea de enteros, **el resultado SIEMPRE es un `float`**, y por tanto **aproximado**
+> Aunque la matriz sea de enteros, **el resultado SIEMPRE es un `float`**, y por tanto **aproximado**.  
+> Por ello, hay distintos métodos para recabar o compara determinantes, trabajando en floats, con escalas muy amplias, etc.
 
 
 
 #### 3.4.7.2.   `np.isclose()`,  comparando resultados en coma flotante: 
 
-NumPy trabaja con números en **coma flotante**, así que el determinante puede tener pequeños errores de redondeo. Por eso, como vimos en vectores y al comienzo de matrices, **NUNCA se hace una comparación directa `==`**.  
+NumPy, que trabaja con números en **coma flotante**, puede dar determinantes con pequeños errores de redondeo. Por eso, como vimos en vectores y al comienzo de matrices, **NUNCA se hace una comparación directa `==`**.  
 
 Para ello, `np.isclose(valor, objetivo)` "alisa" los coma-flotantes para hacer las comparaciones de la forma adecuada:  
 
@@ -794,7 +801,7 @@ print(np.isclose(d, 0))  # True
 
 > [!TIP]
 > Existen varios enfoques para portar los valores en notación ciéntifica (que ocurrirá siempre con las matrizes singulares, determinantes cero) a valores visualmente asimilados:  
->   1. El primero, adaptarse a usar notación científica. Un `6.66133814775094e-16` ya te está diciendo que tiene muuuuchos ceros por delante en los decimales (`0.00000000000000000066133814...`, $10^(-16)$), ya estás viendo que es una singular, determinante cero.  
+>   1. El primero, adaptarse a usar notación científica. Un `6.66133814775094e-16` ya te está hablando de la tolerancia, diciendo que tiene muuuuchos ceros por delante en los decimales (`0.00000000000000000066133814...`, $10^{-16}$ ), viendo que **APARENTEMENTE es una singular, determinante cero** (aparentemente ...).  
 >   2. Redondear con `round(determinante, decimales)`
 >   3. Configurar NumPy nada más importarlo para que muestre los componentes de arrays tal y como tú le indiques, `np.set_printoptions(suppress=True, precision=4)` ... y, después, mostrando la determinante dentro de un array, `np.array( np.linalg(matriz) )`
 >   4. Interpolar string siempre que NO necesites usar el valor numérico después,  `f"{determinante:.xf}"` (usando x como decimales deseados)
@@ -1052,7 +1059,6 @@ Ahora, para el desarrollo manual por cofactores, recursivos, vamos a hacerlo con
     * Un caso general que llama a la misma función con matrices más pequeñas
     * Dos casos base donde la recursión se detiene
 
-- Usamos todas las matrices que hemos ido aplicando en los ejemplos anteriores (A, M, P, S, etc).
 
 
 
@@ -1096,9 +1102,34 @@ class DeterminanteManual:
         return total
 
 
-print(DeterminanteManual.calcular(A))  # -2
-print(DeterminanteManual.calcular(P))  # 18
-print(DeterminanteManual.calcular(S))  # 0  (exactamente, sin error de redondeo)
+        
+# PARTE 1, usar los métodos vstack, hstack y delete citados
+A = np.array([ [1, 2], [3, 4] ])
+P = np.array([ [2, 0, 1], [1, 3, 2], [1, 1, 4] ])
+S = np.array([ [1, 2, 3], [4, 5, 6], [7, 8, 9] ])
+U = np.array([ [2, 1, 3], [0, 4, 1], [0, 0, 5] ])
+
+
+M = np.array([[10, 2, 3], [4, 5, 6]])
+
+print(M)
+M = np.vstack( ( M, np.ones(3, dtype=int) ) )
+print(M)
+M = np.vstack( ( M, np.zeros(3, dtype=int) ) )
+print(M)
+M = np.delete(M, 3, axis=0)
+print(M)
+M = np.delete(M, -1, axis=0)
+print(M)
+
+
+
+
+print(DeterminanteManual.calcular(A))  # -1
+print(DeterminanteManual.calcular(P))  # 16
+print(DeterminanteManual.calcular(S))  # -47  (exactamente, sin error de redondeo)
+print(DeterminanteManual.calcular(U))  # 5
+print(DeterminanteManual.calcular(M))  # La salvaguarda explítica de matriz cuadrada salta "No es viable, la matriz NO es cuadrada!"
 ```
 
 > [!IMPORTANT]
@@ -1124,11 +1155,11 @@ print(DeterminanteManual.calcular(S))  # 0  (exactamente, sin error de redondeo)
 >       * Devuelve `True` si se cumple:
 >         $$|a - b| \le \text{atol} + \text{rtol} \cdot |b|$$  
 >       * `atol=` es la **tolerancia absoluta**, el margen en las mismas unidades que `a` y `b`  
->           * Es la que **"manda" cuando comparamos contra cero**, porque `rtol * |0| = 0` y el término relativo desaparece  
+>           - Es la que **"manda" cuando comparamos contra cero**, porque `rtol * |0| = 0` y el término relativo desaparece  
 >       * `rtol=` es la **tolerancia relativa**, un margen proporcional a $|b|$  
->           *  Es la que **"manda" cuando comparamos valores grandes** que deberían coincidir, donde un `atol` fijo sería demasiado estricto  
+>           -  Es la que **"manda" cuando comparamos valores grandes** que deberían coincidir, donde un `atol` fijo sería demasiado estricto  
 >       * **Útiles para comparar los determinantes con tolerancias, pero para definir la singularidad en estos casos conviene usar `np.linalg.matrix_rank(M)`**  
->           * *(Como se indica anteriormente, hay muchos enfoques para trabajar con tolerancias, y la mejor manera es asumirlas, usarlas, no evitarlas!)*  
+>           - *(Como se indica anteriormente, hay muchos enfoques para trabajar con tolerancias, y la mejor manera es asumirlas, usarlas, no evitarlas!)*  
 >  
 > - `np.linalg.matrix_rank(M)`, para **definir la singularidad o no de una matriz** mejor que con `np.isclose()`  
 >       * **Rango** de la matriz: el número de filas (o columnas) **linealmente independientes**  
@@ -1173,8 +1204,11 @@ print(np.linalg.matrix_rank(matriz_componentes_tolerancia))  # 3  , Por lo que e
 - `np.isclose(determinante, 0)` usa un `atol=1e-8` por defecto, que aquí es **demasiado grande**: el determinante $10^{-15}$ no cabe en ese margen por defecto y da `True` aunque la matriz sea invertible.
     - **Es una comparación engañosa**
 
-- `atol=1e-15` (o más inferior) **lo arregla**: 
+- `atol=1e-15` (o inferior) **lo arregla**: 
     - En este caso con $1 \times 10^{-15}$... **al ser igual o estar aún más por debajo que el determinante, nos hace la comparación más correcta**  
+    - Es decir, ajustar la tolerancia absoluta por encima $10^{+t}$ (o debajo para $10^{-t}$) afina para que la comparación no sea engañosa
+    
+- `rtol=1e-5`, aunque no estamos usando la tolerancia relativa, recordamos que este ajuste, que se basa en B, permite aumentar la afinación cuando la tolerancia absoluta es demasiado "rígida".
 
 - `np.linalg.matrix_rank(...)`, en cambio, devuelve `3`, es decir, **es rango completo**: 
     - **La matriz SI es invertible**, nos sirve para definir la singularidad, y no hemos tocado tolerancias o escalas para ello  
@@ -1186,6 +1220,8 @@ print(np.linalg.matrix_rank(matriz_componentes_tolerancia))  # 3  , Por lo que e
 >   - Le da exactamente igual qué componentes tan grandes o pequeños contenga  
 >   
 > El rango lo estudiaremos más adelante.
+
+
 
 **Un poco más a fondo con `matrix_rank`**, usando las matrices que ya conocemos:
 
