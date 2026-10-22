@@ -2,9 +2,9 @@
 
 ***
 
-## 3.3.   Transpuesta de una matriz (Transposición de series)
+## 3.3.   Traspuesta de una matriz (Trasposición de series)
 
-La **transpuesta** de una matriz **intercambia sus filas por columnas**.  
+La **traspuesta** de una matriz **intercambia sus filas por columnas**.  
 
 - **Intercambia sus ejes, no toca las componentes de ninguna manera**
 - Se representa como $A^T$
@@ -19,7 +19,7 @@ A =
 \end{pmatrix}
 $$
 
-Su transpuesta seŕa:  
+Su traspuesta seŕa:  
 
 $$
 A^T =
@@ -59,17 +59,17 @@ Por ejemplo, el elemento de la fila 0 y columna 2 de $A$ (un `3`) acaba en la fi
 
 ---
 
-#### 3.3.1.     Propiedades básicas de la transposición de matrices
+#### 3.3.1.     Propiedades básicas de la trasposición de matrices
 
 | Propiedad              | Fórmula                      |
 | ---------------------- | ---------------------------- |
-| Doble transpuesta      | $(A^T)^T = A$                |
+| Doble traspuesta      | $(A^T)^T = A$                |
 | Suma                   | $(A + B)^T = A^T + B^T$      |
 | Multiplicar por escalar | $(kA)^T = k A^T$            |
 | Producto de matrices   | $(AB)^T = B^T A^T$           |
 
 > [!WARNING]
-> **La trampa del producto transpuesto:**    
+> **La trampa del producto traspuesto:**    
 >   - En una multiplicación de matrices, **el orden se invierte obligatoriamente**:  
 >       * $(AB)^T = B^T A^T$  ( **NUNCA** es $A^T B^T$ )  
 
@@ -82,9 +82,9 @@ Las matemáticas y las formas de las matrices no permiten otra combinación. Vam
    * Si la matriz $A$ es de forma $(m, n)$ ...  
    * ... Y la matriz $B$ es de forma $(n, p)$  
 
-2. **¿Qué forma tiene el resultado transpuesto?**  
+2. **¿Qué forma tiene el resultado traspuesto?**  
    * El producto normal $(AB)$ da como resultado una matriz de forma $(m, p)$ ...  
-   * ... Por tanto, su transpuesta $(AB)^T$ invierte esas dimensiones y pasa a ser de forma **$(p, m)$**  
+   * ... Por tanto, su traspuesta $(AB)^T$ invierte esas dimensiones y pasa a ser de forma **$(p, m)$**  
 
 3. **Probamos los dos caminos posibles:**  
 
@@ -111,18 +111,23 @@ B = np.array([
 print(np.array_equal( (A @ B).T, B.T @ A.T) )  # True
 ```
 
-##### 3.3.1.2.  La diagonal principal de una matriz y la transpuesta, `np.diag()`
+##### 3.3.1.2.  La diagonal principal de una matriz y la traspuesta, `np.diag()`
 
 La diagonal principal de una matriz, se considera:  
     - **La que comienza en [0, 0]** y termina en [n, n]  
     - Visualmente "de arriba a la izquierda, hasta el final "visual" de dicha diagonal 
 
-En la transpuesta de matrices, **una propiedad impresionante** radica en que **la diagonal principal nunca se modificará**.  
+En la traspuesta de matrices, **una propiedad impresionante** radica en que **la diagonal principal nunca se modificará**.  
 
 > [!IMPORTANT]
-> Aunque, contraintuitivamente, parece que la propiedad de diagonal principal no vaya a cumplirse en matrices que NO son simétricas, en realidad:    
->   1. **siempre va a existir una diagonal principal en cualquier tipo de matriz** sean o no simétricas  
->   2. En consecencia, **siempre va a poder comprobarse la diagonal en la transpuesta frente a su original**  
+> Aunque, contraintuitivamente, parece que la propiedad de diagonal principal no vaya a cumplirse en matrices que NO son ~~simétricas~~ cuadradas, en realidad:    
+>   1. **Siempre va a existir una diagonal principal en cualquier tipo de matriz** sean o no ~~simétricas~~  
+>   2. En consecencia, **siempre va a poder comprobarse la diagonal en la traspuesta frente a su original**  
+
+> [!TIP]
+> Para no confundir términos, una matriz cuadrada y una matriz simétrica **no son lo mismo**:  
+>   - Una matriz cuadrada es aquella de tipo $(n , n)$, mismo número componentes en filas que columnas, independienteme del valor de estas  
+>   - Una matriz simétrica es aquella que es idéntica a su traspuesta, $(A = A^T)$ y que, por ende, es cuadrada  
 
 
 Consideremos la siguiente matriz:  
@@ -142,7 +147,7 @@ $$
 
 - DIAGONAL PRINCIPAL dada la matriz:   $1$, $5$, $9$  
 
-- Si transponemos la misma matriz:  
+- Si trasponemos la misma matriz:  
 
 $$
 A^T =
@@ -153,7 +158,7 @@ A^T =
 \end{pmatrix}
 $$
 
-- DIAGONAL PRINCIPAL de la transpuesta SIGUE SIENDO:   $1$, $5$, $9$  
+- DIAGONAL PRINCIPAL de la traspuesta SIGUE SIENDO:   $1$, $5$, $9$  
 
 > [!IMPORTANT]
 > La regla es:    $(A^T)\_{ij}=A\_{ji}$  
@@ -165,7 +170,7 @@ $$
 ---
 
 
-### 3.3.2    Transpuesta en NumPy
+### 3.3.2    Traspuesta en NumPy
 
 En NumPy utilizamos `matriz.T` (atributo, como atajo) o `np.transpose(matriz)` (como método), siendo y haciendo exáctamewnte lo mismo:  
 
@@ -188,13 +193,13 @@ print(A.T[2, 0])  # 3: los índices se intercambian
 
 
 > [!IMPORTANT]
-> Una vez más, la transpuesta **no invierte los valores ni los ordena al revés**:  
+> Una vez más, la traspuesta **no invierte los valores ni los ordena al revés**:  
 >  
 >   - Unicamente **intercambia los ejes** de filas y columnas
 
 #### 3.3.2.1    Comprobación de la Diagonal Principal, `np.diag()`
 
-Tal y como describimos en las propiedades de la transpuesta de las matrices, podemos hacer una comprobación de su diagonal principal con el método `np.diag(matriz)`:
+Tal y como describimos en las propiedades de la traspuesta de las matrices, podemos hacer una comprobación de su diagonal principal con el método `np.diag(matriz)`:
 
 
 ```python
@@ -204,15 +209,15 @@ A = np.array([
     [7, 8, 9]
 ])
 
-A_transpuesta = A.T.copy()
+A_traspuesta = A.T.copy()
 
 print(np.diag(A))
-print(np.diag(A_transpuesta))
+print(np.diag(A_traspuesta))
 # Ambas devuelven [1, 5, 9] idénticas
 ```
 
 
-#### 3.3.2.2      Vista de la transpuesta VS Copia de la transpuesta
+#### 3.3.2.2      Vista de la traspuesta VS Copia de la traspuesta
 
 > [!WARNING]
 > `matriz.T` / `np.transpose(matriz) **NO crean una copia en memoria**:  
@@ -233,7 +238,7 @@ print(np.diag(A_transpuesta))
 > En un **array de un solo eje** (un vector 1D como `[1, 2, 3]`), `.T` **no hará nada**:  
 >   * Porque un array 1D **solo tiene una dimensión (un eje)**.  
 
-No hay "filas" ni "columnas", solo una secuencia plana de números. Transponer una línea recta la deja exactamente igual. Su forma sigue siendo `(3,)`.  
+No hay "filas" ni "columnas", solo una secuencia plana de números. Trasponer una línea recta la deja exactamente igual. Su forma sigue siendo `(3,)`.  
 
 Para convertir un vector plano en una matriz real (de columna o de fila), necesitamos **obligatoriamente añadirle un segundo eje** usando `.reshape(x, y)`.  
 
@@ -266,7 +271,7 @@ print(v.reshape(1, 3).shape)     # (1, 3)  <- 1 fila, 3 columnas
     - Si el array está ordenado de forma contigua en la memoria (como un array recién creado), `.reshape()` **no duplica los datos**. Te devuelve una **vista** con otra forma, lo que significa que **comparte memoria** y modificar un valor puede afectar al original.  
 
 * 2. **La trampa (A veces se convierte en una COPIA):**   
-    - Si el array original no es contiguo en memoria (por ejemplo, porque viene de hacerle un corte o una transposición previa no contigua), NumPy **necesita copiar los datos a un nuevo espacio de memoria** para poder darle la nueva form y ... en ese caso, `.reshape()` devuelve una **copia independiente**.  
+    - Si el array original no es contiguo en memoria (por ejemplo, porque viene de hacerle un corte o una trasposición previa no contigua), NumPy **necesita copiar los datos a un nuevo espacio de memoria** para poder darle la nueva form y ... en ese caso, `.reshape()` devuelve una **copia independiente**.  
 
 * 3. **Ante la duda, `np.shares_memory()`:**  
     - NumPy tiene una función propia llamada **`np.shares_memory()`** para salir de dudas al instante.
