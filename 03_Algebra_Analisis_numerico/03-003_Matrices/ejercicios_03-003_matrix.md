@@ -93,6 +93,7 @@ $$
 
 Calcula a mano el determinante de $\begin{pmatrix} 3 & 1 \\ 2 & 5 \end{pmatrix}$.
 
+
 ---
 
 # Ejercicio 14. Determinante - Tiene inversa?

@@ -681,28 +681,168 @@ Determinante = Producto diagonal Principal      Determinante =  Producto Diagona
 
 ### 3.4.5. Propiedades básicas del determinante de una matriz
 
-| Propiedad                                   | Fórmula                                    |
-| ------------------------------------------- | ------------------------------------------ |
-| Matriz identidad                            | $\det(I) = 1$                              |
-| Traspuesta                                  | $\det(A^T) = \det(A)$                      |
-| Producto de matrices                        | $\det(AB) = \det(A) \cdot \det(B)$         |
-| Multiplicar por un escalar (matriz $n \times n$) | $\det(kA) = k^n \cdot \det(A)$        |
-| Intercambiar dos filas (o dos columnas)     | El determinante **cambia de signo**        |
-| Fila (o columna) de ceros                   | $\det(A) = 0$                              |
-| Dos filas (o columnas) iguales o proporcionales | $\det(A) = 0$                          |
-| Las sumas det(A + B) y det(A) + det(B) no cumplen | Distintas determinantes              |
-| Matriz triangular principal (superior o inferior) | **Producto de su diagonal principal** |
-| Matriz triangular secundaria (superior o inferior) | **Producto de su diagonal secundaria**, con signo $(\pm 1)$ según $n$ |
+| # | Propiedad | Fórmula |
+|---|---|---|
+| 1 | Matriz identidad | $\det(I) = 1$ |
+| 2 | Traspuesta | $\det(A^T) = \det(A)$ |
+| 3 | Producto de matrices | $\det(AB) = \det(A) \cdot \det(B)$ |
+| 4 | Multiplicar por un escalar (matriz $n \times n$) | $\det(kA) = k^n \cdot \det(A)$ |
+| 5 | Intercambiar dos filas (o dos columnas) | El determinante **cambia de signo** |
+| 6 | Fila (o columna) de ceros | $\det(A) = 0$ |
+| 7 | Dos filas (o columnas) iguales o proporcionales | $\det(A) = 0$ |
+| 8 | La suma no se comporta igual | $\det(A + B) \neq \det(A) + \det(B)$ |
+| 9 | Matriz triangular principal (superior o inferior) | **Producto de su diagonal principal** |
+| 10 | Matriz triangular secundaria (superior o inferior) | **Producto de su diagonal secundaria**, con signo $(\pm 1)$ según $n$ |
+
+
+> [!IMPORTANT]
+> Dadas estas dos matrices, desarrollemos cada propiedad:
+
+$$
+A = \begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix}, \quad \det(A) = -2
+\qquad
+B = \begin{pmatrix} 2 & 0 \\ 1 & 3 \end{pmatrix}, \quad \det(B) = 6
+$$
+
+---
+
+**1. Matriz identidad: $\det(I) = 1$**
+
+$$
+I = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}
+\qquad\Longrightarrow\qquad
+\det(I) = 1 \cdot 1 - 0 \cdot 0 = 1
+$$
+
+> *"El determinante de la matriz identidad es siempre 1, sea cual sea el orden."*
+
+---
+
+**2. Traspuesta: $\det(A^T) = \det(A)$**
+
+$$
+A^T = \begin{pmatrix} 1 & 3 \\ 2 & 4 \end{pmatrix}
+\qquad\Longrightarrow\qquad
+\det(A^T) = 1 \cdot 4 - 3 \cdot 2 = -2 = \det(A)
+$$
+
+> *"El determinante de una matriz cuadrada coincide con el determinante de su traspuesta, ya que al cambiar las filas por las columnas los productos quedan iguales y con igual signo."* 
+
+---
+
+**3. Producto de matrices: $\det(AB) = \det(A) \cdot \det(B)$**
+
+$$
+AB = \begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix}\begin{pmatrix} 2 & 0 \\ 1 & 3 \end{pmatrix}
+= \begin{pmatrix} 4 & 6 \\ 10 & 12 \end{pmatrix}
+\qquad\Longrightarrow\qquad
+\det(AB) = 48 - 60 = -12 = (-2) \cdot 6
+$$
+
+> *"El determinante del producto es igual al producto de los determinantes."* 
 
 > [!WARNING]
-> **La trampa del escalar:**  
->   - $\det(kA) = k^n \det(A)$, no $k \cdot \det(A)$  
-    - Multiplicar una matriz $2 \times 2$ por $3$ multiplica su determinante por $3^2 = 9$, porque se escalan **las dos columnas** y, con ellas, el área en las dos direcciones  
+> En NumPy, `A @ B` es el producto matricial (cumple esta propiedad). `A * B` es **elemento a elemento** (Hadamard) y **no** la cumple.
 
-> [!WARNING]
-> Además, **la suma NO se comporta igual:**  
->   - En general, $\det(A + B) \neq \det(A) + \det(B)$
->   - El determinante **puede respetar el producto, pero NO LO SUMA**
+---
+
+**4. Escalar × matriz: $\det(kA) = k^n \det(A)$, con $n = 2$**
+
+$$
+3A = \begin{pmatrix} 3 & 6 \\ 9 & 12 \end{pmatrix}
+\qquad\Longrightarrow\qquad
+\det(3A) = 3 \cdot 12 - 6 \cdot 9 = -18 = 3^2 \cdot (-2)
+$$
+
+> *"Al multiplicar una matriz por un número, por cada fila sale ese número fuera del determinante. Si la matriz tiene $n$ filas, el número sale $n$ veces: $\det(kA) = k^n \det(A)$."* 
+
+---
+
+**5. Intercambiar filas: el determinante cambia de signo**
+
+$$
+A = \begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix}, \quad \det(A) = -2
+\qquad\Longrightarrow\qquad
+A' = \begin{pmatrix} 3 & 4 \\ 1 & 2 \end{pmatrix}, \quad \det(A') = +2
+$$
+
+> *"Al intercambiar dos líneas paralelas (filas o columnas) de una matriz, el determinante cambia de signo, pero no varía su valor absoluto."* 
+
+---
+
+**6. Fila (o columna) de ceros: $\det(A) = 0$**
+
+$$
+\begin{pmatrix} 1 & 2 \\ 0 & 0 \end{pmatrix}
+\qquad\Longrightarrow\qquad
+\det = 1 \cdot 0 - 2 \cdot 0 = 0
+$$
+
+> *"Si una fila o columna es toda de ceros, el determinante vale cero, porque todos los productos contienen un factor nulo."*
+
+---
+
+**7. Dos filas iguales o proporcionales: $\det(A) = 0$**
+
+$$
+\begin{pmatrix} 1 & 2 \\ 2 & 4 \end{pmatrix}
+\qquad\Longrightarrow\qquad
+\det = 1 \cdot 4 - 2 \cdot 2 = 0
+\qquad\text{(la 2ª fila es el doble de la 1ª)}
+$$
+
+---
+
+> *"Un determinante que tiene dos filas o dos columnas idénticas es nulo. Y si son proporcionales, también, porque sacando el factor común quedan dos líneas iguales."* 
+
+**8. La suma NO se comporta igual: $\det(A+B) \neq \det(A) + \det(B)$**
+
+$$
+A + B = \begin{pmatrix} 3 & 2 \\ 4 & 7 \end{pmatrix}
+\qquad\Longrightarrow\qquad
+\det(A+B) = 21 - 8 = 13 \neq -2 + 6 = 4
+$$
+
+> *"El determinante no es lineal respecto de la suma de matrices: en general, $\det(A+B)$ no es $\det(A)+\det(B)$."*
+
+---
+
+**9. Triangular principal: producto de la diagonal principal**
+
+$$
+U = \begin{pmatrix} 2 & 1 & 3 \\ 0 & 4 & 1 \\ 0 & 0 & 5 \end{pmatrix}
+\qquad\Longrightarrow\qquad
+\det(U) = 2 \cdot 4 \cdot 5 = 40
+$$
+
+$$
+L = \begin{pmatrix} 5 & 0 & 0 \\ 2 & 8 & 0 \\ 1 & 9 & 3 \end{pmatrix}
+\qquad\Longrightarrow\qquad
+\det(L) = 5 \cdot 8 \cdot 3 = 120
+$$
+
+> *"El determinante de una matriz triangular es el producto de los elementos de su diagonal principal."*
+
+
+---
+
+**10. Triangular secundaria: producto de la diagonal secundaria, con signo $(-1)^{\lfloor n/2 \rfloor}$**
+
+$$
+U_s = \begin{pmatrix} 0 & 0 & 3 \\ 0 & 4 & 2 \\ 5 & 6 & 1 \end{pmatrix}
+\qquad\Longrightarrow\qquad
+\det(U_s) = (-1)^{\lfloor 3/2 \rfloor} \cdot (3 \cdot 4 \cdot 5) = -60
+$$
+
+$$
+L_s = \begin{pmatrix} 1 & 2 & 3 \\ 4 & 5 & 0 \\ 6 & 0 & 0 \end{pmatrix}
+\qquad\Longrightarrow\qquad
+\det(L_s) = (-1)^{\lfloor 3/2 \rfloor} \cdot (3 \cdot 5 \cdot 6) = -90
+$$
+
+> *"Si los ceros están sobre la diagonal secundaria, el determinante es el producto de esa diagonal, con el signo que corresponda según el número de permutaciones necesarias."*
+
+
 
 
 ---
