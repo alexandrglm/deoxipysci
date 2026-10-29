@@ -295,24 +295,28 @@ Con la inversa, la forma de visualizarlo mentalmente a través de la lectura geo
 
 - **Panel 2:**  
     - $A$ lo transforma en el paralelogramo de sus columnas, $(2, 0)$ y $(1, 1)$.
-    - Es decir, **el área se duplica**.
+    - Es decir, **el área se duplica**.  
+
+```math
 $$
 A = \begin{pmatrix} 2 & 1 \\ 0 & 1 \end{pmatrix}
 \qquad
 \det(A) = 2 \cdot 1 - 1 \cdot 0 = 2
 $$
-  
+```
   
   
 - **Panel 3:**  
-    - $A^{-1}$ lleva el paralelogramo **de vuelta al cuadrado unidad**.
-    - Es decir, **el área se divide entre dos**.
-$$
+    - $A^{-1}$ lleva el paralelogramo **de vuelta al cuadrado unidad**.  
+    - Es decir, **el área se divide entre dos**.  
+  
+```math
+$$$
 A^{-1} = \begin{pmatrix} \frac{1}{2} & -\frac{1}{2} \\ 0 & 1 \end{pmatrix}
 \qquad
 \det(A^{-1}) = \frac{1}{2} = \frac{1}{\det(A)}
 $$
-  
+```
   
   
 - **Panel 4:**  
@@ -321,11 +325,13 @@ $$
         * Puntos distintos acaban en el **mismo sitio**:  
             - Por ejemplo, $(1, 0)$ y $\left(0, \tfrac{1}{2}\right)$ van los dos a $(1, 2)$.  
         * Dado ese punto de llegada, **no hay modo de saber de cuál procedía**:  
-            - **no se puede deshacer**, es decir, **no existe inversa**.
+            - **no se puede deshacer**, es decir, **no existe inversa**.  
+
+```math
 $$
 \begin{pmatrix} 1 & 2 \\ 2 & 4 \end{pmatrix} \quad \text{tiene } \det = 0
 $$
-  
+```
     
     
 > [!TIP]
@@ -411,7 +417,8 @@ A^{-1} = \frac{1}{-2}
   
   
 Comprobamos que $A A^{-1} = I$:  
-
+  
+```math
 $$
 \begin{aligned}
 \begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix}
@@ -428,7 +435,7 @@ $$
 \end{pmatrix}
 \end{aligned}
 $$
-  
+```
 
 ***
   
@@ -459,7 +466,9 @@ Pero, **añadimos dos definiciones nuevas:**
 >   
 > El resultado es el mismo, lo que importa es que **al final se haga la trasposición**.  
   
+  
 
+```math
 $$
 \boxed{
 A^{-1} = \frac{1}{\det(A)} \mathrm{adj}(A)
@@ -469,7 +478,9 @@ A^{-1} = \frac{1}{\det(A)} \mathrm{adj}(A)
 \qquad\Longleftrightarrow\qquad
 (A^{-1})_{ij} = \frac{C_{ji}}{\det(A)}
 $$
-  
+```
+
+
 
 #### 3.5.6.2. ¿Por qué funciona? (Idea de la demostración)
 
@@ -494,28 +505,29 @@ $$
   
 
 
-#### 3.5.6.3.   Caso $2 \times 2$
+#### 3.5.6.3. Caso $2 \times 2$
 
 Dada la matriz $A$:  
 
-$$
-A = \begin{pmatrix} 
+```math
+A = \begin{pmatrix}
 a & b \\
 c & d
 \end{pmatrix}
-$$$
+```
 
 Sus cuatro cofactores serán:  
 
-$$
+```math
 C_{00} = +d \qquad C_{01} = -c \qquad C_{10} = -b \qquad C_{11} = +a
-$$
-
-$$
+```
+  
+  
+```math
 \text{matriz de cofactores} = \begin{pmatrix} d & -c \\ -b & a \end{pmatrix}
 \xrightarrow{\ \text{trasponer}\ }
 \mathrm{adj}(A) = \begin{pmatrix} d & -b \\ -c & a \end{pmatrix}
-$$
+```
 
 
 Es exactamente la matriz de la fórmula $2 \times 2$: **la trasposición es la que intercambia $b$ y $c$ de sitio**.
@@ -527,6 +539,7 @@ Es exactamente la matriz de la fórmula $2 \times 2$: **la trasposición es la q
 
 #### 3.5.6.4. Ejemplo $3 \times 3$
 
+```math
 $$
 K =
 \begin{pmatrix}
@@ -535,12 +548,17 @@ K =
 5 & 6 & 0
 \end{pmatrix}
 $$
+```
 
+  
 Su determinante, desarrollando por la primera fila:  
 
+```math
 $$
 \det(K) = 1 \cdot (0 - 24) - 2 \cdot (0 - 20) + 3 \cdot (0 - 5) = -24 + 40 - 15 = \boxed{1}
 $$
+```
+
 
 Como es distinto de cero, **tiene inversa**.  
   
@@ -562,6 +580,7 @@ Entonces, **calculamos los nueve cofactores**:
     
 **Matriz de cofactores**, su **traspuesta** (la adjunta) y el resultado:
 
+```math
 $$
 \begin{pmatrix}
 -24 & 20 & -5 \\
@@ -576,6 +595,8 @@ $$
 -5 & 4 & 1
 \end{pmatrix}
 $$
+```
+
 
 Y, como $\det(K) = 1$, la inversa es directamente la adjunta:  
 
@@ -621,11 +642,13 @@ La idea principal es:
 2.  Aplicar operaciones elementales de fila hasta convertir **la parte izquierda en $I$**
 3.  La parte derecha se habrá convertido en $A^{-1}$:
 
+
+```math
 $$
-[A \mid I] \;\longrightarrow\; [I \mid A^{-1}]
+[A \mid I] \longrightarrow [I \mid A^{-1}]
 $$
+```
   
-    
    
 ![](./img/03-007_Gauss-Jordan_mental.svg)
   
@@ -649,18 +672,23 @@ Cada operación elemental equivale a **multiplicar por la izquierda** por una ma
   
 Entonces, aplicar una secuencia de operaciones a $A$ hasta llegar a la identidad es:  
 
-
+```math
 $$
 E_k \cdots E_2 E_1 A = I
 \qquad\Longrightarrow\qquad
 E_k \cdots E_2 E_1 = A^{-1}
 $$
+```
 
+  
 Y aplicar **esas mismas operaciones a $I$** da:  
 
+```math
 $$
 E_k \cdots E_2 E_1 I = E_k \cdots E_2 E_1 = A^{-1}
 $$
+```
+
 
 Por eso lo que queda a la derecha **es la inversa**:  
 
@@ -668,17 +696,17 @@ Por eso lo que queda a la derecha **es la inversa**:
   
     
 
-#### 3.5.7.2.   Ejemplo $2 \times 2$
+#### 3.5.7.2. Ejemplo $2 \times 2$
 
-$$
+```math
 A =
 \begin{pmatrix}
 1 & 2 \\
 3 & 4
 \end{pmatrix}
-$$
+```
 
-$$
+```math
 \left(\begin{array}{cc|cc}
 1 & 2 & 1 & 0 \\
 3 & 4 & 0 & 1
@@ -688,9 +716,9 @@ $$
 1 & 2 & 1 & 0 \\
 0 & -2 & -3 & 1
 \end{array}\right)
-$$
+```
 
-$$
+```math
 \xrightarrow{F_2 \to F_2 / (-2)}
 \left(\begin{array}{cc|cc}
 1 & 2 & 1 & 0 \\
@@ -701,14 +729,16 @@ $$
 1 & 0 & -2 & 1 \\
 0 & 1 & \frac{3}{2} & -\frac{1}{2}
 \end{array}\right)
-$$
+```
 
-La parte derecha es $A^{-1}$, el mismo resultado que con la fórmula $2 \times 2$ de *3.5.5, "Inversa de una matriz $2 \times 2$"*.
-
+La parte derecha es $A^{-1}$, el mismo resultado que con la fórmula $2 \times 2$ de *3.5.5, "Inversa de una matriz $2 \times 2$"*.  
+  
+  
 
 > [!NOTE]
-> No hemos entrado en código aún pero anoto la comprobación en NumPy:
->  
+> No hemos entrado en código aún pero anoto la comprobación en NumPy:  
+
+  
  ```python
 A = np.array([[1, 2], [3, 4]])
 
@@ -721,6 +751,7 @@ print(np.allclose(np.linalg.inv(A), [[-2, 1], [1.5, -0.5]]))  # True
 
 Con la misma matriz $K$ de *3.5.6.4, "Ejemplo $3 \times 3$"*, para poder comparar:
 
+```math
 $$
 \left(\begin{array}{ccc|ccc}
 1 & 2 & 3 & 1 & 0 & 0 \\
@@ -728,6 +759,7 @@ $$
 5 & 6 & 0 & 0 & 0 & 1
 \end{array}\right)
 $$
+```
 
 El procedimiento tiene **dos fases**:
 
@@ -741,6 +773,7 @@ El procedimiento tiene **dos fases**:
 
 1. **$F_3 \to F_3 - 5F_1$**:    *anulamos el $5$ de la posición $(3,1)$*
 
+```math
 $$
 \left(\begin{array}{ccc|ccc}
 1 & 2 & 3 & 1 & 0 & 0 \\
@@ -748,11 +781,13 @@ $$
 0 & -4 & -15 & -5 & 0 & 1
 \end{array}\right)
 $$
+```
   
 
 
 2.  **$F_3 \to F_3 + 4F_2$**:   *anulamos el $-4$ de la posición $(3,2)$*
 
+```math
 $$
 \left(\begin{array}{ccc|ccc}
 1 & 2 & 3 & 1 & 0 & 0 \\
@@ -760,7 +795,8 @@ $$
 0 & 0 & 1 & -5 & 4 & 1
 \end{array}\right)
 $$
-  
+```
+
   
 La parte izquierda ya es **triangular superior** y todos los elementos de la diagonal valen $1$.
   
@@ -769,6 +805,7 @@ La parte izquierda ya es **triangular superior** y todos los elementos de la dia
   
 3.  **$F_2 \to F_2 - 4F_3$** y **$F_1 \to F_1 - 3F_3$**: *anulamos la tercera columna por encima*
 
+```math
 $$
 \left(\begin{array}{ccc|ccc}
 1 & 2 & 0 & 16 & -12 & -3 \\
@@ -776,11 +813,12 @@ $$
 0 & 0 & 1 & -5 & 4 & 1
 \end{array}\right)
 $$
-  
+```
 
 
 4.  **$F_1 \to F_1 - 2F_2$**:   *anulamos el $2$ de la posición $(1,2)$.*
 
+```math
 $$
 \left(\begin{array}{ccc|ccc}
 1 & 0 & 0 & -24 & 18 & 5 \\
@@ -788,7 +826,8 @@ $$
 0 & 0 & 1 & -5 & 4 & 1
 \end{array}\right)
 $$
-  
+```
+
 
 **La parte derecha es $K^{-1}$, **idéntica** a la que obtuvimos por la adjunta.**
 
@@ -826,14 +865,16 @@ Si en algún paso **aparece una fila de ceros en la parte izquierda**:
 
 Como ves, la segunda fila de la izquierda es cero. Esto significa que la matriz es **singular**:  
 
+```math
 $$
 \begin{pmatrix}
 1 & 2 \\
 2 & 4
 \end{pmatrix}
 $$
-
-
+```
+  
+  
 > [!TIP]
 > **¿Qué método usar?**
 >
