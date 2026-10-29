@@ -371,7 +371,6 @@ A =
 \det(A) = 1 \cdot 4 - 2 \cdot 3 = -2
 $$
   
-
 $$
 A^{-1} = \frac{1}{-2}
 \begin{pmatrix}
@@ -379,35 +378,29 @@ A^{-1} = \frac{1}{-2}
 -3 & 1
 \end{pmatrix}
 =
-\boxed{
-\begin{pmatrix}
+\boxed{\begin{pmatrix}
 -2 & 1 \\
 \frac{3}{2} & -\frac{1}{2}
-\end{pmatrix}
-}
+\end{pmatrix}}
 $$
 
 Comprobamos que $A A^{-1} = I$:  
 
 $$
-\begin{pmatrix}
-1 & 2 \\
-3 & 4
-\end{pmatrix}
-\begin{pmatrix}
--2 & 1 \\
-\frac{3}{2} & -\frac{1}{2}
-\end{pmatrix}
-=
+\begin{aligned}
+\begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix}
+\begin{pmatrix} -2 & 1 \\ \frac{3}{2} & -\frac{1}{2} \end{pmatrix}
+&=
 \begin{pmatrix}
 1 \cdot (-2) + 2 \cdot \frac{3}{2} & 1 \cdot 1 + 2 \cdot \left(-\frac{1}{2}\right) \\
 3 \cdot (-2) + 4 \cdot \frac{3}{2} & 3 \cdot 1 + 4 \cdot \left(-\frac{1}{2}\right)
-\end{pmatrix}
-=
+\end{pmatrix} \\
+&=
 \begin{pmatrix}
 1 & 0 \\
 0 & 1
 \end{pmatrix}
+\end{aligned}
 $$
   
 
@@ -564,13 +557,11 @@ K^{-1} = \frac{1}{1}
 -5 & 4 & 1
 \end{pmatrix}
 =
-\boxed{
-\begin{pmatrix}
+\boxed{\begin{pmatrix}
 -24 & 18 & 5 \\
 20 & -15 & -4 \\
 -5 & 4 & 1
-\end{pmatrix}
-}
+\end{pmatrix}}
 $$
   
 
@@ -600,7 +591,7 @@ La idea principal es:
 3.  La parte derecha se habrá convertido en $A^{-1}$:
 
 $$
-\boxed{[\,A \mid I\,] \;\longrightarrow\; [\,I \mid A^{-1}\,]}
+\boxed{[A \mid I] \;\longrightarrow\; [I \mid A^{-1}]}
 $$
 
 ![](./img/03-007_Gauss-Jordan_mental.svg)
@@ -624,8 +615,9 @@ Cada operación elemental equivale a **multiplicar por la izquierda** por una ma
   
 Entonces, aplicar una secuencia de operaciones a $A$ hasta llegar a la identidad es:  
 
+
 $$
-E_k \cdots E_2 E_1 \, A = I
+E_k \cdots E_2 E_1 A = I
 \qquad\Longrightarrow\qquad
 E_k \cdots E_2 E_1 = A^{-1}
 $$
@@ -633,10 +625,11 @@ $$
 Y aplicar **esas mismas operaciones a $I$** da:  
 
 $$
-E_k \cdots E_2 E_1 \, I = E_k \cdots E_2 E_1 = A^{-1}
+E_k \cdots E_2 E_1 I = E_k \cdots E_2 E_1 = A^{-1}
 $$
 
 Por eso lo que queda a la derecha **es la inversa**:  
+
 - **La Identidad ha ido anotando el producto de todas las operaciones**.
   
     
@@ -682,13 +675,13 @@ La parte derecha es $A^{-1}$, el mismo resultado que con la fórmula $2 \times 2
 > [!NOTE]
 > No hemos entrado en código aún pero anoto la comprobación en NumPy:
 >  
-> ```python
-> A = np.array([[1, 2], [3, 4]])
+ ```python
+A = np.array([[1, 2], [3, 4]])
 
-> print(np.allclose(np.linalg.inv(A), [[-2, 1], [1.5, -0.5]]))  # True
+print(np.allclose(np.linalg.inv(A), [[-2, 1], [1.5, -0.5]]))  # True
 ```
-
-```
+  
+  
 
 #### 3.5.7.3.   Ejemplo $3 \times 3$, paso a paso
 
@@ -704,9 +697,9 @@ $$
 
 El procedimiento tiene **dos fases**:
 
-1.  **HACIA ABAJO(fase de Gauss):** *crear ceros **por debajo** de la diagonal*
+1.  **HACIA ABAJO (fase de Gauss):**    *crear ceros **por debajo** de la diagonal*
 
-2.  **HACIA ARRIBA (fase de Jordan):** *crear ceros **por encima** de la diagonal*
+2.  **HACIA ARRIBA (fase de Jordan):**  *crear ceros **por encima** de la diagonal*
 
 
 
@@ -819,5 +812,9 @@ Como ves, la segunda fila de la izquierda es cero:
 
 
 [ PENDIENTE DESDE AQUI]
+
+
+
+
 
 
