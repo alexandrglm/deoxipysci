@@ -58,12 +58,14 @@
 ## 3.5. Matriz inversa
 
 Con los números, el **inverso** de $a \neq 0$ es el número $a^{-1}$ que cumple $a \cdot a^{-1} = 1$:  
-- **Multiplicar por él **DESHACE la multiplicación** por $a$.    
 
+- Multiplicar por él **DESHACE la multiplicación** por $a$.    
+  
+  
 Con las matrices ocurre algo parecido, pero con **DOS diferencias** importantes:  
 
 1.  El papel del $1$ lo hace la **matriz identidad** $I$  
-2.  **No toda matriz tiene inversa**, al igual que "$0$" no tiene inverso  
+2.  **No toda matriz tiene inversa**, al igual que $0$ no tiene inverso  
   
 
 Y, como las matrices **no se pueden "dividir" (directamente)**, multiplicar por la inversa es **la forma de "dividir"**.
@@ -80,27 +82,32 @@ Y, como las matrices **no se pueden "dividir" (directamente)**, multiplicar por 
 * 1. **Resolver sistemas de ecuaciones lineales**
     - $A\mathbf{x} = \mathbf{b}$, con $A$ invertible, se resuelve como $\mathbf{x} = A^{-1}\mathbf{b}$ (ver *3.5.10, "Resolver sistemas y ecuaciones matriciales con la inversa"*)
     - Es la versión matricial de "despejar la incógnita"
-
+  
+  
 
 * 2. **Despejar ecuaciones matriciales**  
     - $AX = B$ da $X = A^{-1}B$, y $XA = B$ da $X = BA^{-1}$ (ver *3.5.10, "Resolver sistemas y ecuaciones matriciales con la inversa"*)  
     - Aquí el **lado importa**, porque **el producto de matrices no es conmutativo**  
-
+  
+  
 
 * 3. **Deshacer transformaciones**  
     - Si $A$ transforma vectores (gira, estira, inclina...), $A^{-1}$ **devuelve cada vector a su posición original** (ver *3.5.4, "Interpretación geométrica: deshacer la información"*)
     - Una transformación que **aplasta** el espacio (determinante cero) **no se puede deshacer**
-
+  
+  
 
 * 4. **Saber si hay solución única y si hay información redundante**
     - $A$ es invertible $\iff \det(A) \neq 0$ (ver **3.4.6, "Matriz Singular"** y **3.5.3, "Definición de matriz inversa: la condición de existencia"**)
     - Si no lo es, sus filas o columnas son **linealmente dependientes**
-
+  
+  
 
 * 5. **En álgebra lineal y ML**
     - La regresión lineal por mínimos cuadrados se escribe $\hat{\boldsymbol{\beta}} = (X^T X)^{-1} X^T \mathbf{y}$
     - **Solo existe si $X^T X$ es invertible**; si las columnas de $X$ son redundantes, no lo es
     - En la práctica, con las calculadoras o en la programación, se resuelven estos problemas **sin calcular la inversa explícitamente**, pero entenderlo y desarrollarmo manualmente es clave (ver *3.5.12.6, "Sistemas y ecuaciones matriciales: `np.linalg.solve()`"*)
+  
   
 > [!NOTE]
 > Si me hubieran dicho de joven que en la programación de videojuegos, como en SNES y su Modo 7 rotando y escalando sprites, se sustentaban a través de matrices y transformaciones de matrices, no estaría a mis casi 40's desoxidándome de las matemáticas a las que un día di la espalda.    
@@ -209,9 +216,8 @@ Y al operar $C$:
 
 
 $$
-C = \frac{1}{2}\begin{pmatrix} -4 & 2 \\ 3 & -1 \end{pmatrix}
-=
-\begin{pmatrix} -2 & 1 \\ \frac{3}{2} & -\frac{1}{2} \end{pmatrix} = B
+C = \frac{1}{2} \begin{pmatrix} -4 & 2 \\ 3 & -1 \end{pmatrix}
+= \begin{pmatrix} -2 & 1 \\ \frac{3}{2} & -\frac{1}{2} \end{pmatrix}
 $$
 
 **Son la misma matriz, escrita de dos formas distintas**:   
@@ -288,25 +294,40 @@ Con la inversa, la forma de visualizarlo mentalmente a través de la lectura geo
   
 
 - **Panel 2:**  
-    - $A = \begin{pmatrix} 2 & 1 \\ 0 & 1 \end{pmatrix}$ lo transforma en el paralelogramo de sus columnas, $(2, 0)$ y $(1, 1)$  
-    - $\det(A) = 2 \cdot 1 - 1 \cdot 0 = 2$  
-    - Es decir, **el área se duplica**  
+    - $A$ lo transforma en el paralelogramo de sus columnas, $(2, 0)$ y $(1, 1)$.
+    - Es decir, **el área se duplica**.
+$$
+A = \begin{pmatrix} 2 & 1 \\ 0 & 1 \end{pmatrix}
+\qquad
+\det(A) = 2 \cdot 1 - 1 \cdot 0 = 2
+$$
   
-
+  
+  
 - **Panel 3:**  
-    - $A^{-1} = \begin{pmatrix} \frac{1}{2} & -\frac{1}{2} \\ 0 & 1 \end{pmatrix}$ lleva el paralelogramo **de vuelta al cuadrado unidad**  
-    - $\det(A^{-1}) = \frac{1}{2} = \frac{1}{\det(A)}$  
-    - Es decir, **el área se divide entre dos**  
+    - $A^{-1}$ lleva el paralelogramo **de vuelta al cuadrado unidad**.
+    - Es decir, **el área se divide entre dos**.
+$$
+A^{-1} = \begin{pmatrix} \frac{1}{2} & -\frac{1}{2} \\ 0 & 1 \end{pmatrix}
+\qquad
+\det(A^{-1}) = \frac{1}{2} = \frac{1}{\det(A)}
+$$
   
-
+  
+  
 - **Panel 4:**  
-    - $\begin{pmatrix} 1 & 2 \\ 2 & 4 \end{pmatrix}$ tiene $\det = 0$
+    - La matriz que aplasta el cuadrado tiene $\det = 0$.
     - Es decir, **aplasta/colapsa** el cuadrado sobre un segmento:  
         * Puntos distintos acaban en el **mismo sitio**:  
-            - Por ejemplo, $(1, 0)$ y $\left(0, \tfrac{1}{2}\right)$ van los dos a $(1, 2)$  
+            - Por ejemplo, $(1, 0)$ y $\left(0, \tfrac{1}{2}\right)$ van los dos a $(1, 2)$.  
         * Dado ese punto de llegada, **no hay modo de saber de cuál procedía**:  
-            - **no se puede deshacer**, es decir, **no existe inversa**  
-
+            - **no se puede deshacer**, es decir, **no existe inversa**.
+$$
+\begin{pmatrix} 1 & 2 \\ 2 & 4 \end{pmatrix} \quad \text{tiene } \det = 0
+$$
+  
+    
+    
 > [!TIP]
 > Una manera útil de pensarlo:
 >   - **La inversa solo puede existir si la transformación NO pierde información**
@@ -357,7 +378,7 @@ Para visualizarlo mentalmente, recuerda las diagonales de **3.4.2.1.1, "Fórmula
 
 > [!NOTE]
 > Esta fórmula **no es una regla suelta**:
->   - La reutilizaremos el caso $2 \times 2$ del método de la adjunta (en *3.5.6, "Inversa por la matriz adjunta (cofactores)*), para $n \times n$"**, y lo comprobaremos allí
+>   - La reutilizaremos el caso $2 \times 2$ del método de la adjunta (en *3.5.6, "Inversa por la matriz adjunta (cofactores), para* $n \times n$ ", y lo comprobaremos allí
 
 Dada la matriz $A$:  
 
@@ -370,7 +391,7 @@ A =
 \qquad
 \det(A) = 1 \cdot 4 - 2 \cdot 3 = -2
 $$
-  
+
 $$
 A^{-1} = \frac{1}{-2}
 \begin{pmatrix}
@@ -378,12 +399,15 @@ A^{-1} = \frac{1}{-2}
 -3 & 1
 \end{pmatrix}
 =
-\boxed{\begin{pmatrix}
+\begin{pmatrix}
 -2 & 1 \\
 \frac{3}{2} & -\frac{1}{2}
-\end{pmatrix}}
+\end{pmatrix}
 $$
 
+  
+  
+  
 Comprobamos que $A A^{-1} = I$:  
 
 $$
@@ -436,7 +460,7 @@ Pero, **añadimos dos definiciones nuevas:**
 
 $$
 \boxed{
-A^{-1} = \frac{1}{\det(A)} \,\mathrm{adj}(A)
+A^{-1} = \frac{1}{\det(A)} \mathrm{adj}(A)
 }
 \qquad\text{con}\qquad
 \mathrm{adj}(A) = (C_{ij})^T
@@ -531,7 +555,9 @@ Entonces, **calculamos los nueve cofactores**:
 | $C_{20}$ | `[[2, 3], [1, 4]]` | $+(2 \cdot 4 - 3 \cdot 1)$ | $5$ |
 | $C_{21}$ | `[[1, 3], [0, 4]]` | $-(1 \cdot 4 - 3 \cdot 0)$ | $-4$ |
 | $C_{22}$ | `[[1, 2], [0, 1]]` | $+(1 \cdot 1 - 2 \cdot 0)$ | $1$ |
-
+  
+    
+    
 **Matriz de cofactores**, su **traspuesta** (la adjunta) y el resultado:
 
 $$
@@ -549,6 +575,8 @@ $$
 \end{pmatrix}
 $$
 
+Y, como $\det(K) = 1$, la inversa es directamente la adjunta:  
+
 $$
 K^{-1} = \frac{1}{1}
 \begin{pmatrix}
@@ -557,13 +585,12 @@ K^{-1} = \frac{1}{1}
 -5 & 4 & 1
 \end{pmatrix}
 =
-\boxed{\begin{pmatrix}
+\begin{pmatrix}
 -24 & 18 & 5 \\
 20 & -15 & -4 \\
 -5 & 4 & 1
-\end{pmatrix}}
+\end{pmatrix}
 $$
-  
 
 > [!WARNING]
 > **La trampa de la trasposición:** olvidar trasponer la matriz de cofactores es el error más habitual de este método. En este ejemplo, sin trasponer, la matriz resultasnte **NO sería la inversa**.
@@ -583,19 +610,21 @@ Es el método **más práctico**,y el que que sirve de base a la computación-en
 
 Usa las **mismas operaciones elementales entre filas** que vimos en la estrategia de "crear ceros" (*3.4.4.2.3*), **pero con un objetivo distinto**.
 
-
 La idea principal es:  
-
-1.  Escribir $A$ **junto a la Identidad**, $[\,A \mid I\,]$
+ 
+1.  Escribir $A$ **junto a la Identidad**, $[A \mid I]$
 2.  Aplicar operaciones elementales de fila hasta convertir **la parte izquierda en $I$**
 3.  La parte derecha se habrá convertido en $A^{-1}$:
 
 $$
-\boxed{[A \mid I] \;\longrightarrow\; [I \mid A^{-1}]}
+[A \mid I] \;\longrightarrow\; [I \mid A^{-1}]
 $$
-
+  
+    
+   
 ![](./img/03-007_Gauss-Jordan_mental.svg)
-
+  
+  
 
 **Operaciones elementales de fila permitidas:**  
 
@@ -812,7 +841,6 @@ Como ves, la segunda fila de la izquierda es cero:
 
 
 [ PENDIENTE DESDE AQUI]
-
 
 
 
