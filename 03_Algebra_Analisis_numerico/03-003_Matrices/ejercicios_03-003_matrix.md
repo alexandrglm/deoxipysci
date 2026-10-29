@@ -120,3 +120,40 @@ Si $A$ es una matriz $3 \times 3$ con $\det(A) = 5$, ¿cuánto vale $\det(2A)$?
 Si `d = np.linalg.det(A)` devuelve `-2.0000000000000004`
     - ¿Por qué `d == -2` da `False`? 
     - ¿Qué debes usar en su lugar?
+
+
+---
+
+
+## Ejercicio 18.  Inversa manual
+Calcula a mano la inversa de:
+
+$$
+A=\begin{pmatrix}
+2 & 1 \\
+5 & 3\end{pmatrix}
+$$
+
+Indica primero su determinante y justifica por qué tiene inversa.
+
+---
+
+## Ejercicio 19. Inversa métodos
+
+Calcula la inversa con `np.linalg.inv(A)` y comprueba que `A @ A_inversa` es aproximadamente la identidad.
+
+---
+
+## Ejercicio 20. 
+
+Intenta calcular la inversa de:
+
+$$
+$B=\begin{pmatrix}
+2 & 4\\
+1 & 2\end{pmatrix}
+$$
+
+Explica qué sucede y relaciónalo con el determinante del ejercicio 14.
+
+---

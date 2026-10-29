@@ -1,5 +1,46 @@
 # 03-003: Matrices
 
+
+
+- 3.4.  Determinante de una matriz
+    - 3.4.1     ¿Por qué necesito comprender, resolver y usar el determinante de una matriz?
+
+    - 3.4.2.    Condición de Determinante: LA MATRIZ DEBE SER CUADRADA
+        * 3.4.2.1. Determinante de una matriz $2 \times 2$
+            - 3.4.2.1.1. Fórmula
+            - 3.4.2.1.2. Ejemplo
+
+    - 3.4.3. Interpretación geométrica - Visualización mental a través de la geometría
+
+    - 3.4.4. Determinante de una matriz $3 \times 3$ (REGLA DE SARRUS)
+        - 3.4.4.1. Regla de Sarrus
+        
+        - 3.4.4.2. Desarrollo por cofactores (Laplace), para $n \times n$
+            * 3.4.4.2.1. Fórmula (desarrollo por la fila $i$)
+            * 3.4.4.2.2. Caso $3 \times 3$ y ejemplo
+            * 3.4.4.2.3. Casos grandes, $5 \times 5$: Estrategia de "crear ceros"
+            * 3.4.4.2.4. Estrategia práctica
+        
+        - 3.4.4.3. El fascinante (sub)mundo de las MATRICES TRIANGULARES
+            * 3.4.4.3.1. Triangulares principales (sobre la diagonal principal)
+            * 3.4.4.3.2. Triangulares secundarias (sobre la diagonal secundaria)
+            * 3.4.4.3.3. Comprobación con los ejemplos 3×3 anteriores
+            * 3.4.4.3.4. Visualizar mentalmente las diagonales
+
+    - 3.4.5. Propiedades del determinante de una matriz
+
+    - 3.4.6. Matriz Singular, *¿Qué significa que el determinante sea cero?*
+
+    - 3.4.7. Determinantes en NumPy
+        * 3.4.7.1. `np.linalg.det()`
+        * 3.4.7.2. `np.isclose()`, comparando resultados en coma flotante
+        * 3.4.7.3. Comprobación manual, deconstrucción paso a paso
+        * 3.4.7.4. `LinAlgError` Si la matriz no es cuadrada
+        * 3.4.7.5. Verificando las propiedades
+            - 3.4.7.5.1. Un apunte al fascinante (sub)mundo de las matrices triangulares
+        * 3.4.7.6. Laplace - Implementación manual por cofactores
+        * 3.4.7.7. Un determinante pequeño NO siempre significa ser matriz singular
+
 ***
 
 ## 3.4.     Determinante de una matriz
@@ -525,7 +566,7 @@ El procedimiento habitual es:
 ***
 
 
-#### 3.4.4.3. El fascinante mundo de las MATRICES TRIANGULARES
+#### 3.4.4.3. El fascinante (sub)mundo de las MATRICES TRIANGULARES
 
 Una **matriz triangular** es aquella en la que todos los elementos a un lado de una de las diagonales son **cero**.  
     - Los elementos no nulos forman un "triángulo" al otro lado de la diagonal.
@@ -679,7 +720,7 @@ Determinante = Producto diagonal Principal      Determinante =  Producto Diagona
 
 ***
 
-### 3.4.5. Propiedades básicas del determinante de una matriz
+### 3.4.5. Propiedades del determinante de una matriz
 
 | # | Propiedad | Fórmula |
 |---|---|---|
@@ -952,6 +993,7 @@ print(np.isclose(d, 0))  # True
 
 > [!TIP]
 > Existen varios enfoques para portar los valores en notación ciéntifica (que ocurrirá siempre con las matrices singulares, determinantes cero) a valores visualmente asimilados:  
+>   
 >   1. El primero, adaptarse a usar notación científica. Un `6.66133814775094e-16` ya te está hablando de la tolerancia, diciendo que tiene muuuuchos ceros por delante en los decimales (`0.00000000000000000066133814...`, $10^{-16}$ ), viendo que **APARENTEMENTE es una singular, determinante cero** (aparentemente ...).  
 >   2. Redondear con `round(determinante, decimales)`
 >   3. Configurar NumPy nada más importarlo para que muestre los componentes de arrays tal y como tú le indiques, `np.set_printoptions(suppress=True, precision=4)` ... y, después, mostrando el determinante dentro de un array, `np.array( np.linalg.det(matriz) )`
@@ -1053,48 +1095,100 @@ print(M.shape)  # (2, 3)
 #### 3.4.7.5. Verificando las propiedades
 
 ```python
-A = np.array([ 
-    [1, 2],
-    [3, 4] 
-])
+import numpy as np
 
-B = np.array([
-    [2, 0],
-    [1, 3]
-])
 
-# det(A^T) = det(A)
-print(np.isclose(np.linalg.det(A.T), np.linalg.det(A)))                       # True
+A = np.array([[1, 2], [3, 4]])                              # det = -2
+B = np.array([[2, 0], [1, 3]])                              # det = +6
+I = np.eye(2)
 
-# det(AB) = det(A) * det(B)
-print(np.isclose(np.linalg.det(A @ B), np.linalg.det(A) * np.linalg.det(B)))  # True
+U   = np.array([[2, 1, 3], [0, 4, 1], [0, 0, 5]])
+L   = np.array([[5, 0, 0], [2, 8, 0], [1, 9, 3]])
+U_s = np.array([[0, 0, 3], [0, 4, 2], [5, 6, 1]])
+L_s = np.array([[1, 2, 3], [4, 5, 0], [6, 0, 0]])
 
-# det(kA) = k^n · det(A), con n = 2
-print(np.isclose(np.linalg.det(3 * A), 3**2 * np.linalg.det(A)))              # True
 
-# Intercambiar filas cambia el signo
-print(np.isclose(np.linalg.det(A[::-1]), -np.linalg.det(A)))                  # True
 
-# La suma NO se cumple
-print(np.isclose(np.linalg.det(A + B), np.linalg.det(A) + np.linalg.det(B)))  # False
+# 1. Identidad
+print("1. det(I) = 1:",
+      np.isclose(np.linalg.det(I), 1))                       # True
+
+
+
+# 2.    Traspuesta
+print("2. det(A^T) = det(A):",
+      np.isclose(np.linalg.det(A.T), np.linalg.det(A)))      # True
+
+
+
+# 3.    Producto matricial
+print("3. det(A @ B) = det(A)·det(B):",
+      np.isclose(np.linalg.det(A @ B),
+                 np.linalg.det(A) * np.linalg.det(B)))       # True
+print("   (Hadamard A * B NO la cumple):",
+      np.isclose(np.linalg.det(A * B),
+                 np.linalg.det(A) * np.linalg.det(B)))       # False
+
+
+
+# 4.    Escalar x Matriz
+print("4. det(3A) = 3^2 · det(A):",
+      np.isclose(np.linalg.det(3 * A),
+                 3**2 * np.linalg.det(A)))                   # True
+
+
+
+# 5.    Intercambiar filas
+print("5. det(A[::-1]) = -det(A):",
+      np.isclose(np.linalg.det(A[::-1]),
+                 -np.linalg.det(A)))                         # True
+
+
+
+# 6.    Fila de ceros
+print("6. det([[1,2],[0,0]]) = 0:",
+      np.isclose(np.linalg.det(np.array([[1, 2], [0, 0]])), 0))  # True
+
+
+
+# 7.    Filas proporcionales
+print("7. det([[1,2],[2,4]]) = 0:",
+      np.isclose(np.linalg.det(np.array([[1, 2], [2, 4]])), 0))  # True
+
+
+
+# 8.    La suma NO se cumple
+print("8. det(A+B) ≠ det(A)+det(B):",
+      not np.isclose(np.linalg.det(A + B),
+                     np.linalg.det(A) + np.linalg.det(B)))   # True
+
+
+# 9.    Triangular principal
+print("9. det(U) = prod(diag(U)):",
+      np.isclose(np.linalg.det(U), np.prod(np.diag(U))))     # True
+
+print("   det(L) = prod(diag(L)):",
+      np.isclose(np.linalg.det(L), np.prod(np.diag(L))))     # True
+
+
+
+# 10.   Triangular secundaria
+signo = (-1) ** (3 // 2)                                     # -1
+
+print("10. det(U_s) = signo·prod(diag(fliplr(U_s))):",
+      np.isclose(np.linalg.det(U_s),
+                 signo * np.prod(np.diag(np.fliplr(U_s)))))   # True
+
+print("    det(L_s) = signo·prod(diag(fliplr(L_s))):",
+      np.isclose(np.linalg.det(L_s),
+                 signo * np.prod(np.diag(np.fliplr(L_s)))))   # True
 ```
 
 
 
-Y la propiedad de la matriz triangular principal superior, con `np.diag()` y `np.prod()`:
 
-```python
-U = np.array([
-    [2, 1, 3],
-    [0, 4, 1],
-    [0, 0, 5]
-])
 
-print(np.prod(np.diag(U)))  # 40
-print(np.linalg.det(U))     # 39.99999999999998 (≈ 40)
-```
-
-##### 3.4.7.5.1. Un apunte al fascinante mundo de las matrices triangulares
+##### 3.4.7.5.1. Un apunte al fascinante (sub)mundo de las matrices triangulares
 
 > [!IMPORTANT]
 > **Nuevo método que añadimos a nuestra colección!**:       `np.fliplr(M)`  (y `np.flipud(M)`)
