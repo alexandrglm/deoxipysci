@@ -392,7 +392,9 @@ A =
 \det(A) = 1 \cdot 4 - 2 \cdot 3 = -2
 $$
 
-$$
+
+
+```math
 A^{-1} = \frac{1}{-2}
 \begin{pmatrix}
 4 & -2 \\
@@ -403,7 +405,7 @@ A^{-1} = \frac{1}{-2}
 -2 & 1 \\
 \frac{3}{2} & -\frac{1}{2}
 \end{pmatrix}
-$$
+```
 
   
   
@@ -577,6 +579,7 @@ $$
 
 Y, como $\det(K) = 1$, la inversa es directamente la adjunta:  
 
+```math
 $$
 K^{-1} = \frac{1}{1}
 \begin{pmatrix}
@@ -591,6 +594,8 @@ K^{-1} = \frac{1}{1}
 -5 & 4 & 1
 \end{pmatrix}
 $$
+```
+
 
 > [!WARNING]
 > **La trampa de la trasposición:** olvidar trasponer la matriz de cofactores es el error más habitual de este método. En este ejemplo, sin trasponer, la matriz resultasnte **NO sería la inversa**.
@@ -798,17 +803,16 @@ $$
 #### 3.5.7.4. ¿Qué pasa si la matriz es singular?
 
 > [!IMPORTANT]
-> **El método de Gauss-Jordan te dice a la vez si la inversa existe y cuál es.**  
+> **El método de Gauss-Jordan te dice a la vez si la inversa existe y cuál es:**  
 >   
-> - Si llegas a $I$, la matriz es regular y tienes su inversa
-> - Si aparece una fila de ceros a la izquierda, es singular.
+>   - Si llegas a $I$, la matriz es regular y tienes su inversa.  
+>   - Si aparece una fila de ceros a la izquierda, es singular.  
 
+Si en algún paso **aparece una fila de ceros en la parte izquierda**:  
 
-Si en algún paso **aparece una fila de ceros en la parte izquierda**:   
-- **No se podrá llegar a $I$**, por lo que la matrzi **NO tendrá inversa**  
-  
+- **No se podrá llegar a $I$**, por lo que la matriz **no tendrá inversa**.  
 
-$$
+```math
 \left(\begin{array}{cc|cc}
 1 & 2 & 1 & 0 \\
 2 & 4 & 0 & 1
@@ -818,13 +822,16 @@ $$
 1 & 2 & 1 & 0 \\
 0 & 0 & -2 & 1
 \end{array}\right)
+```
+
+Como ves, la segunda fila de la izquierda es cero. Esto significa que la matriz es **singular**:  
+
 $$
-  
-
-Como ves, la segunda fila de la izquierda es cero:
-
-- La matriz $\begin{pmatrix} 1 & 2 \\ 2 & 4 \end{pmatrix}$ es singular (su determinante es $1 \cdot 4 - 2 \cdot 2 = 0$, ver *3.4.6, "Matriz Singular"*).
-  
+\begin{pmatrix}
+1 & 2 \\
+2 & 4
+\end{pmatrix}
+$$
 
 
 > [!TIP]
